@@ -1,3 +1,15 @@
+---
+title: Istanbul Turkcesi Diksiyon
+emoji: 🎤
+colorFrom: gray
+colorTo: indigo
+sdk: docker
+app_port: 7860
+pinned: false
+license: mit
+short_description: Turkish pronunciation assessment with wav2vec2
+---
+
 # İstanbul Türkçesi Diksiyon
 
 Standart İstanbul Türkçesi telaffuz değerlendirmesi yapan, eğitmen tarzı geri
