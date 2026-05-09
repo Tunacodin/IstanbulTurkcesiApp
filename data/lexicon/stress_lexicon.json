@@ -1,0 +1,51 @@
+{
+  "_meta": {
+    "kaynak": "Diksiyon eğitim materyali — Vurgu bölümü",
+    "format": "Her kelime için 0-tabanlı hece indeksi (hangi hece vurgulu).",
+    "kural_oncelikleri": [
+      "1) ozel_istisnalar (manuel)",
+      "2) yer_adlari_ilk_hece (tüm kelime ilk hecede vurgulu)",
+      "3) ya_ile_biten_yer_sondan_birOnceki",
+      "4) zarf_baglac_ilk_hece",
+      "5) varsayılan: son hece"
+    ]
+  },
+  "yer_adlari_ilk_hece": [
+    "ankara", "samsun", "konya", "avrupa", "kartal",
+    "kadıköy", "istanbul", "izmir", "bursa", "trabzon",
+    "ürgüp", "amasya", "edirne", "erzurum", "rize",
+    "manisa", "muğla", "düzce", "çorlu", "tarsus",
+    "iznik", "ardahan", "sivas", "tokat", "yozgat",
+    "denizli", "antep", "urfa", "maraş", "diyarbakır"
+  ],
+  "ya_ile_biten_yer_sondan_birOnceki": [
+    "sakarya", "almanya", "antalya", "kütahya",
+    "fransa", "italya", "rusya", "macaristan",
+    "balıkesir"
+  ],
+  "zarf_baglac_ilk_hece": [
+    "hangi", "ancak", "belki", "ayrıca", "yalnız",
+    "şimdi", "henüz", "yani", "fakat", "lakin",
+    "öyle", "böyle", "şöyle", "neden", "niçin",
+    "nasıl", "nerede", "ne zaman", "demek", "meğer",
+    "halbuki", "oysa", "üstelik", "bilakis", "elbette",
+    "şüphesiz", "elbet", "hatta", "zira", "çünkü"
+  ],
+  "ozel_istisnalar": {
+    "_aciklama": "Manuel olarak işaretlenmiş kelimeler: anahtar kelime, değer 0-tabanlı hece indeksi.",
+    "lokanta": 1,
+    "sinema": 0,
+    "sigara": 0
+  },
+  "cumle_vurgu_kurallari": {
+    "varsayilan": "Yükleme en yakın öğe vurgulanır.",
+    "soru_mi": "‘mi’ soru ekinden önceki sözcük vurgulanır.",
+    "soru_sozcugu": "‘kim, ne, hangi’ gibi soru sözcüğünün kendisi vurgulanır.",
+    "yuklem_basta": "Yüklem cümle başında ise vurgu yüklemde.",
+    "ornekler": [
+      {"cumle": "Dün, beni Kadıköy'de o gördü.", "vurgu_yeri": "o", "aciklama": "özne vurgulanmış"},
+      {"cumle": "Dün Kadıköy'de Ahmet mi beni görmüş?", "vurgu_yeri": "Ahmet", "aciklama": "mi öncesi vurgulanmış"},
+      {"cumle": "Gitti, arkasına dahi bakmadan.", "vurgu_yeri": "Gitti", "aciklama": "yüklem başta"}
+    ]
+  }
+}

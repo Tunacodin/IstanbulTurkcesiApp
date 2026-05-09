@@ -1,0 +1,73 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# Environment / secrets
+.env
+.env.local
+.env.*.local
+*.pem
+*.key
+*.crt
+poc/certs/
+
+# IDE / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+*.swp
+
+# Logs
+*.log
+poc/api.log
+poc/install.log
+poc/validate.log
+poc/audio_download.log
+poc/build_index.log
+
+# Build / cache
+dist/
+build/
+*.egg
+
+# Vercel
+.vercel/
+
+# Hugging Face / model cache
+.cache/
+hf_cache/
+
+# Büyük ses verileri — git LFS yerine HF Hub / R2'de tutulacak
+data/knowledge/word_clips/
+data/knowledge/segments/
+data/knowledge/raw_audio/
+data/knowledge/transcripts/
+data/exercises/refs/
+data/reference_audio/*
+!data/reference_audio/.gitkeep
+*.wav
+*.mp3
+*.webm
+*.mp4
+*.m4a
+*.ogg
+*.flac
+
+# Geçici dosyalar
+*.tmp
+*.temp
+tmp/

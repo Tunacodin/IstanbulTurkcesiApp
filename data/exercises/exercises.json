@@ -1,0 +1,868 @@
+{
+  "exercises": [
+    {
+      "id": "kelime-001",
+      "type": "kelime",
+      "text": "merhaba",
+      "focus": "selamlaşma",
+      "difficulty": 1,
+      "notes": "Temel test örneği."
+    },
+    {
+      "id": "tekerleme-001",
+      "type": "tekerleme",
+      "text": "şu köşe yaz köşesi şu köşe kış köşesi ortada su şişesi",
+      "focus": "ş/s ayrımı",
+      "difficulty": 3,
+      "notes": "Klasik diksiyon tekerlemesi."
+    },
+    {
+      "id": "tekerleme-002",
+      "type": "tekerleme",
+      "text": "kırk kartal kalkmış kırk kartalın kırkı da kalkık kanatlı kartalmış",
+      "focus": "k tekrarı, akıcılık",
+      "difficulty": 4,
+      "notes": "Hız ve netlik testi."
+    },
+    {
+      "id": "cumle-001",
+      "type": "cümle",
+      "text": "yarın sabah erken kalkacağım",
+      "focus": "yazı-konuşma farkı (kalkacağım → kalkıcam değil, ama yumuşak)",
+      "difficulty": 2,
+      "notes": "Standart İstanbul Türkçesi'nde nasıl okunmalı, eğitmen kaydı referans alınacak."
+    },
+    {
+      "id": "cumle-002",
+      "type": "cümle",
+      "text": "bugün hava çok güzel, parka gitmeyi düşünüyorum",
+      "focus": "akıcılık, ünlü uyumu, virgül duraklaması",
+      "difficulty": 2,
+      "notes": "Orta uzunlukta günlük cümle."
+    },
+    {
+      "id": "cumle-003",
+      "type": "cümle",
+      "text": "kâğıt üzerinde harika görünen plan, hayata geçtiğinde sorunlu çıktı",
+      "focus": "uzun ünlü (kâğıt), ğ silme, akıcılık",
+      "difficulty": 3,
+      "notes": "Hem â hem ğ yumuşamasını test eder."
+    },
+    {
+      "id": "tekerleme-003",
+      "type": "tekerleme",
+      "text": "bir berber bir berbere bre berber gel beraber bir berber dükkânı açalım demiş",
+      "focus": "b/r tekrarı, hız, akıcılık",
+      "difficulty": 5,
+      "notes": "Klasik uzun tekerleme. â harfi 'dükkân'da."
+    },
+    {
+      "id": "paragraf-001",
+      "type": "paragraf",
+      "text": "küçük bir kuş, açık pencereden odaya girdi. masanın üzerindeki kâğıtları gagasıyla karıştırdı, sonra hızla uçup gitti.",
+      "focus": "uzun cümle akıcılığı, noktalama duraklaması, uzun ünlü",
+      "difficulty": 4,
+      "notes": "İki cümlelik kısa paragraf. Pipeline uzun girdide nasıl davranır test eder."
+    },
+    {
+      "id": "tekerleme-m-001",
+      "type": "tekerleme",
+      "text": "bu mumcu'nun mumu umumumuzun mumudur",
+      "focus": "M harfi tekrarı, dudak kontrolü",
+      "difficulty": 3,
+      "notes": "Mennan Şahin M harfi dersinden klasik m tekerlemesi."
+    },
+    {
+      "id": "tekerleme-m-002",
+      "type": "tekerleme",
+      "text": "mehmet'in mercan tesbihinin imamesi imameli mi imamesiz mi",
+      "focus": "M harfi, ardı ardına gelen seslerin akıcılığı",
+      "difficulty": 4,
+      "notes": "Mennan Şahin M harfi dersinden."
+    },
+    {
+      "id": "tekerleme-p-001",
+      "type": "tekerleme",
+      "text": "pötikareli pijamalı paşa",
+      "focus": "P harfi, dudak patlamalı sesi",
+      "difficulty": 2,
+      "notes": "P harfi pratiği için klasik."
+    },
+    {
+      "id": "tekerleme-r-001",
+      "type": "tekerleme",
+      "text": "bir tarihte birader birikmiş borçlarını bir bir biriktirdi",
+      "focus": "R harfi titretme, akıcılık",
+      "difficulty": 4,
+      "notes": "R harfi kontrol pratiği."
+    },
+    {
+      "id": "tekerleme-s-001",
+      "type": "tekerleme",
+      "text": "saksıda süs sümbülü ve solgun salatalık",
+      "focus": "S harfi, peltek olmama",
+      "difficulty": 3,
+      "notes": "Mennan Şahin S harfi dersi tarzında."
+    },
+    {
+      "id": "tekerleme-l-001",
+      "type": "tekerleme",
+      "text": "lale lalezara lalezarı laleli'ye götürdü",
+      "focus": "L harfi, dil ucu kontrolü",
+      "difficulty": 3,
+      "notes": "L harfi pratiği."
+    },
+    {
+      "id": "tekerleme-n-001",
+      "type": "tekerleme",
+      "text": "nemli nesnel bir nesne nedeniyle nadiren nemlenir",
+      "focus": "N harfi, burun rezonansı",
+      "difficulty": 3,
+      "notes": "N harfi pratiği."
+    },
+    {
+      "id": "tekerleme-t-001",
+      "type": "tekerleme",
+      "text": "tek tük teyzeden tatlı tatlı tepsi tepsi tatlılar",
+      "focus": "T harfi, sert ünsüz patlaması",
+      "difficulty": 3,
+      "notes": "T harfi pratiği."
+    },
+    {
+      "id": "tekerleme-g-001",
+      "type": "tekerleme",
+      "text": "gözleri gri güzel genç gemicinin gemisi",
+      "focus": "G harfi, ön damak ünsüzü",
+      "difficulty": 3,
+      "notes": "G harfi pratiği."
+    },
+    {
+      "id": "tekerleme-h-001",
+      "type": "tekerleme",
+      "text": "hangi haham hangi hahamın hangi hamuru hangi hamamda yoğurdu",
+      "focus": "H harfi yutulmaması, gırtlak kontrolü",
+      "difficulty": 4,
+      "notes": "Mennan Şahin H harfi dersine paralel."
+    },
+    {
+      "id": "kelime-yt-001",
+      "type": "kelime",
+      "text": "diğer",
+      "focus": "ğ silinir, ünlü uzar",
+      "difficulty": 2,
+      "notes": "Mennan Şahin video kütüphanesinden (5 örnek). Kategori: sözlük, ğ-silme",
+      "ref_source": "word_clip"
+    },
+    {
+      "id": "kelime-yt-002",
+      "type": "kelime",
+      "text": "değil",
+      "focus": "ğ silinir, ünlü uzar",
+      "difficulty": 2,
+      "notes": "Mennan Şahin video kütüphanesinden (5 örnek). Kategori: sözlük, ğ-silme",
+      "ref_source": "word_clip"
+    },
+    {
+      "id": "kelime-yt-003",
+      "type": "kelime",
+      "text": "niğde",
+      "focus": "ğ silinir, ünlü uzar",
+      "difficulty": 2,
+      "notes": "Mennan Şahin video kütüphanesinden (3 örnek). Kategori: sözlük, ğ-silme",
+      "ref_source": "word_clip"
+    },
+    {
+      "id": "kelime-yt-004",
+      "type": "kelime",
+      "text": "değilim",
+      "focus": "ğ silinir, ünlü uzar",
+      "difficulty": 2,
+      "notes": "Mennan Şahin video kütüphanesinden (1 örnek). Kategori: sözlük, ğ-silme",
+      "ref_source": "word_clip"
+    },
+    {
+      "id": "kelime-yt-005",
+      "type": "kelime",
+      "text": "değiyor",
+      "focus": "ğ silinir, ünlü uzar",
+      "difficulty": 2,
+      "notes": "Mennan Şahin video kütüphanesinden (1 örnek). Kategori: ğ-silme, R-yutulması-adayı",
+      "ref_source": "word_clip"
+    },
+    {
+      "id": "kelime-yt-006",
+      "type": "kelime",
+      "text": "herkese",
+      "focus": "telaffuz pratiği",
+      "difficulty": 1,
+      "notes": "Mennan Şahin video kütüphanesinden (5 örnek). Kategori: temiz-örnek",
+      "ref_source": "word_clip"
+    },
+    {
+      "id": "kelime-yt-007",
+      "type": "kelime",
+      "text": "hoşgeldiniz",
+      "focus": "telaffuz pratiği",
+      "difficulty": 2,
+      "notes": "Mennan Şahin video kütüphanesinden (5 örnek). Kategori: temiz-örnek",
+      "ref_source": "word_clip"
+    },
+    {
+      "id": "kelime-yt-008",
+      "type": "kelime",
+      "text": "çocukluk",
+      "focus": "telaffuz pratiği",
+      "difficulty": 2,
+      "notes": "Mennan Şahin video kütüphanesinden (2 örnek). Kategori: temiz-örnek",
+      "ref_source": "word_clip"
+    },
+    {
+      "id": "kelime-yt-009",
+      "type": "kelime",
+      "text": "karşılaşacağız",
+      "focus": "ğ silinir, ünlü uzar",
+      "difficulty": 4,
+      "notes": "Mennan Şahin video kütüphanesinden (1 örnek). Kategori: ğ-silme",
+      "ref_source": "word_clip"
+    },
+    {
+      "id": "kelime-yt-010",
+      "type": "kelime",
+      "text": "yeniden",
+      "focus": "telaffuz pratiği",
+      "difficulty": 1,
+      "notes": "Mennan Şahin video kütüphanesinden (3 örnek). Kategori: temiz-örnek",
+      "ref_source": "word_clip"
+    },
+    {
+      "id": "kelime-yt-011",
+      "type": "kelime",
+      "text": "bildiğiniz",
+      "focus": "ğ silinir, ünlü uzar",
+      "difficulty": 3,
+      "notes": "Mennan Şahin video kütüphanesinden (2 örnek). Kategori: ğ-silme",
+      "ref_source": "word_clip"
+    },
+    {
+      "id": "kelime-yt-012",
+      "type": "kelime",
+      "text": "üzere",
+      "focus": "telaffuz pratiği",
+      "difficulty": 1,
+      "notes": "Mennan Şahin video kütüphanesinden (5 örnek). Kategori: temiz-örnek",
+      "ref_source": "word_clip"
+    },
+    {
+      "id": "kelime-yt-013",
+      "type": "kelime",
+      "text": "daha",
+      "focus": "h sesinin yutulmaması",
+      "difficulty": 1,
+      "notes": "Mennan Şahin video kütüphanesinden (5 örnek). Kategori: H-yutulması-adayı",
+      "ref_source": "word_clip"
+    },
+    {
+      "id": "kelime-yt-014",
+      "type": "kelime",
+      "text": "önce",
+      "focus": "telaffuz pratiği",
+      "difficulty": 1,
+      "notes": "Mennan Şahin video kütüphanesinden (5 örnek). Kategori: temiz-örnek",
+      "ref_source": "word_clip"
+    },
+    {
+      "id": "kelime-yt-015",
+      "type": "kelime",
+      "text": "yıllar",
+      "focus": "telaffuz pratiği",
+      "difficulty": 1,
+      "notes": "Mennan Şahin video kütüphanesinden (1 örnek). Kategori: temiz-örnek",
+      "ref_source": "word_clip"
+    },
+    {
+      "id": "kelime-yt-016",
+      "type": "kelime",
+      "text": "evet",
+      "focus": "telaffuz pratiği",
+      "difficulty": 1,
+      "notes": "Mennan Şahin video kütüphanesinden (5 örnek). Kategori: temiz-örnek",
+      "ref_source": "word_clip"
+    },
+    {
+      "id": "kelime-yt-017",
+      "type": "kelime",
+      "text": "söyleyemezdim",
+      "focus": "telaffuz pratiği",
+      "difficulty": 3,
+      "notes": "Mennan Şahin video kütüphanesinden (1 örnek). Kategori: temiz-örnek",
+      "ref_source": "word_clip"
+    },
+    {
+      "id": "kelime-yt-018",
+      "type": "kelime",
+      "text": "nasıl",
+      "focus": "telaffuz pratiği",
+      "difficulty": 1,
+      "notes": "Mennan Şahin video kütüphanesinden (4 örnek). Kategori: temiz-örnek",
+      "ref_source": "word_clip"
+    },
+    {
+      "id": "kelime-yt-019",
+      "type": "kelime",
+      "text": "izleyebilir",
+      "focus": "telaffuz pratiği",
+      "difficulty": 2,
+      "notes": "Mennan Şahin video kütüphanesinden (1 örnek). Kategori: temiz-örnek",
+      "ref_source": "word_clip"
+    },
+    {
+      "id": "kelime-yt-020",
+      "type": "kelime",
+      "text": "büyük",
+      "focus": "telaffuz pratiği",
+      "difficulty": 1,
+      "notes": "Mennan Şahin video kütüphanesinden (3 örnek). Kategori: temiz-örnek",
+      "ref_source": "word_clip"
+    },
+    {
+      "id": "kelime-yt-021",
+      "type": "kelime",
+      "text": "oranda",
+      "focus": "telaffuz pratiği",
+      "difficulty": 1,
+      "notes": "Mennan Şahin video kütüphanesinden (1 örnek). Kategori: temiz-örnek",
+      "ref_source": "word_clip"
+    },
+    {
+      "id": "kelime-yt-022",
+      "type": "kelime",
+      "text": "okuyarak",
+      "focus": "telaffuz pratiği",
+      "difficulty": 2,
+      "notes": "Mennan Şahin video kütüphanesinden (1 örnek). Kategori: temiz-örnek",
+      "ref_source": "word_clip"
+    },
+    {
+      "id": "kelime-yt-023",
+      "type": "kelime",
+      "text": "ilgili",
+      "focus": "telaffuz pratiği",
+      "difficulty": 1,
+      "notes": "Mennan Şahin video kütüphanesinden (5 örnek). Kategori: temiz-örnek",
+      "ref_source": "word_clip"
+    },
+    {
+      "id": "kelime-yt-024",
+      "type": "kelime",
+      "text": "içinde",
+      "focus": "telaffuz pratiği",
+      "difficulty": 1,
+      "notes": "Mennan Şahin video kütüphanesinden (5 örnek). Kategori: temiz-örnek",
+      "ref_source": "word_clip"
+    },
+    {
+      "id": "kelime-yt-025",
+      "type": "kelime",
+      "text": "olan",
+      "focus": "telaffuz pratiği",
+      "difficulty": 1,
+      "notes": "Mennan Şahin video kütüphanesinden (5 örnek). Kategori: temiz-örnek",
+      "ref_source": "word_clip"
+    },
+    {
+      "id": "kelime-yt-026",
+      "type": "kelime",
+      "text": "tekrar",
+      "focus": "telaffuz pratiği",
+      "difficulty": 1,
+      "notes": "Mennan Şahin video kütüphanesinden (5 örnek). Kategori: temiz-örnek",
+      "ref_source": "word_clip"
+    },
+    {
+      "id": "kelime-yt-027",
+      "type": "kelime",
+      "text": "çalışmak",
+      "focus": "telaffuz pratiği",
+      "difficulty": 2,
+      "notes": "Mennan Şahin video kütüphanesinden (1 örnek). Kategori: temiz-örnek",
+      "ref_source": "word_clip"
+    },
+    {
+      "id": "kelime-yt-028",
+      "type": "kelime",
+      "text": "başka",
+      "focus": "telaffuz pratiği",
+      "difficulty": 1,
+      "notes": "Mennan Şahin video kütüphanesinden (5 örnek). Kategori: temiz-örnek",
+      "ref_source": "word_clip"
+    },
+    {
+      "id": "kelime-yt-029",
+      "type": "kelime",
+      "text": "şimdi",
+      "focus": "telaffuz pratiği",
+      "difficulty": 1,
+      "notes": "Mennan Şahin video kütüphanesinden (5 örnek). Kategori: temiz-örnek",
+      "ref_source": "word_clip"
+    },
+    {
+      "id": "kelime-yt-030",
+      "type": "kelime",
+      "text": "hazırsak",
+      "focus": "telaffuz pratiği",
+      "difficulty": 2,
+      "notes": "Mennan Şahin video kütüphanesinden (2 örnek). Kategori: temiz-örnek",
+      "ref_source": "word_clip"
+    },
+    {
+      "id": "kelime-yt-031",
+      "type": "kelime",
+      "text": "zamanı",
+      "focus": "telaffuz pratiği",
+      "difficulty": 1,
+      "notes": "Mennan Şahin video kütüphanesinden (1 örnek). Kategori: temiz-örnek",
+      "ref_source": "word_clip"
+    },
+    {
+      "id": "kelime-yt-032",
+      "type": "kelime",
+      "text": "lise",
+      "focus": "telaffuz pratiği",
+      "difficulty": 1,
+      "notes": "Mennan Şahin video kütüphanesinden (2 örnek). Kategori: temiz-örnek",
+      "ref_source": "word_clip"
+    },
+    {
+      "id": "kelime-yt-033",
+      "type": "kelime",
+      "text": "arkadaşlar",
+      "focus": "telaffuz pratiği",
+      "difficulty": 2,
+      "notes": "Mennan Şahin video kütüphanesinden (5 örnek). Kategori: temiz-örnek",
+      "ref_source": "word_clip"
+    },
+    {
+      "id": "kelime-yt-034",
+      "type": "kelime",
+      "text": "arada",
+      "focus": "telaffuz pratiği",
+      "difficulty": 1,
+      "notes": "Mennan Şahin video kütüphanesinden (5 örnek). Kategori: temiz-örnek",
+      "ref_source": "word_clip"
+    },
+    {
+      "id": "kelime-yt-035",
+      "type": "kelime",
+      "text": "almak",
+      "focus": "telaffuz pratiği",
+      "difficulty": 1,
+      "notes": "Mennan Şahin video kütüphanesinden (4 örnek). Kategori: temiz-örnek",
+      "ref_source": "word_clip"
+    },
+    {
+      "id": "kelime-yt-036",
+      "type": "kelime",
+      "text": "tıklayarak",
+      "focus": "telaffuz pratiği",
+      "difficulty": 2,
+      "notes": "Mennan Şahin video kütüphanesinden (3 örnek). Kategori: temiz-örnek",
+      "ref_source": "word_clip"
+    },
+    {
+      "id": "kelime-yt-037",
+      "type": "kelime",
+      "text": "yakın",
+      "focus": "telaffuz pratiği",
+      "difficulty": 1,
+      "notes": "Mennan Şahin video kütüphanesinden (3 örnek). Kategori: temiz-örnek",
+      "ref_source": "word_clip"
+    },
+    {
+      "id": "kelime-yt-038",
+      "type": "kelime",
+      "text": "tarihteki",
+      "focus": "h sesinin yutulmaması",
+      "difficulty": 2,
+      "notes": "Mennan Şahin video kütüphanesinden (1 örnek). Kategori: H-yutulması-adayı",
+      "ref_source": "word_clip"
+    },
+    {
+      "id": "kelime-yt-039",
+      "type": "kelime",
+      "text": "eğitimin",
+      "focus": "ğ silinir, ünlü uzar",
+      "difficulty": 3,
+      "notes": "Mennan Şahin video kütüphanesinden (1 örnek). Kategori: ğ-silme",
+      "ref_source": "word_clip"
+    },
+    {
+      "id": "kelime-yt-040",
+      "type": "kelime",
+      "text": "olduğunu",
+      "focus": "ğ silinir, ünlü uzar",
+      "difficulty": 3,
+      "notes": "Mennan Şahin video kütüphanesinden (4 örnek). Kategori: ğ-silme",
+      "ref_source": "word_clip"
+    },
+    {
+      "id": "kelime-yt-041",
+      "type": "kelime",
+      "text": "efendim",
+      "focus": "telaffuz pratiği",
+      "difficulty": 1,
+      "notes": "Mennan Şahin video kütüphanesinden (5 örnek). Kategori: temiz-örnek",
+      "ref_source": "word_clip"
+    },
+    {
+      "id": "kelime-yt-042",
+      "type": "kelime",
+      "text": "hadi",
+      "focus": "telaffuz pratiği",
+      "difficulty": 1,
+      "notes": "Mennan Şahin video kütüphanesinden (5 örnek). Kategori: temiz-örnek",
+      "ref_source": "word_clip"
+    },
+    {
+      "id": "kelime-yt-043",
+      "type": "kelime",
+      "text": "geliyor",
+      "focus": "-yor ekinde R'nin korunması",
+      "difficulty": 1,
+      "notes": "Mennan Şahin video kütüphanesinden (4 örnek). Kategori: R-yutulması-adayı",
+      "ref_source": "word_clip"
+    },
+    {
+      "id": "kelime-yt-044",
+      "type": "kelime",
+      "text": "yavaş",
+      "focus": "telaffuz pratiği",
+      "difficulty": 1,
+      "notes": "Mennan Şahin video kütüphanesinden (5 örnek). Kategori: temiz-örnek",
+      "ref_source": "word_clip"
+    },
+    {
+      "id": "kelime-yt-045",
+      "type": "kelime",
+      "text": "dilimizi",
+      "focus": "telaffuz pratiği",
+      "difficulty": 2,
+      "notes": "Mennan Şahin video kütüphanesinden (2 örnek). Kategori: temiz-örnek",
+      "ref_source": "word_clip"
+    },
+    {
+      "id": "kelime-yt-046",
+      "type": "kelime",
+      "text": "için",
+      "focus": "telaffuz pratiği",
+      "difficulty": 1,
+      "notes": "Mennan Şahin video kütüphanesinden (5 örnek). Kategori: temiz-örnek",
+      "ref_source": "word_clip"
+    },
+    {
+      "id": "kelime-yt-047",
+      "type": "kelime",
+      "text": "alıştırmak",
+      "focus": "telaffuz pratiği",
+      "difficulty": 2,
+      "notes": "Mennan Şahin video kütüphanesinden (2 örnek). Kategori: temiz-örnek",
+      "ref_source": "word_clip"
+    },
+    {
+      "id": "kelime-yt-048",
+      "type": "kelime",
+      "text": "misiniz",
+      "focus": "telaffuz pratiği",
+      "difficulty": 1,
+      "notes": "Mennan Şahin video kütüphanesinden (5 örnek). Kategori: temiz-örnek",
+      "ref_source": "word_clip"
+    },
+    {
+      "id": "kelime-yt-049",
+      "type": "kelime",
+      "text": "umarım",
+      "focus": "telaffuz pratiği",
+      "difficulty": 1,
+      "notes": "Mennan Şahin video kütüphanesinden (5 örnek). Kategori: temiz-örnek",
+      "ref_source": "word_clip"
+    },
+    {
+      "id": "kelime-yt-050",
+      "type": "kelime",
+      "text": "normal",
+      "focus": "telaffuz pratiği",
+      "difficulty": 1,
+      "notes": "Mennan Şahin video kütüphanesinden (5 örnek). Kategori: temiz-örnek",
+      "ref_source": "word_clip"
+    },
+    {
+      "id": "kelime-yt-051",
+      "type": "kelime",
+      "text": "güzel",
+      "focus": "telaffuz pratiği",
+      "difficulty": 1,
+      "notes": "Mennan Şahin video kütüphanesinden (5 örnek). Kategori: temiz-örnek",
+      "ref_source": "word_clip"
+    },
+    {
+      "id": "kelime-yt-052",
+      "type": "kelime",
+      "text": "hazır",
+      "focus": "telaffuz pratiği",
+      "difficulty": 1,
+      "notes": "Mennan Şahin video kütüphanesinden (5 örnek). Kategori: temiz-örnek",
+      "ref_source": "word_clip"
+    },
+    {
+      "id": "kelime-yt-053",
+      "type": "kelime",
+      "text": "mıyız",
+      "focus": "telaffuz pratiği",
+      "difficulty": 1,
+      "notes": "Mennan Şahin video kütüphanesinden (5 örnek). Kategori: temiz-örnek",
+      "ref_source": "word_clip"
+    },
+    {
+      "id": "kelime-yt-054",
+      "type": "kelime",
+      "text": "okuyacağız",
+      "focus": "ğ silinir, ünlü uzar",
+      "difficulty": 3,
+      "notes": "Mennan Şahin video kütüphanesinden (5 örnek). Kategori: ğ-silme",
+      "ref_source": "word_clip"
+    },
+    {
+      "id": "kelime-yt-055",
+      "type": "kelime",
+      "text": "hızda",
+      "focus": "telaffuz pratiği",
+      "difficulty": 1,
+      "notes": "Mennan Şahin video kütüphanesinden (5 örnek). Kategori: temiz-örnek",
+      "ref_source": "word_clip"
+    },
+    {
+      "id": "kelime-yt-056",
+      "type": "kelime",
+      "text": "birlikte",
+      "focus": "telaffuz pratiği",
+      "difficulty": 2,
+      "notes": "Mennan Şahin video kütüphanesinden (5 örnek). Kategori: temiz-örnek",
+      "ref_source": "word_clip"
+    },
+    {
+      "id": "kelime-yt-057",
+      "type": "kelime",
+      "text": "çalışın",
+      "focus": "telaffuz pratiği",
+      "difficulty": 1,
+      "notes": "Mennan Şahin video kütüphanesinden (4 örnek). Kategori: temiz-örnek",
+      "ref_source": "word_clip"
+    },
+    {
+      "id": "kelime-yt-058",
+      "type": "kelime",
+      "text": "başlıyoruz",
+      "focus": "-yor ekinde R'nin korunması",
+      "difficulty": 2,
+      "notes": "Mennan Şahin video kütüphanesinden (5 örnek). Kategori: R-yutulması-adayı",
+      "ref_source": "word_clip"
+    },
+    {
+      "id": "kelime-yt-059",
+      "type": "kelime",
+      "text": "başlı",
+      "focus": "telaffuz pratiği",
+      "difficulty": 1,
+      "notes": "Mennan Şahin video kütüphanesinden (5 örnek). Kategori: temiz-örnek",
+      "ref_source": "word_clip"
+    },
+    {
+      "id": "kelime-yt-060",
+      "type": "kelime",
+      "text": "ördek",
+      "focus": "telaffuz pratiği",
+      "difficulty": 1,
+      "notes": "Mennan Şahin video kütüphanesinden (5 örnek). Kategori: temiz-örnek",
+      "ref_source": "word_clip"
+    },
+    {
+      "id": "kelime-yt-061",
+      "type": "kelime",
+      "text": "bizim",
+      "focus": "telaffuz pratiği",
+      "difficulty": 1,
+      "notes": "Mennan Şahin video kütüphanesinden (5 örnek). Kategori: temiz-örnek",
+      "ref_source": "word_clip"
+    },
+    {
+      "id": "kelime-yt-062",
+      "type": "kelime",
+      "text": "sizin",
+      "focus": "telaffuz pratiği",
+      "difficulty": 1,
+      "notes": "Mennan Şahin video kütüphanesinden (5 örnek). Kategori: temiz-örnek",
+      "ref_source": "word_clip"
+    },
+    {
+      "id": "kelime-yt-063",
+      "type": "kelime",
+      "text": "damdaki",
+      "focus": "telaffuz pratiği",
+      "difficulty": 1,
+      "notes": "Mennan Şahin video kütüphanesinden (5 örnek). Kategori: temiz-örnek",
+      "ref_source": "word_clip"
+    },
+    {
+      "id": "kelime-yt-064",
+      "type": "kelime",
+      "text": "demiş",
+      "focus": "telaffuz pratiği",
+      "difficulty": 1,
+      "notes": "Mennan Şahin video kütüphanesinden (5 örnek). Kategori: temiz-örnek",
+      "ref_source": "word_clip"
+    },
+    {
+      "id": "kelime-yt-065",
+      "type": "kelime",
+      "text": "ikinci",
+      "focus": "telaffuz pratiği",
+      "difficulty": 1,
+      "notes": "Mennan Şahin video kütüphanesinden (4 örnek). Kategori: temiz-örnek",
+      "ref_source": "word_clip"
+    },
+    {
+      "id": "kelime-yt-066",
+      "type": "kelime",
+      "text": "okuduk",
+      "focus": "telaffuz pratiği",
+      "difficulty": 1,
+      "notes": "Mennan Şahin video kütüphanesinden (5 örnek). Kategori: temiz-örnek",
+      "ref_source": "word_clip"
+    },
+    {
+      "id": "kelime-yt-067",
+      "type": "kelime",
+      "text": "harika",
+      "focus": "telaffuz pratiği",
+      "difficulty": 1,
+      "notes": "Mennan Şahin video kütüphanesinden (5 örnek). Kategori: temiz-örnek",
+      "ref_source": "word_clip"
+    },
+    {
+      "id": "kelime-yt-068",
+      "type": "kelime",
+      "text": "devam",
+      "focus": "telaffuz pratiği",
+      "difficulty": 1,
+      "notes": "Mennan Şahin video kütüphanesinden (5 örnek). Kategori: temiz-örnek",
+      "ref_source": "word_clip"
+    },
+    {
+      "id": "kelime-yt-069",
+      "type": "kelime",
+      "text": "ediyoruz",
+      "focus": "-yor ekinde R'nin korunması",
+      "difficulty": 2,
+      "notes": "Mennan Şahin video kütüphanesinden (5 örnek). Kategori: R-yutulması-adayı",
+      "ref_source": "word_clip"
+    },
+    {
+      "id": "kelime-yt-070",
+      "type": "kelime",
+      "text": "kere",
+      "focus": "telaffuz pratiği",
+      "difficulty": 1,
+      "notes": "Mennan Şahin video kütüphanesinden (5 örnek). Kategori: temiz-örnek",
+      "ref_source": "word_clip"
+    },
+    {
+      "id": "kelime-yt-071",
+      "type": "kelime",
+      "text": "yine",
+      "focus": "telaffuz pratiği",
+      "difficulty": 1,
+      "notes": "Mennan Şahin video kütüphanesinden (5 örnek). Kategori: temiz-örnek",
+      "ref_source": "word_clip"
+    },
+    {
+      "id": "kelime-yt-072",
+      "type": "kelime",
+      "text": "ömür",
+      "focus": "telaffuz pratiği",
+      "difficulty": 1,
+      "notes": "Mennan Şahin video kütüphanesinden (1 örnek). Kategori: temiz-örnek",
+      "ref_source": "word_clip"
+    },
+    {
+      "id": "kelime-yt-073",
+      "type": "kelime",
+      "text": "gibi",
+      "focus": "telaffuz pratiği",
+      "difficulty": 1,
+      "notes": "Mennan Şahin video kütüphanesinden (5 örnek). Kategori: temiz-örnek",
+      "ref_source": "word_clip"
+    },
+    {
+      "id": "kelime-yt-074",
+      "type": "kelime",
+      "text": "bana",
+      "focus": "telaffuz pratiği",
+      "difficulty": 1,
+      "notes": "Mennan Şahin video kütüphanesinden (3 örnek). Kategori: temiz-örnek",
+      "ref_source": "word_clip"
+    },
+    {
+      "id": "kelime-yt-075",
+      "type": "kelime",
+      "text": "yüzden",
+      "focus": "telaffuz pratiği",
+      "difficulty": 1,
+      "notes": "Mennan Şahin video kütüphanesinden (5 örnek). Kategori: temiz-örnek",
+      "ref_source": "word_clip"
+    },
+    {
+      "id": "kelime-yt-076",
+      "type": "kelime",
+      "text": "korkuyorum",
+      "focus": "-yor ekinde R'nin korunması",
+      "difficulty": 2,
+      "notes": "Mennan Şahin video kütüphanesinden (1 örnek). Kategori: R-yutulması-adayı",
+      "ref_source": "word_clip"
+    },
+    {
+      "id": "kelime-yt-077",
+      "type": "kelime",
+      "text": "bakalım",
+      "focus": "telaffuz pratiği",
+      "difficulty": 1,
+      "notes": "Mennan Şahin video kütüphanesinden (5 örnek). Kategori: temiz-örnek",
+      "ref_source": "word_clip"
+    },
+    {
+      "id": "kelime-yt-078",
+      "type": "kelime",
+      "text": "deniyoruz",
+      "focus": "-yor ekinde R'nin korunması",
+      "difficulty": 2,
+      "notes": "Mennan Şahin video kütüphanesinden (4 örnek). Kategori: R-yutulması-adayı",
+      "ref_source": "word_clip"
+    },
+    {
+      "id": "kelime-yt-079",
+      "type": "kelime",
+      "text": "buraya",
+      "focus": "telaffuz pratiği",
+      "difficulty": 1,
+      "notes": "Mennan Şahin video kütüphanesinden (1 örnek). Kategori: temiz-örnek",
+      "ref_source": "word_clip"
+    },
+    {
+      "id": "kelime-yt-080",
+      "type": "kelime",
+      "text": "zorlanmadık",
+      "focus": "telaffuz pratiği",
+      "difficulty": 2,
+      "notes": "Mennan Şahin video kütüphanesinden (1 örnek). Kategori: temiz-örnek",
+      "ref_source": "word_clip"
+    }
+  ]
+}

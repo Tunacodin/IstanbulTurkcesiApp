@@ -1,0 +1,104 @@
+{
+  "_meta": {
+    "kaynak": "Diksiyon eğitim materyali — temel ilkeler bölümü",
+    "kullanim": "Genel pedagojik referans; LLM/feedback prompt'larında bilgi tabanı olarak kullanılabilir."
+  },
+  "ilkeler": [
+    {
+      "id": 1,
+      "baslik": "Türkçe ses zenginliği",
+      "metin": "Türkçe 29 harfle yazılır, daha çok sesle konuşulur. Bütün sesleri yumuşak, ezgili ve renklidir."
+    },
+    {
+      "id": 2,
+      "baslik": "Ses karakteri",
+      "metin": "Türkçenin sesleri hırıltılı değil net; boğuk değil tınılı ve parlaktır."
+    },
+    {
+      "id": 3,
+      "baslik": "Standart konuşma dili",
+      "metin": "Konuşma dilinde örnek olarak İstanbul Ağzı kullanılmaktadır."
+    },
+    {
+      "id": 4,
+      "baslik": "Yazı–konuşma uyumu",
+      "metin": "Türkçe bazı istisnalar dışında yazıldığı gibi konuşulan, konuşulduğu gibi yazılan bir dildir."
+    },
+    {
+      "id": 5,
+      "baslik": "Tek istisna: ğ",
+      "metin": "Türkçede yazıldığı halde söylenmeyen, söylendiği halde yazılmayan (ğ dışında) hiçbir harf/ses yoktur."
+    },
+    {
+      "id": 6,
+      "baslik": "Yumuşak g (ğ)",
+      "metin": "ğ ünsüzü dilimizde varlığını ancak kendinden önce gelen ünlünün süresini uzatarak gösterir. Kelime başında bulunmaz. Damağın arka kısmından boğuk bir şekilde çıkar."
+    },
+    {
+      "id": 7,
+      "baslik": "ğ → y dönüşümü (e/i sonrası)",
+      "metin": "Yumuşak g bazen, e veya i'den sonra gelirse y sesiyle okunur. (Teğmen → Teymen)"
+    },
+    {
+      "id": 8,
+      "baslik": "Ünlü daralması (y kaynaştırma)",
+      "metin": "y kaynaştırma sesi de Türkçenin konuşma dilinde bazı farklılıklara yol açar. Bu duruma 'ünlü daralması' da diyoruz."
+    }
+  ],
+  "olcum_metrikleri": [
+    {
+      "id": "telaffuz_dogrulugu",
+      "ad": "Telaffuz doğruluğu",
+      "aciklama": "Her sesin yazıdaki harfin akustik karşılığıyla uyumu (forced alignment + GOP).",
+      "modul": "align_and_score"
+    },
+    {
+      "id": "kelime_butunlugu",
+      "ad": "Kelime bütünlüğü",
+      "aciklama": "Kullanıcının söylediği kelimelerin target ile eşleşmesi (greedy CTC + word-level).",
+      "modul": "feedback._word_level_match"
+    },
+    {
+      "id": "uzun_unlu_suresi",
+      "ad": "Uzun ünlü süresi",
+      "aciklama": "Şapkalı ünlülerin (â/î/û) ortalama segment süresinin >=1.4× olması.",
+      "modul": "feedback._long_vowel_duration_issues"
+    },
+    {
+      "id": "kritik_unsuz_degisimi",
+      "ad": "Diksiyon-kritik ünsüz değişimi",
+      "aciklama": "Ötümlü/ötümsüz substitusyonu (k↔g, t↔d, p↔b vb.) Anadolu ağzı işareti.",
+      "modul": "feedback._detect_critical_substitutions"
+    },
+    {
+      "id": "r_yutulmasi",
+      "ad": "R yutulması",
+      "aciklama": "-yor ve diğer eklerde 'r' atılması; İstanbul Türkçesi'nde yutulmaz.",
+      "modul": "feedback (yeni)"
+    },
+    {
+      "id": "h_yutulmasi",
+      "ad": "H yutulması",
+      "aciklama": "Kelime içinde/sonunda 'h' atılması; İstanbul Türkçesi'nde yutulmaz.",
+      "modul": "feedback (yeni)"
+    },
+    {
+      "id": "vurgu_yeri",
+      "ad": "Vurgu yeri",
+      "aciklama": "Doğru hecede vurgu (yer adı: ilk; zarf/bağlaç: ilk; varsayılan: son).",
+      "modul": "stress (yeni)"
+    },
+    {
+      "id": "tonlama_ezgi",
+      "ad": "Tonlama / ezgi",
+      "aciklama": "F0 eğrisi karşılaştırma (eğitmen referansıyla DTW).",
+      "modul": "prosody"
+    },
+    {
+      "id": "nefes_ve_durak",
+      "ad": "Nefes ve durak yönetimi",
+      "aciklama": "Cümle içi pause süreleri, virgül/nokta öncesi ezgi düşmesi, nefes alma yerleri.",
+      "modul": "prosody (genişletilecek)"
+    }
+  ]
+}

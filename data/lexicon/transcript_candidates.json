@@ -1,0 +1,205 @@
+{
+  "_meta": {
+    "kaynak": "4 YT diksiyon transkripti, regex pattern matching",
+    "kullanim": "Manuel review sonrası g2p_pairs.json veya error_patterns.json'a aktarılır.",
+    "uyari": "Heuristic; her aday gerçek bir kural değil — bağlam okunmalı."
+  },
+  "candidates_by_pattern": {
+    "X_yerine_Y": [
+      {
+        "video_id": "tm_VTbFBXX8",
+        "title": "Kağıt Değil Kaat! Diksiyonda Uzayan Sesler ve Doğru Telaffuz",
+        "match": "Ağız yerine de",
+        "groups": [
+          "Ağız",
+          "de"
+        ],
+        "context": "...delim. Iğt yazıyor. At diyoruz. Ağır yazıyor, ağır diyoruz. Ağız yerine de ağız diyoruz. Bağış da aynı şekilde bağış şeklinde söyleniy..."
+      },
+      {
+        "video_id": "tm_VTbFBXX8",
+        "title": "Kağıt Değil Kaat! Diksiyonda Uzayan Sesler ve Doğru Telaffuz",
+        "match": "Bağımlı yerine de",
+        "groups": [
+          "Bağımlı",
+          "de"
+        ],
+        "context": "...inleyin. Aynı şekilde şöyle yapacaklar. Bağımsız. Bağımsız. Bağımlı yerine de bağımlı a uzatılıyor. Yumuşak y ve ı yok gibi yapıyoruz. Ba..."
+      },
+      {
+        "video_id": "tm_VTbFBXX8",
+        "title": "Kağıt Değil Kaat! Diksiyonda Uzayan Sesler ve Doğru Telaffuz",
+        "match": "Bağırsak yerine de",
+        "groups": [
+          "Bağırsak",
+          "de"
+        ],
+        "context": "...de bağımlı a uzatılıyor. Yumuşak y ve ı yok gibi yapıyoruz. Bağırsak yerine de bağırsak. Hatta buna bağırsak diyenler var. Böyle yazanlar..."
+      },
+      {
+        "video_id": "tm_VTbFBXX8",
+        "title": "Kağıt Değil Kaat! Diksiyonda Uzayan Sesler ve Doğru Telaffuz",
+        "match": "Bağırmak yerine bağırmak",
+        "groups": [
+          "Bağırmak",
+          "bağırmak"
+        ],
+        "context": "...miyoruz, dağınık. Dağıtım demiyoruz, dağıtım. A uzatılıyor. Bağırmak yerine bağırmak. Çağırmak yerine çağırmak ve dağıtmak. Dağıtmak yerine dağı..."
+      },
+      {
+        "video_id": "tm_VTbFBXX8",
+        "title": "Kağıt Değil Kaat! Diksiyonda Uzayan Sesler ve Doğru Telaffuz",
+        "match": "Çağırmak yerine çağırmak",
+        "groups": [
+          "Çağırmak",
+          "çağırmak"
+        ],
+        "context": "...demiyoruz, dağıtım. A uzatılıyor. Bağırmak yerine bağırmak. Çağırmak yerine çağırmak ve dağıtmak. Dağıtmak yerine dağıtmak diyoruz. Bu şekilde k..."
+      },
+      {
+        "video_id": "tm_VTbFBXX8",
+        "title": "Kağıt Değil Kaat! Diksiyonda Uzayan Sesler ve Doğru Telaffuz",
+        "match": "Dağıtmak yerine dağıtmak",
+        "groups": [
+          "Dağıtmak",
+          "dağıtmak"
+        ],
+        "context": "...rmak yerine bağırmak. Çağırmak yerine çağırmak ve dağıtmak. Dağıtmak yerine dağıtmak diyoruz. Bu şekilde konuştuğumuz zaman daha akıcı konuştuğu..."
+      },
+      {
+        "video_id": "TTktup2j1h8",
+        "title": "Diksiyon Kurallarına Uyarak Örnek Metin Okuma | Metin Nasıl Okunur?",
+        "match": "vurgulamak yerine duruyordu",
+        "groups": [
+          "vurgulamak",
+          "duruyordu"
+        ],
+        "context": "...z hasta duruyordu Buradaki gibi reyler varsa duruyordu diye vurgulamak yerine duruyordu gibi okuyabiliriz Çünkü biz burada spikerlik eğitimi vermiy..."
+      }
+    ],
+    "X_gibi": [
+      {
+        "video_id": "tm_VTbFBXX8",
+        "title": "Kağıt Değil Kaat! Diksiyonda Uzayan Sesler ve Doğru Telaffuz",
+        "match": "söylediğim gibi söyl",
+        "groups": [
+          "söylediğim"
+        ],
+        "context": "...t, ağıt, ağır, ağız, bağış. Bunları söylerken benim az önce söylediğim gibi söylerseniz gerçekten zorlanacaksınız. Ağzınız böyle şekilden şe..."
+      }
+    ],
+    "X_degil_Y": [
+      {
+        "video_id": "TTktup2j1h8",
+        "title": "Diksiyon Kurallarına Uyarak Örnek Metin Okuma | Metin Nasıl Okunur?",
+        "match": "fışkırdığı değil fışkırdığı",
+        "groups": [
+          "fışkırdığı",
+          "fışkırdığı"
+        ],
+        "context": "...asının içinden derken yine ulama var Bu iki kelime arasında fışkırdığı değil fışkırdığı şeklinde ı'yu uzatarak söyleyeceğiz yumuşak geyi görmeyeceğ..."
+      },
+      {
+        "video_id": "TTktup2j1h8",
+        "title": "Diksiyon Kurallarına Uyarak Örnek Metin Okuma | Metin Nasıl Okunur?",
+        "match": "bilecek değil yorumlarına",
+        "groups": [
+          "bilecek",
+          "yorumlarına"
+        ],
+        "context": "...Şuradaki e'yi daraltıp iyi şeklinde söylüyorum yorumlarına bilecek değil yorumlarına bilecek şeklinde okuyacağız bir elbise idi 3 nokta gördüğüm..."
+      },
+      {
+        "video_id": "TTktup2j1h8",
+        "title": "Diksiyon Kurallarına Uyarak Örnek Metin Okuma | Metin Nasıl Okunur?",
+        "match": "ise değil yanındaysa",
+        "groups": [
+          "ise",
+          "yanındaysa"
+        ],
+        "context": "...z bir nefes alıyoruz soluklanıyoruz elbisenin hemen yanında ise değil yanındaysa burayı yanında ise şeklinde düzelterek okuyoruz Çünkü ise i..."
+      },
+      {
+        "video_id": "TTktup2j1h8",
+        "title": "Diksiyon Kurallarına Uyarak Örnek Metin Okuma | Metin Nasıl Okunur?",
+        "match": "aya değil ikinci",
+        "groups": [
+          "aya",
+          "ikinci"
+        ],
+        "context": "...asa asa burada alsa dediğimiz şey biliyorsunuz bir sopa ilk aya değil ikinci ayı uzatacağız üstünde bir şapka varmış gibi uzatarak okuya..."
+      },
+      {
+        "video_id": "TTktup2j1h8",
+        "title": "Diksiyon Kurallarına Uyarak Örnek Metin Okuma | Metin Nasıl Okunur?",
+        "match": "şeklinde değil a'yı",
+        "groups": [
+          "şeklinde",
+          "a'yı"
+        ],
+        "context": "...nlığına Nazire derken bu iyiyi de uzun okuyoruz yani Nazire şeklinde değil a'yı uzatmıyoruz iyi uzatıyoruz Buna dikkat edelim saçıyordu yan..."
+      },
+      {
+        "video_id": "TTktup2j1h8",
+        "title": "Diksiyon Kurallarına Uyarak Örnek Metin Okuma | Metin Nasıl Okunur?",
+        "match": "alacak değil alacak",
+        "groups": [
+          "alacak",
+          "alacak"
+        ],
+        "context": "...iyi uzatıyoruz Buna dikkat edelim saçıyordu yanımda onları alacak değil alacak Çünkü Ağa geniş bir ünlü Biz bunu dar olan üye çevireceğiz..."
+      },
+      {
+        "video_id": "TTktup2j1h8",
+        "title": "Diksiyon Kurallarına Uyarak Örnek Metin Okuma | Metin Nasıl Okunur?",
+        "match": "geçerli değil loş",
+        "groups": [
+          "geçerli",
+          "loş"
+        ],
+        "context": "...nda şeklinde Tabii ki bunlar hep okuma için geçerli yazımda geçerli değil loş kelimesi şöyleydi biz bunu okurken incelterek okuyoruz ama..."
+      },
+      {
+        "video_id": "TTktup2j1h8",
+        "title": "Diksiyon Kurallarına Uyarak Örnek Metin Okuma | Metin Nasıl Okunur?",
+        "match": "loş değil loş",
+        "groups": [
+          "loş",
+          "loş"
+        ],
+        "context": "...terek okuyoruz ama yazıda böyle bir gösterme yapmıyoruz loş loş değil loş Nazire kelimesinde iyi uzattık ama a'yı uzatmıyoruz Nazire..."
+      },
+      {
+        "video_id": "TTktup2j1h8",
+        "title": "Diksiyon Kurallarına Uyarak Örnek Metin Okuma | Metin Nasıl Okunur?",
+        "match": "Nazire değil Nazire",
+        "groups": [
+          "Nazire",
+          "Nazire"
+        ],
+        "context": "...ğil loş Nazire kelimesinde iyi uzattık ama a'yı uzatmıyoruz Nazire değil Nazire şeklinde söyledik alacak kelimesinde de yine geniş bir ünlü..."
+      },
+      {
+        "video_id": "TTktup2j1h8",
+        "title": "Diksiyon Kurallarına Uyarak Örnek Metin Okuma | Metin Nasıl Okunur?",
+        "match": "şu değil şuradakini",
+        "groups": [
+          "şu",
+          "şuradakini"
+        ],
+        "context": "...bir ünlü olan a'yı üye çevirdik alacak şekilde daha doğrusu şu değil şuradakini daraltmış olduk örnek metnimizle karşımıza çıkan kelimeler..."
+      }
+    ],
+    "dogrusu_X": [
+      {
+        "video_id": "TTktup2j1h8",
+        "title": "Diksiyon Kurallarına Uyarak Örnek Metin Okuma | Metin Nasıl Okunur?",
+        "match": "doğrusu şu",
+        "groups": [
+          "şu"
+        ],
+        "context": "...e geniş bir ünlü olan a'yı üye çevirdik alacak şekilde daha doğrusu şu değil şuradakini daraltmış olduk örnek metnimizle karşımıza..."
+      }
+    ]
+  }
+}

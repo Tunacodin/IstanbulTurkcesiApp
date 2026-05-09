@@ -1,0 +1,40 @@
+{
+  "_meta": {
+    "kaynak": "Diksiyon eğitim materyali — DOĞRU/YANLIŞ kullanım tabloları",
+    "kullanim": "Kullanıcının söylediği transcription target'tan farklıysa, error_patterns'a bak. Eşleşen pattern varsa, generic 'kelime hatası' yerine spesifik diksiyon notu ver."
+  },
+  "r_yutulmasi": {
+    "kural": "İstanbul Türkçesi'nde -yor ekindeki ‘r’ yutulmaz. Yutmak Anadolu ağzı.",
+    "ornekler": {
+      "geliyor": "geliyo",
+      "ağlıyorsa": "a:lıyosa",
+      "ne yapıyorsun": "napıyosun",
+      "duyuyor musun": "duyuyo musun",
+      "koşmuyor mu": "koşmuyo musun",
+      "yardım ediyor": "yardım ediyo",
+      "sevmiyorlar": "sevmiyolar",
+      "bir şey": "bi şey",
+      "bir daha": "bi da:",
+      "birkaç": "bikaç"
+    },
+    "tespit_kurali": "Target kelime sonu 'r' veya 'r ' içerirse ve transcription o 'r'yi atmışsa, R-yutulması olarak işaretle."
+  },
+  "h_yutulmasi": {
+    "kural": "İstanbul Türkçesi'nde ‘h’ yutulmaz. Yutmak Anadolu ağzı.",
+    "ornekler": {
+      "daha": "da:",
+      "saha": "sa:",
+      "kahve": "ka:ve",
+      "kahvaltı": "ka:valtı",
+      "şüphe": "şüpe",
+      "merhaba": "meraba",
+      "dershane": "dersa:ne",
+      "kütüphane": "kütüpa:ne",
+      "ahmet": "a:met",
+      "mehmet": "me:met",
+      "gökhan": "gökan"
+    },
+    "tespit_kurali": "Target kelimede 'h' var, transcription'da o pozisyonda 'h' yoksa, H-yutulması olarak işaretle."
+  },
+  "_aciklama": "Bu kalıp listeleri kapalı küme değil; pattern bazlı tespit (regex/levenshtein) ile genişletilir. Listedekiler bilinen klasik örnekler."
+}

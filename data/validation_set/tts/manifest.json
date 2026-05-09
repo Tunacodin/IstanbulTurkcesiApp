@@ -1,0 +1,82 @@
+[
+  {
+    "audio_path": "data\\validation_set\\tts\\ahmet\\00.wav",
+    "text": "merhaba dunya",
+    "voice": "tr-TR-AhmetNeural"
+  },
+  {
+    "audio_path": "data\\validation_set\\tts\\ahmet\\01.wav",
+    "text": "merhaba",
+    "voice": "tr-TR-AhmetNeural"
+  },
+  {
+    "audio_path": "data\\validation_set\\tts\\ahmet\\02.wav",
+    "text": "kar yagiyor",
+    "voice": "tr-TR-AhmetNeural"
+  },
+  {
+    "audio_path": "data\\validation_set\\tts\\ahmet\\03.wav",
+    "text": "bu sabah erken kalktim",
+    "voice": "tr-TR-AhmetNeural"
+  },
+  {
+    "audio_path": "data\\validation_set\\tts\\ahmet\\04.wav",
+    "text": "su kose yaz kosesi",
+    "voice": "tr-TR-AhmetNeural"
+  },
+  {
+    "audio_path": "data\\validation_set\\tts\\ahmet\\05.wav",
+    "text": "kirk kartal kalkmis",
+    "voice": "tr-TR-AhmetNeural"
+  },
+  {
+    "audio_path": "data\\validation_set\\tts\\ahmet\\06.wav",
+    "text": "istanbul cok guzel bir sehir",
+    "voice": "tr-TR-AhmetNeural"
+  },
+  {
+    "audio_path": "data\\validation_set\\tts\\ahmet\\07.wav",
+    "text": "haberler",
+    "voice": "tr-TR-AhmetNeural"
+  },
+  {
+    "audio_path": "data\\validation_set\\tts\\emel\\00.wav",
+    "text": "merhaba dunya",
+    "voice": "tr-TR-EmelNeural"
+  },
+  {
+    "audio_path": "data\\validation_set\\tts\\emel\\01.wav",
+    "text": "merhaba",
+    "voice": "tr-TR-EmelNeural"
+  },
+  {
+    "audio_path": "data\\validation_set\\tts\\emel\\02.wav",
+    "text": "kar yagiyor",
+    "voice": "tr-TR-EmelNeural"
+  },
+  {
+    "audio_path": "data\\validation_set\\tts\\emel\\03.wav",
+    "text": "bu sabah erken kalktim",
+    "voice": "tr-TR-EmelNeural"
+  },
+  {
+    "audio_path": "data\\validation_set\\tts\\emel\\04.wav",
+    "text": "su kose yaz kosesi",
+    "voice": "tr-TR-EmelNeural"
+  },
+  {
+    "audio_path": "data\\validation_set\\tts\\emel\\05.wav",
+    "text": "kirk kartal kalkmis",
+    "voice": "tr-TR-EmelNeural"
+  },
+  {
+    "audio_path": "data\\validation_set\\tts\\emel\\06.wav",
+    "text": "istanbul cok guzel bir sehir",
+    "voice": "tr-TR-EmelNeural"
+  },
+  {
+    "audio_path": "data\\validation_set\\tts\\emel\\07.wav",
+    "text": "haberler",
+    "voice": "tr-TR-EmelNeural"
+  }
+]
