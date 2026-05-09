@@ -1,4 +1,4 @@
-{
+﻿{
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "outputDirectory": "poc/static",
   "cleanUrls": false,
@@ -6,27 +6,27 @@
   "rewrites": [
     {
       "source": "/exercises",
-      "destination": "https://CHANGE-ME-HF-USERNAME-istanbul-turkcesi.hf.space/exercises"
+      "destination": "https://tunacodin-istanbul-turkcesi.hf.space/exercises"
     },
     {
       "source": "/assess",
-      "destination": "https://CHANGE-ME-HF-USERNAME-istanbul-turkcesi.hf.space/assess"
+      "destination": "https://tunacodin-istanbul-turkcesi.hf.space/assess"
     },
     {
       "source": "/available-clips",
-      "destination": "https://CHANGE-ME-HF-USERNAME-istanbul-turkcesi.hf.space/available-clips"
+      "destination": "https://tunacodin-istanbul-turkcesi.hf.space/available-clips"
     },
     {
       "source": "/videos-with-words",
-      "destination": "https://CHANGE-ME-HF-USERNAME-istanbul-turkcesi.hf.space/videos-with-words"
+      "destination": "https://tunacodin-istanbul-turkcesi.hf.space/videos-with-words"
     },
     {
       "source": "/word-clip/:word",
-      "destination": "https://CHANGE-ME-HF-USERNAME-istanbul-turkcesi.hf.space/word-clip/:word"
+      "destination": "https://tunacodin-istanbul-turkcesi.hf.space/word-clip/:word"
     },
     {
       "source": "/reference/:id",
-      "destination": "https://CHANGE-ME-HF-USERNAME-istanbul-turkcesi.hf.space/reference/:id"
+      "destination": "https://tunacodin-istanbul-turkcesi.hf.space/reference/:id"
     },
     {
       "source": "/static/:path*",

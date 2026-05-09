@@ -1,0 +1,63 @@
+# HF Spaces Docker build context'i icin
+.git
+.gitignore
+.vercel
+.vscode
+.idea
+.DS_Store
+Thumbs.db
+
+# Virtualenv'ler - HER SEVIYEDE
+.venv
+**/.venv
+venv
+**/venv
+env
+ENV
+
+# Python cache
+__pycache__
+**/__pycache__
+*.pyc
+*.pyo
+*.pyd
+*.egg-info
+.pytest_cache
+.mypy_cache
+.ruff_cache
+
+# Secrets
+.env
+.env.*
+*.pem
+*.key
+*.crt
+poc/certs
+
+# Logs
+*.log
+
+# Frontend deploy
+node_modules
+**/node_modules
+
+# Bu deploy scriptleri
+_hf_push.py
+_hf_push_log.txt
+DEPLOY.md
+vercel.json
+
+# Buyuk media (HF Hub dataset olarak ayrica yuklenebilir)
+data/knowledge/word_clips
+data/knowledge/segments
+data/knowledge/raw_audio
+data/knowledge/youtube_audio
+data/exercises/refs
+data/reference_audio
+*.wav
+*.mp3
+*.webm
+*.mp4
+*.m4a
+*.ogg
+*.flac
