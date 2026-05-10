@@ -197,6 +197,8 @@ def get_word_clip(word: str):
     clip_rel = best.get("clip_path")
     if not clip_rel:
         raise HTTPException(404, f"Kesit dosyası bulunamadı: {word}")
+    # word_clips_index.json Windows'ta uretildigi icin backslash icerir; Linux container'da normalize et
+    clip_rel = str(clip_rel).replace("\\", "/")
     wav = REPO_ROOT / clip_rel
     if not wav.exists():
         raise HTTPException(404, f"Kesit dosyası diskte yok: {wav}")
