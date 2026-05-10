@@ -31,6 +31,20 @@ RUN pip install --no-cache-dir --user --upgrade pip && \
 COPY --chown=user:user poc ./poc
 COPY --chown=user:user data ./data
 
+# Audio bundle'lari ac (LFS-tracked tar.gz'ler — bulk wav upload calismadigi icin tar yontemi)
+RUN if [ -f data/knowledge/word_clips.tar.gz ]; then \
+      echo "Extracting word_clips.tar.gz..." && \
+      tar -xzf data/knowledge/word_clips.tar.gz -C data/knowledge/ && \
+      rm data/knowledge/word_clips.tar.gz && \
+      echo "word_clips: $(ls data/knowledge/word_clips/ | wc -l) files"; \
+    fi && \
+    if [ -f data/exercises/refs.tar.gz ]; then \
+      echo "Extracting refs.tar.gz..." && \
+      tar -xzf data/exercises/refs.tar.gz -C data/exercises/ && \
+      rm data/exercises/refs.tar.gz && \
+      echo "refs: $(ls data/exercises/refs/ | wc -l) files"; \
+    fi
+
 WORKDIR /home/user/app/poc
 
 # HF Spaces 7860'ı bekliyor
