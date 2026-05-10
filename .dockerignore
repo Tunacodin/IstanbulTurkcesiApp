@@ -47,17 +47,9 @@ _hf_push_log.txt
 DEPLOY.md
 vercel.json
 
-# Buyuk media (HF Hub dataset olarak ayrica yuklenebilir)
-data/knowledge/word_clips
+# Buyuk media — sadece api'nin kullanmadiklarini exclude
+# word_clips (Mennan Sahin telaffuz) + refs (TTS ornek) yuklendi, gerekli
 data/knowledge/segments
 data/knowledge/raw_audio
 data/knowledge/youtube_audio
-data/exercises/refs
 data/reference_audio
-*.wav
-*.mp3
-*.webm
-*.mp4
-*.m4a
-*.ogg
-*.flac
