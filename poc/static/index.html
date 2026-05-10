@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 <meta name="description" content="İstanbul Türkçesi telaffuz değerlendirmesi ve eğitmen tarzı geri bildirim." />
-<meta name="theme-color" content="#fafaf7" />
+<meta name="theme-color" content="#0a0a0b" />
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 <meta name="apple-mobile-web-app-title" content="Diksiyon" />
@@ -15,1602 +15,822 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <title>İstanbul Türkçesi Diksiyon</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        fontFamily: {
+          sans: ['Inter', 'system-ui', '-apple-system', 'Segoe UI', 'sans-serif'],
+        },
+      },
+    },
+  };
+</script>
+
 <style>
-  /* shadcn-tarzı tasarım tokenleri (HSL tabanlı, light + dark) */
-  :root {
-    --background: 0 0% 100%;
-    --foreground: 240 10% 3.9%;
-    --card: 0 0% 100%;
-    --card-foreground: 240 10% 3.9%;
-    --popover: 240 10% 3.9%;
-    --popover-foreground: 0 0% 98%;
-    --primary: 240 5.9% 10%;
-    --primary-foreground: 0 0% 98%;
-    --secondary: 240 4.8% 95.9%;
-    --secondary-foreground: 240 5.9% 10%;
-    --muted: 240 4.8% 95.9%;
-    --muted-foreground: 240 3.8% 46.1%;
-    --accent: 240 4.8% 95.9%;
-    --accent-foreground: 240 5.9% 10%;
-    --destructive: 0 72% 51%;
-    --destructive-foreground: 0 0% 98%;
-    --success: 142 71% 29%;
-    --warning: 38 92% 35%;
-    --info: 180 47% 33%;
-    --indigo: 244 75% 41%;
-    --orange: 17 100% 32%;
-    --purple: 271 50% 35%;
-    --border: 240 5.9% 90%;
-    --input: 240 5.9% 90%;
-    --ring: 240 5% 64.9%;
-    --radius: 0.5rem;
-    --shadow-sm: 0 1px 2px 0 hsl(240 10% 3.9% / 0.04);
-    --shadow-md: 0 4px 6px -1px hsl(240 10% 3.9% / 0.08), 0 2px 4px -2px hsl(240 10% 3.9% / 0.04);
-    --shadow-lg: 0 10px 15px -3px hsl(240 10% 3.9% / 0.10), 0 4px 6px -4px hsl(240 10% 3.9% / 0.06);
-  }
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --background: 240 10% 3.9%;
-      --foreground: 0 0% 98%;
-      --card: 240 10% 5.5%;
-      --card-foreground: 0 0% 98%;
-      --popover: 0 0% 98%;
-      --popover-foreground: 240 10% 3.9%;
-      --primary: 0 0% 98%;
-      --primary-foreground: 240 5.9% 10%;
-      --secondary: 240 3.7% 15.9%;
-      --secondary-foreground: 0 0% 98%;
-      --muted: 240 3.7% 15.9%;
-      --muted-foreground: 240 5% 64.9%;
-      --accent: 240 3.7% 15.9%;
-      --accent-foreground: 0 0% 98%;
-      --destructive: 0 65% 55%;
-      --destructive-foreground: 0 0% 98%;
-      --success: 142 70% 45%;
-      --warning: 38 92% 50%;
-      --info: 180 50% 50%;
-      --indigo: 234 89% 74%;
-      --orange: 24 100% 60%;
-      --purple: 271 76% 70%;
-      --border: 240 3.7% 15.9%;
-      --input: 240 3.7% 15.9%;
-      --ring: 240 4.9% 83.9%;
-    }
-  }
-
-  /* Geriye dönük takma adlar (eski class'larla uyumlu) */
-  :root {
-    --bg: hsl(var(--background));
-    --surface: hsl(var(--card));
-    --fg: hsl(var(--foreground));
-    --line: hsl(var(--border));
-    --line-strong: hsl(var(--ring));
-    --accent: hsl(var(--primary));
-    --accent-soft: hsl(var(--accent));
-    --error: hsl(var(--destructive));
-    --error-soft: hsl(var(--destructive) / 0.10);
-    --warn: hsl(var(--warning));
-    --ok: hsl(var(--success));
-  }
-  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-  *:focus-visible {
-    outline: none;
-    box-shadow: 0 0 0 2px hsl(var(--background)), 0 0 0 4px hsl(var(--ring));
-    border-radius: var(--radius);
-  }
-  html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
-  body {
-    font-family: 'Inter', system-ui, -apple-system, "Segoe UI", sans-serif;
-    font-feature-settings: "cv11", "ss01";
-    font-size: 14px; line-height: 1.5;
-    margin: 0;
-    color: hsl(var(--foreground));
-    background: hsl(var(--background));
-    padding-bottom: max(16px, env(safe-area-inset-bottom));
-  }
-  ::selection { background: hsl(var(--primary) / 0.18); }
-
-  /* Navbar */
-  .navbar {
-    position: sticky; top: 0; z-index: 100;
-    background: hsl(var(--background) / 0.85);
-    backdrop-filter: saturate(180%) blur(10px);
-    -webkit-backdrop-filter: saturate(180%) blur(10px);
-    border-bottom: 1px solid hsl(var(--border));
-    padding-top: env(safe-area-inset-top);
-  }
-  .navbar-inner {
-    max-width: 1024px; margin: 0 auto;
-    padding: 14px 24px;
-    display: flex; align-items: center; gap: 16px;
-  }
-  .brand {
-    display: flex; align-items: center; gap: 10px;
-    font-weight: 600; font-size: 15px;
-    letter-spacing: -0.011em;
-  }
-  .brand-mark {
-    width: 28px; height: 28px;
-    border-radius: calc(var(--radius) - 2px);
-    background: hsl(var(--foreground));
-    color: hsl(var(--background));
-    display: grid; place-items: center;
-    font-size: 12px; font-weight: 700;
-    letter-spacing: -0.02em;
-  }
-  .brand-sub { color: hsl(var(--muted-foreground)); font-weight: 400; font-size: 13px; }
-  @media (max-width: 520px) { .brand-sub { display: none; } }
-
-  /* Tabs — shadcn underline tabs */
-  .tabs {
-    max-width: 1024px; margin: 0 auto;
-    display: flex; gap: 2px;
-    padding: 0 16px;
-    overflow-x: auto;
-    scrollbar-width: none;
-    border-top: 1px solid hsl(var(--border) / 0);
-  }
-  .tabs::-webkit-scrollbar { display: none; }
-  .tab {
-    appearance: none; background: transparent; border: 0;
-    padding: 0 14px;
-    font: inherit; font-size: 13.5px; font-weight: 500;
-    color: hsl(var(--muted-foreground));
-    cursor: pointer; white-space: nowrap;
-    border-bottom: 2px solid transparent;
-    display: inline-flex; align-items: center; gap: 7px;
-    height: 44px;
-    transition: color 0.15s, border-color 0.15s;
-  }
-  .tab .count {
-    background: hsl(var(--secondary));
-    color: hsl(var(--muted-foreground));
-    border-radius: 999px; padding: 1px 7px;
-    font-size: 11px; font-weight: 600;
-    line-height: 1.5;
-    min-width: 20px; text-align: center;
-  }
-  .tab:hover { color: hsl(var(--foreground)); }
-  .tab.active {
-    color: hsl(var(--foreground));
-    border-bottom-color: hsl(var(--foreground));
-  }
-  .tab.active .count {
-    background: hsl(var(--foreground));
-    color: hsl(var(--background));
-  }
-
-  /* Main */
-  main {
-    max-width: 1024px; margin: 0 auto; padding: 24px;
-    padding-left: max(24px, env(safe-area-inset-left));
-    padding-right: max(24px, env(safe-area-inset-right));
-  }
-  @media (max-width: 640px) { main { padding: 16px; } }
-
-  .panel-title {
-    font-size: 12px; font-weight: 600;
-    color: hsl(var(--muted-foreground));
-    text-transform: uppercase; letter-spacing: 0.08em;
-    margin: 4px 0 14px;
-  }
-
-  /* Exercise grid — shadcn cards */
-  .exercise-grid {
-    display: grid; gap: 12px;
-    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-    margin-bottom: 24px;
-  }
-  .ex-card {
-    background: hsl(var(--card));
-    color: hsl(var(--card-foreground));
-    border: 1px solid hsl(var(--border));
-    border-radius: var(--radius);
-    padding: 14px 16px 12px;
-    cursor: pointer; text-align: left;
-    transition: border-color 0.15s, box-shadow 0.15s, transform 0.05s;
-    display: flex; flex-direction: column; gap: 10px;
-    min-height: 96px;
-    font: inherit;
-  }
-  .ex-card:hover { border-color: hsl(var(--ring) / 0.5); box-shadow: var(--shadow-sm); }
-  .ex-card:active { transform: translateY(1px); }
-  .ex-card.active {
-    border-color: hsl(var(--foreground));
-    box-shadow: 0 0 0 3px hsl(var(--foreground) / 0.08);
-  }
-  .ex-card-text { font-size: 14.5px; font-weight: 500; line-height: 1.45; letter-spacing: -0.005em; }
-  .ex-card-meta {
-    display: flex; gap: 10px; align-items: center;
-    font-size: 12px; color: hsl(var(--muted-foreground));
-    margin-top: auto;
-    flex-wrap: wrap;
-  }
-  .difficulty { display: inline-flex; gap: 3px; align-items: center; }
-  .difficulty span {
-    width: 5px; height: 5px; border-radius: 50%;
-    background: hsl(var(--border));
-  }
-  .difficulty span.on { background: hsl(var(--foreground)); }
-  .focus-tag {
-    display: inline-flex; align-items: center;
-    background: hsl(var(--secondary));
-    color: hsl(var(--secondary-foreground));
-    padding: 2px 8px; border-radius: calc(var(--radius) - 2px);
-    font-size: 11px; font-weight: 500;
-    border: 1px solid hsl(var(--border));
-  }
-
-  /* Card — shadcn surface */
-  .card {
-    background: hsl(var(--card));
-    color: hsl(var(--card-foreground));
-    border: 1px solid hsl(var(--border));
-    border-radius: var(--radius);
-    padding: 20px;
-    margin-bottom: 16px;
-    box-shadow: var(--shadow-sm);
-  }
-  .row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
-
-  /* Buttons — shadcn variants */
-  button {
-    font: inherit; font-size: 14px; font-weight: 500;
-    padding: 0 16px; height: 40px;
-    border-radius: calc(var(--radius) - 2px);
-    border: 1px solid hsl(var(--border));
-    background: hsl(var(--background));
-    color: hsl(var(--foreground));
-    cursor: pointer;
-    transition: background-color 0.12s, color 0.12s, border-color 0.12s, opacity 0.12s;
-    display: inline-flex; align-items: center; justify-content: center; gap: 6px;
-    letter-spacing: -0.005em;
-  }
-  button:hover:not(:disabled) {
-    background: hsl(var(--accent));
-    color: hsl(var(--accent-foreground));
-  }
-  button.primary {
-    background: hsl(var(--primary));
-    color: hsl(var(--primary-foreground));
-    border-color: hsl(var(--primary));
-  }
-  button.primary:hover:not(:disabled) {
-    background: hsl(var(--primary) / 0.92);
-  }
-  button.secondary {
-    background: hsl(var(--secondary));
-    color: hsl(var(--secondary-foreground));
-    border-color: hsl(var(--border));
-  }
-  button.secondary:hover:not(:disabled) {
-    background: hsl(var(--secondary) / 0.85);
-  }
-  button.danger {
-    background: hsl(var(--destructive));
-    color: hsl(var(--destructive-foreground));
-    border-color: hsl(var(--destructive));
-  }
-  button.danger:hover:not(:disabled) {
-    background: hsl(var(--destructive) / 0.9);
-  }
-  button:disabled { opacity: 0.5; cursor: not-allowed; pointer-events: none; }
-
-  .target-display {
-    font-size: 20px; line-height: 1.7; letter-spacing: -0.011em;
-    margin: 0 0 8px;
-    padding: 18px 20px;
-    background: hsl(var(--background));
-    border: 1px solid hsl(var(--border));
-    border-radius: calc(var(--radius) - 2px);
-  }
-  @media (max-width: 600px) { .target-display { font-size: 18px; padding: 14px 16px; } }
-
-  .word { display: inline-block; position: relative; }
-  .word.has-clip { cursor: pointer; }
-  .word-listen {
-    display: inline-flex;
-    align-items: center; justify-content: center;
-    width: 18px; height: 18px;
-    margin-left: 3px;
-    border-radius: 999px;
-    background: hsl(var(--secondary));
-    color: hsl(var(--muted-foreground));
-    font-size: 9px;
-    cursor: pointer; user-select: none;
-    transition: all 0.15s;
-    vertical-align: 2px;
-    border: 1px solid hsl(var(--border));
-  }
-  .word-listen:hover {
-    background: hsl(var(--foreground));
-    color: hsl(var(--background));
-    border-color: hsl(var(--foreground));
-    transform: scale(1.08);
-  }
-  .word-listen.playing {
-    background: hsl(var(--success));
-    color: hsl(var(--primary-foreground));
-    border-color: hsl(var(--success));
-    animation: pulse 0.6s ease-in-out infinite;
-  }
-  .word.error {
-    padding: 1px 5px; border-radius: 4px;
-    cursor: pointer; font-weight: 500;
-    transition: background 0.15s;
-  }
-  .word.error.kelime {
-    background: hsl(var(--destructive) / 0.10);
-    color: hsl(var(--destructive));
-    box-shadow: inset 0 -2px 0 hsl(var(--destructive));
-  }
-  .word.error.kritik_unsuz {
-    background: hsl(var(--orange) / 0.12);
-    color: hsl(var(--orange));
-    box-shadow: inset 0 -2px 0 hsl(var(--orange));
-    text-decoration: underline; text-decoration-style: dotted; text-underline-offset: 4px;
-  }
-  .word.error.r_yutulmasi, .word.error.h_yutulmasi {
-    background: hsl(var(--warning) / 0.14);
-    color: hsl(var(--warning));
-    box-shadow: inset 0 -2px 0 hsl(var(--warning));
-    text-decoration: underline; text-decoration-style: dashed; text-underline-offset: 4px;
-  }
-  .word.error.vurgu_yeri {
-    background: hsl(var(--indigo) / 0.12);
-    color: hsl(var(--indigo));
-    box-shadow: inset 0 -2px 0 hsl(var(--indigo));
-  }
-
-  /* İlerleme paneli */
-  .progress-panel { display: grid; gap: 14px; }
-  .stat-grid {
-    display: grid; gap: 12px;
-    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-  }
-  .stat-card {
-    background: hsl(var(--card));
-    border: 1px solid hsl(var(--border));
-    border-radius: var(--radius);
-    padding: 16px;
-  }
-  .stat-label {
-    font-size: 12px; font-weight: 500;
-    color: hsl(var(--muted-foreground));
-  }
-  .stat-value {
-    font-size: 26px; font-weight: 700; letter-spacing: -0.025em;
-    color: hsl(var(--foreground));
-    margin-top: 6px;
-    font-variant-numeric: tabular-nums;
-  }
-  .stat-sub {
-    font-size: 11px; color: hsl(var(--muted-foreground));
-    margin-top: 4px;
-  }
-  .chart-card {
-    background: hsl(var(--card));
-    border: 1px solid hsl(var(--border));
-    border-radius: var(--radius);
-    padding: 18px;
-  }
-  .chart-title {
-    font-size: 11px; font-weight: 600;
-    color: hsl(var(--muted-foreground));
-    margin-bottom: 12px;
-    text-transform: uppercase; letter-spacing: 0.08em;
-  }
-  #score-chart { width: 100%; height: 180px; display: block; }
-  .issue-bar-row {
-    display: flex; align-items: center; gap: 12px;
-    margin: 8px 0; font-size: 13px;
-  }
-  .issue-bar-label {
-    flex: 0 0 140px;
-    color: hsl(var(--foreground));
-  }
-  .issue-bar-track {
-    flex: 1; height: 8px;
-    background: hsl(var(--secondary));
-    border-radius: 999px; overflow: hidden;
-  }
-  .issue-bar-fill {
-    height: 100%;
-    background: hsl(var(--foreground));
-    border-radius: 999px;
-    transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-  .issue-bar-count {
-    flex: 0 0 32px; text-align: right;
-    color: hsl(var(--muted-foreground));
-    font-size: 12px;
-    font-variant-numeric: tabular-nums;
-  }
-  .word-list { display: flex; flex-wrap: wrap; gap: 6px; }
-  .word-chip {
-    padding: 4px 10px;
-    background: hsl(var(--destructive) / 0.10);
-    color: hsl(var(--destructive));
-    border: 1px solid hsl(var(--destructive) / 0.20);
-    border-radius: 999px;
-    font-size: 12px; font-weight: 500;
-  }
-  .clear-btn {
-    font-size: 12px;
-    color: hsl(var(--muted-foreground));
-    background: transparent; border: 0;
-    cursor: pointer; padding: 6px 10px;
-    border-radius: calc(var(--radius) - 2px);
-  }
-  .clear-btn:hover { color: hsl(var(--destructive)); background: hsl(var(--destructive) / 0.08); }
-
-  /* Video sözlüğü */
-  .video-section {
-    background: hsl(var(--card));
-    border: 1px solid hsl(var(--border));
-    border-radius: var(--radius);
-    padding: 20px;
-    margin-bottom: 16px;
-  }
-  .video-header {
-    display: flex; align-items: flex-start; gap: 12px;
-    margin-bottom: 16px; flex-wrap: wrap;
-    padding-bottom: 12px;
-    border-bottom: 1px solid hsl(var(--border));
-  }
-  .video-header h3 {
-    margin: 0; font-size: 15px; font-weight: 600;
-    letter-spacing: -0.011em;
-    flex: 1; min-width: 200px;
-  }
-  .video-meta {
-    font-size: 12px; color: hsl(var(--muted-foreground));
-    margin-top: 4px;
-  }
-  .video-link {
-    font-size: 12px; font-weight: 500;
-    color: hsl(var(--muted-foreground));
-    text-decoration: none;
-    display: inline-flex; align-items: center; gap: 4px;
-    padding: 4px 10px;
-    border: 1px solid hsl(var(--border));
-    border-radius: calc(var(--radius) - 2px);
-    transition: background 0.12s;
-  }
-  .video-link:hover {
-    background: hsl(var(--accent));
-    color: hsl(var(--accent-foreground));
-  }
-  .word-card-grid {
-    display: grid; gap: 10px;
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-  }
-  .word-practice-card {
-    background: hsl(var(--background));
-    border: 1px solid hsl(var(--border));
-    border-radius: calc(var(--radius) - 2px);
-    padding: 12px;
-    transition: border-color 0.15s, box-shadow 0.15s;
-  }
-  .word-practice-card.expanded {
-    grid-column: 1 / -1;
-    background: hsl(var(--card));
-    border-color: hsl(var(--foreground));
-    box-shadow: 0 0 0 2px hsl(var(--foreground) / 0.08);
-  }
-  .wp-text {
-    font-size: 15px; font-weight: 600;
-    letter-spacing: -0.011em;
-    margin-bottom: 8px; word-break: break-word;
-    color: hsl(var(--foreground));
-  }
-  .wp-buttons { display: flex; gap: 6px; flex-wrap: wrap; }
-  .wp-btn {
-    flex: 1; min-width: 0;
-    font: inherit; font-size: 12px; font-weight: 500;
-    padding: 0 10px; height: 30px;
-    border: 1px solid hsl(var(--border));
-    border-radius: calc(var(--radius) - 4px);
-    background: hsl(var(--card));
-    color: hsl(var(--foreground));
-    cursor: pointer;
-    display: inline-flex; align-items: center; justify-content: center; gap: 4px;
-    transition: all 0.12s;
-  }
-  .wp-btn:hover:not(:disabled) {
-    background: hsl(var(--accent));
-    color: hsl(var(--accent-foreground));
-  }
-  .wp-btn.primary {
-    background: hsl(var(--primary));
-    color: hsl(var(--primary-foreground));
-    border-color: hsl(var(--primary));
-  }
-  .wp-btn.primary:hover:not(:disabled) {
-    background: hsl(var(--primary) / 0.92);
-  }
-  .wp-btn.recording {
-    background: hsl(var(--destructive));
-    color: hsl(var(--destructive-foreground));
-    border-color: hsl(var(--destructive));
-    animation: pulse 1s ease-in-out infinite;
-  }
-  .wp-btn.playing {
-    background: hsl(var(--success));
-    color: hsl(var(--primary-foreground));
-    border-color: hsl(var(--success));
-  }
-  .wp-btn:disabled { opacity: 0.5; cursor: not-allowed; }
-  .wp-result {
-    margin-top: 12px;
-    padding: 12px 14px;
-    background: hsl(var(--secondary) / 0.5);
-    border-radius: calc(var(--radius) - 2px);
-    font-size: 13px;
-    border: 1px solid hsl(var(--border));
-  }
-  .wp-result-header {
-    display: flex; align-items: center; gap: 10px;
-    margin-bottom: 10px; flex-wrap: wrap;
-  }
-  .wp-pill {
-    padding: 2px 10px; border-radius: 999px;
-    font-size: 11px; font-weight: 600;
-    background: hsl(var(--primary));
-    color: hsl(var(--primary-foreground));
-    letter-spacing: -0.005em;
-  }
-  .wp-pill.mukemmel { background: hsl(var(--success)); color: hsl(var(--primary-foreground)); }
-  .wp-pill.iyi { background: hsl(var(--info)); color: hsl(var(--primary-foreground)); }
-  .wp-pill.gelistirilebilir { background: hsl(var(--warning)); color: hsl(var(--primary-foreground)); }
-  .wp-pill.tekrar { background: hsl(var(--destructive)); color: hsl(var(--destructive-foreground)); }
-  .wp-issue {
-    background: hsl(var(--warning) / 0.10);
-    border: 1px solid hsl(var(--warning) / 0.25);
-    border-left-width: 3px;
-    border-left-color: hsl(var(--warning));
-    padding: 8px 12px; margin-top: 6px;
-    border-radius: calc(var(--radius) - 4px);
-    cursor: pointer;
-    transition: background 0.12s;
-    font-size: 12.5px;
-    color: hsl(var(--foreground));
-  }
-  .wp-issue:hover { background: hsl(var(--warning) / 0.16); }
-  .wp-issue.kritik_unsuz {
-    border-left-color: hsl(var(--orange));
-    background: hsl(var(--orange) / 0.10);
-    border-color: hsl(var(--orange) / 0.25);
-  }
-  .wp-issue.kelime {
-    border-left-color: hsl(var(--destructive));
-    background: hsl(var(--destructive) / 0.08);
-    border-color: hsl(var(--destructive) / 0.20);
-  }
-  .wp-issue.vurgu_yeri {
-    border-left-color: hsl(var(--indigo));
-    background: hsl(var(--indigo) / 0.08);
-    border-color: hsl(var(--indigo) / 0.20);
-  }
-  .wp-issue.dogallik {
-    border-left-color: hsl(var(--purple));
-    background: hsl(var(--purple) / 0.08);
-    border-color: hsl(var(--purple) / 0.20);
-  }
-  .wp-issue-detail {
-    margin-top: 8px; padding-top: 8px;
-    border-top: 1px dashed hsl(var(--border));
-    opacity: 0.85; font-size: 12px;
-    line-height: 1.55;
-  }
-  .wp-context {
-    font-size: 12px;
-    color: hsl(var(--muted-foreground));
-    margin-top: 10px; font-style: italic;
-    padding-left: 10px;
-    border-left: 2px solid hsl(var(--border));
-  }
-  .wp-replay { display: flex; gap: 6px; margin-top: 8px; flex-wrap: wrap; }
-  .wp-replay button {
-    font: inherit; font-size: 12px;
-    padding: 0 10px; height: 28px;
-    border: 1px solid hsl(var(--border));
-    border-radius: calc(var(--radius) - 4px);
-    background: hsl(var(--card));
-    cursor: pointer;
-    display: inline-flex; align-items: center; gap: 4px;
-  }
-  .wp-replay button:hover {
-    background: hsl(var(--accent));
-    color: hsl(var(--accent-foreground));
-  }
-  .word.error:hover { filter: brightness(0.96); }
-  .word.error.active { outline: 2px solid currentColor; outline-offset: 2px; border-radius: 4px; }
-  .legend {
-    font-size: 12px;
-    color: hsl(var(--muted-foreground));
-    margin-top: 12px;
-    padding-top: 12px;
-    border-top: 1px solid hsl(var(--border));
-  }
-  .legend-item { display: inline-flex; align-items: center; margin-right: 14px; }
-  .legend-swatch {
-    display: inline-block;
-    width: 10px; height: 10px;
-    border-radius: 2px;
-    margin-right: 6px;
-  }
-
-  /* Tooltip — shadcn popover */
-  .tooltip {
-    position: absolute;
-    background: hsl(var(--popover));
-    color: hsl(var(--popover-foreground));
-    padding: 10px 14px;
-    border-radius: calc(var(--radius) - 2px);
-    font-size: 13px; line-height: 1.5;
-    max-width: 320px;
-    box-shadow: var(--shadow-lg);
-    z-index: 1000;
-    pointer-events: none;
-    border: 1px solid hsl(var(--border));
-  }
-  .tooltip::before {
-    content: ''; position: absolute;
-    top: -5px; left: 16px;
-    width: 9px; height: 9px;
-    background: hsl(var(--popover));
-    border-top: 1px solid hsl(var(--border));
-    border-left: 1px solid hsl(var(--border));
-    transform: rotate(45deg);
-  }
-  .tooltip b { color: inherit; }
-
-  /* Verdict */
-  .verdict {
-    font-size: 18px; font-weight: 600;
-    letter-spacing: -0.014em;
-    display: flex; align-items: center; gap: 10px;
-    margin-bottom: 10px;
-  }
-  .verdict.mukemmel { color: hsl(var(--success)); }
-  .verdict.iyi { color: hsl(var(--info)); }
-  .verdict.gelistirilebilir { color: hsl(var(--warning)); }
-  .verdict.tekrar { color: hsl(var(--destructive)); }
-  .score-pill {
-    background: hsl(var(--foreground));
-    color: hsl(var(--background));
-    padding: 2px 10px; border-radius: 999px;
-    font-size: 12px; font-weight: 600;
-    font-variant-numeric: tabular-nums;
-    letter-spacing: -0.005em;
-  }
-  .small { font-size: 12.5px; color: hsl(var(--muted-foreground)); }
-  .meta-row {
-    display: grid;
-    grid-template-columns: max-content 1fr;
-    gap: 6px 14px;
-    font-size: 13px;
-    color: hsl(var(--muted-foreground));
-    margin-top: 14px;
-    padding-top: 14px;
-    border-top: 1px solid hsl(var(--border));
-  }
-  .meta-row b { color: hsl(var(--foreground)); font-weight: 500; }
-  audio {
-    width: 100%; margin-top: 10px;
-    border-radius: calc(var(--radius) - 2px);
-  }
-  #status {
-    color: hsl(var(--muted-foreground));
-    margin: 0; min-height: 1.4em;
-    font-size: 13px;
-  }
-  details {
-    margin-top: 14px;
-    border-top: 1px solid hsl(var(--border));
-    padding-top: 12px;
-  }
-  details summary {
-    cursor: pointer;
-    color: hsl(var(--muted-foreground));
-    font-size: 12px; font-weight: 500;
-    list-style: none;
-  }
-  details summary::before {
-    content: '›'; display: inline-block;
-    margin-right: 6px; transition: transform 0.15s;
-  }
-  details[open] summary::before { transform: rotate(90deg); }
-  pre {
-    background: hsl(var(--secondary));
-    padding: 12px;
-    border-radius: calc(var(--radius) - 2px);
-    overflow-x: auto;
-    font-size: 11.5px;
-    font-family: ui-monospace, "SF Mono", "Cascadia Mono", monospace;
-    line-height: 1.5;
-    color: hsl(var(--secondary-foreground));
-  }
-
-  /* Empty / placeholder */
-  .empty {
-    border: 1px dashed hsl(var(--border));
-    border-radius: var(--radius);
-    padding: 32px 16px; text-align: center;
-    color: hsl(var(--muted-foreground));
-    font-size: 13px;
-    background: hsl(var(--background));
-  }
-  .placeholder {
-    border: 1px dashed hsl(var(--border));
-    border-radius: var(--radius);
-    padding: 36px 20px; text-align: center;
-    color: hsl(var(--muted-foreground));
-    background: hsl(var(--card));
-  }
-  .placeholder-title {
-    font-size: 14px; font-weight: 600;
-    color: hsl(var(--foreground));
-    margin-bottom: 6px;
-    letter-spacing: -0.011em;
-  }
-
-  /* Recording indicator */
-  .recording-dot {
-    display: inline-block;
-    width: 8px; height: 8px;
-    border-radius: 999px;
-    background: hsl(var(--destructive));
-    margin-right: 7px;
-    box-shadow: 0 0 0 0 hsl(var(--destructive) / 0.6);
-    animation: pulse-ring 1.4s ease-out infinite;
-  }
-  @keyframes pulse {
-    0%, 100% { opacity: 1; transform: scale(1); }
-    50% { opacity: 0.7; transform: scale(0.92); }
-  }
-  @keyframes pulse-ring {
-    0% { box-shadow: 0 0 0 0 hsl(var(--destructive) / 0.5); }
-    70% { box-shadow: 0 0 0 6px hsl(var(--destructive) / 0); }
-    100% { box-shadow: 0 0 0 0 hsl(var(--destructive) / 0); }
-  }
-</style>
-<!-- ============================================================
-     Dashboard SaaS UI — Override layer (Skillzone-inspired)
-     - Sabit koyu sol kenar çubuğu, dikey navigasyon
-     - Yumuşak sıcak arka plan, beyaz kartlar
-     - Yükseltilmiş "course card" tarzı alıştırma kutuları
-     - Inter typography, ferah boşluklar, yuvarlak köşeler
-     ============================================================ -->
-<style>
-  :root, :root * {
-    --background: 0 0% 100%;
-    --foreground: 0 0% 9%;
-    --card: 0 0% 100%;
-    --card-foreground: 0 0% 9%;
-    --popover: 0 0% 9%;
-    --popover-foreground: 0 0% 98%;
-    --primary: 0 0% 9%;
-    --primary-foreground: 0 0% 98%;
-    --secondary: 0 0% 96%;
-    --secondary-foreground: 0 0% 9%;
-    --muted: 0 0% 96%;
-    --muted-foreground: 0 0% 42%;
-    --accent: 0 0% 96%;
-    --accent-foreground: 0 0% 9%;
-    --destructive: 0 72% 51%;
-    --destructive-foreground: 0 0% 98%;
-    --success: 142 65% 32%;
-    --warning: 35 90% 42%;
-    --info: 217 91% 45%;
-    --indigo: 234 75% 55%;
-    --orange: 25 90% 48%;
-    --purple: 263 65% 50%;
-    --border: 0 0% 92%;
-    --input: 0 0% 92%;
-    --ring: 0 0% 9%;
-    --radius: 0.75rem;
-
-    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.04);
-    --shadow-md: 0 2px 6px -1px rgb(0 0 0 / 0.06);
-    --shadow-lg: 0 12px 32px -12px rgb(0 0 0 / 0.18);
-
-    /* Dashboard shell renkleri */
-    --app-bg: #f4f1ec;
-    --sidebar-bg: #0a0a0b;
-    --sidebar-fg: #ededee;
-    --sidebar-muted: #8e8e92;
-    --sidebar-active-bg: #1c1c1e;
-    --sidebar-border: #18181a;
-  }
-
-  @media (prefers-color-scheme: dark) {
-    :root, :root * {
-      --background: 0 0% 8%;
-      --foreground: 0 0% 95%;
-      --card: 0 0% 11%;
-      --card-foreground: 0 0% 95%;
-      --popover: 0 0% 95%;
-      --popover-foreground: 0 0% 9%;
-      --primary: 0 0% 95%;
-      --primary-foreground: 0 0% 9%;
-      --secondary: 0 0% 16%;
-      --secondary-foreground: 0 0% 95%;
-      --muted: 0 0% 16%;
-      --muted-foreground: 0 0% 60%;
-      --accent: 0 0% 16%;
-      --accent-foreground: 0 0% 95%;
-      --destructive: 0 65% 55%;
-      --destructive-foreground: 0 0% 95%;
-      --success: 142 60% 45%;
-      --warning: 35 85% 55%;
-      --info: 217 85% 60%;
-      --indigo: 234 75% 65%;
-      --orange: 25 90% 60%;
-      --purple: 263 70% 65%;
-      --border: 0 0% 18%;
-      --input: 0 0% 18%;
-      --ring: 0 0% 80%;
-      --app-bg: #0a0a0b;
-    }
-  }
-
-  /* ================================================
-     APP SHELL — sidebar + main grid layout
-     ================================================ */
-  html, body { height: auto !important; }
-  body {
-    font-family: 'Inter', system-ui, -apple-system, "Segoe UI", sans-serif !important;
-    font-feature-settings: "cv11", "ss01" !important;
-    background: var(--app-bg) !important;
-    color: hsl(var(--foreground)) !important;
-    margin: 0 !important;
-    padding-bottom: 0 !important;
-    min-height: 100vh;
-  }
-
-  @media (min-width: 900px) {
-    body {
-      display: grid !important;
-      grid-template-columns: 240px 1fr !important;
-      align-items: stretch !important;
-    }
-  }
-
-  /* ================================================
-     SIDEBAR (was top navbar)
-     ================================================ */
-  .navbar {
-    position: sticky !important;
-    top: 0 !important;
-    background: var(--sidebar-bg) !important;
-    border-bottom: 0 !important;
-    border-right: 1px solid var(--sidebar-border) !important;
-    backdrop-filter: none !important;
-    -webkit-backdrop-filter: none !important;
-    padding-top: 0 !important;
-    z-index: 100;
-  }
-
-  @media (min-width: 900px) {
-    .navbar {
-      height: 100vh !important;
-      display: flex !important;
-      flex-direction: column !important;
-      width: 240px !important;
-    }
-  }
-
-  .navbar-inner {
-    max-width: none !important;
-    padding: 22px 16px 14px !important;
-    display: flex !important;
-    align-items: center !important;
-    gap: 10px !important;
-  }
-  @media (min-width: 900px) {
-    .navbar-inner {
-      flex: 0 0 auto;
-      padding: 24px 22px 16px !important;
-    }
-  }
-
-  .brand {
-    color: var(--sidebar-fg) !important;
-    font-size: 15px !important;
-    font-weight: 600 !important;
-    letter-spacing: -0.011em !important;
-  }
-  .brand > div { color: var(--sidebar-fg) !important; }
-  .brand-sub {
-    color: var(--sidebar-muted) !important;
-    font-weight: 400 !important;
-  }
-  .brand-mark {
-    background: var(--sidebar-fg) !important;
-    color: var(--sidebar-bg) !important;
-    width: 30px !important; height: 30px !important;
-    border-radius: 8px !important;
-    box-shadow: none !important;
-    font-weight: 700 !important;
-    font-size: 12px !important;
-  }
-
-  /* Tabs as vertical sidebar nav (≥900px) */
-  @media (min-width: 900px) {
-    .tabs {
-      flex-direction: column !important;
-      align-items: stretch !important;
-      max-width: none !important;
-      padding: 6px 12px 24px !important;
-      gap: 2px !important;
-      overflow-y: auto;
-      flex: 1 1 auto;
-      border-top: 0 !important;
-    }
-    .tab {
-      width: 100% !important;
-      height: 40px !important;
-      padding: 0 12px !important;
-      border-radius: 8px !important;
-      border-bottom: 0 !important;
-      color: var(--sidebar-muted) !important;
-      background: transparent !important;
-      justify-content: flex-start !important;
-      font-size: 13.5px !important;
-      font-weight: 500 !important;
-      gap: 10px !important;
-      transition: background 0.12s, color 0.12s !important;
-    }
-    .tab:hover {
-      color: var(--sidebar-fg) !important;
-      background: rgba(255,255,255,0.05) !important;
-    }
-    .tab.active {
-      color: var(--sidebar-fg) !important;
-      background: var(--sidebar-active-bg) !important;
-      border-bottom: 0 !important;
-      font-weight: 600 !important;
-    }
-    .tab .count {
-      margin-left: auto !important;
-      background: rgba(255,255,255,0.08) !important;
-      color: var(--sidebar-muted) !important;
-      font-size: 11px !important;
-      font-weight: 600 !important;
-      padding: 2px 8px !important;
-      border-radius: 999px !important;
-    }
-    .tab.active .count {
-      background: var(--sidebar-fg) !important;
-      color: var(--sidebar-bg) !important;
-    }
-  }
-
-  /* Mobile fallback — yatay kaydırılabilir tab şeridi */
-  @media (max-width: 899px) {
-    .tabs {
-      max-width: none !important;
-      padding: 0 16px !important;
-      border-top: 1px solid var(--sidebar-border) !important;
-      gap: 4px !important;
-    }
-    .tab {
-      height: 44px !important;
-      padding: 0 12px !important;
-      border-bottom: 2px solid transparent !important;
-      border-radius: 0 !important;
-      color: var(--sidebar-muted) !important;
-      background: transparent !important;
-      font-size: 13px !important;
-      font-weight: 500 !important;
-    }
-    .tab:hover { color: var(--sidebar-fg) !important; }
-    .tab.active {
-      color: var(--sidebar-fg) !important;
-      border-bottom-color: var(--sidebar-fg) !important;
-      font-weight: 600 !important;
-    }
-    .tab .count {
-      background: rgba(255,255,255,0.08) !important;
-      color: var(--sidebar-muted) !important;
-      font-size: 11px !important;
-      font-weight: 600 !important;
-      padding: 2px 7px !important;
-      border-radius: 999px !important;
-    }
-    .tab.active .count {
-      background: var(--sidebar-fg) !important;
-      color: var(--sidebar-bg) !important;
-    }
-  }
-
-  /* ================================================
-     MAIN content area
-     ================================================ */
-  main {
-    max-width: none !important;
-    padding: 32px 40px 64px !important;
-  }
-  @media (max-width: 1100px) {
-    main { padding: 28px 28px 56px !important; }
-  }
-  @media (max-width: 640px) {
-    main { padding: 20px 16px 56px !important; }
-  }
-
-  .panel-title {
-    font-family: 'Inter', sans-serif !important;
-    font-size: 22px !important;
-    font-weight: 600 !important;
-    color: hsl(var(--foreground)) !important;
-    text-transform: none !important;
-    letter-spacing: -0.022em !important;
-    margin: 0 0 20px !important;
-  }
-
-  /* ================================================
-     Exercise grid — kurs kartı tarzı kutular
-     ================================================ */
-  .exercise-grid {
-    display: grid !important;
-    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)) !important;
-    gap: 14px !important;
-    grid-auto-rows: auto !important;
-    align-items: start !important;
-    margin-bottom: 24px !important;
-  }
-  .ex-card,
-  .ex-card[data-id],
-  .ex-card[data-id*="kelime"],
-  .ex-card[data-id*="cumle"],
-  .ex-card[data-id*="cümle"],
-  .ex-card[data-id*="paragraf"],
-  .ex-card[data-id*="tekerleme"],
-  .ex-card[data-id*="kelime-yt"],
-  .ex-card[data-id*="tekerleme-"] {
-    grid-column: span 1 !important;
-    grid-row: span 1 !important;
-    background: hsl(var(--card)) !important;
-    border: 1px solid hsl(var(--border)) !important;
-    border-radius: 14px !important;
-    padding: 16px 16px 14px !important;
-    box-shadow: 0 1px 2px rgba(0,0,0,0.03) !important;
-    min-height: 156px !important;
-    height: auto !important;
-    max-height: none !important;
-    position: relative !important;
-    transform: none !important;
-    overflow: hidden !important;
-    word-wrap: break-word !important;
-    overflow-wrap: anywhere !important;
-    display: flex !important;
-    flex-direction: column !important;
-    gap: 12px !important;
-    transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease !important;
-  }
-  .ex-card::after { display: none !important; }
-  .ex-card:hover {
-    transform: translateY(-2px) !important;
-    border-color: #d4d4d8 !important;
-    box-shadow: 0 8px 24px -8px rgba(0,0,0,0.10) !important;
-  }
-  .ex-card.active {
-    border-color: hsl(var(--foreground)) !important;
-    box-shadow: 0 0 0 2px hsl(var(--foreground) / 0.10), 0 4px 12px -4px rgba(0,0,0,0.10) !important;
-  }
-  .ex-card-text {
-    font-family: 'Inter', sans-serif !important;
-    font-size: 15px !important;
-    font-weight: 600 !important;
-    line-height: 1.4 !important;
-    letter-spacing: -0.011em !important;
-    color: hsl(var(--foreground)) !important;
-    overflow: hidden !important;
-    word-wrap: break-word !important;
-    overflow-wrap: anywhere !important;
-    display: -webkit-box !important;
-    -webkit-line-clamp: 4 !important;
-    -webkit-box-orient: vertical !important;
-    flex: 1 1 auto;
-  }
-  .ex-card-meta {
-    margin-top: auto !important;
-    display: flex !important;
-    align-items: center !important;
-    gap: 8px !important;
-    flex-wrap: wrap !important;
-    font-size: 12px !important;
-  }
-  .focus-tag {
-    display: inline-flex !important;
-    align-items: center !important;
-    background: hsl(var(--secondary)) !important;
-    color: hsl(var(--muted-foreground)) !important;
-    border: 0 !important;
-    border-radius: 999px !important;
-    padding: 3px 10px !important;
-    font-size: 11px !important;
-    font-weight: 500 !important;
-    letter-spacing: 0 !important;
-    white-space: nowrap !important;
-  }
-  .difficulty {
-    display: inline-flex !important;
-    gap: 3px !important;
-    align-items: center !important;
-  }
-  .difficulty span {
-    width: 5px !important; height: 5px !important;
-    border-radius: 50% !important;
-    background: #d4d4d8 !important;
-  }
-  .difficulty span.on { background: hsl(var(--foreground)) !important; }
-
-  /* ================================================
-     Recorder card
-     ================================================ */
-  .card {
-    background: hsl(var(--card)) !important;
-    border: 1px solid hsl(var(--border)) !important;
-    border-radius: 16px !important;
-    padding: 22px !important;
-    box-shadow: 0 1px 2px rgba(0,0,0,0.03) !important;
-    margin-bottom: 16px !important;
-  }
-  #recorder .row {
-    display: flex !important;
-    gap: 8px !important;
-    flex-wrap: wrap !important;
-    align-items: center !important;
-    margin-top: 14px !important;
-  }
-  #recorder .row button {
-    flex: 0 0 auto !important;
-    white-space: nowrap !important;
-  }
-  @media (max-width: 480px) {
-    #recorder .row button { flex: 1 1 auto !important; }
-  }
-  .target-display {
-    font-family: 'Inter', sans-serif !important;
-    font-size: 19px !important;
-    line-height: 1.65 !important;
-    font-weight: 400 !important;
-    letter-spacing: -0.011em !important;
-    padding: 18px 20px !important;
-    background: hsl(var(--secondary) / 0.45) !important;
-    border: 1px solid hsl(var(--border)) !important;
-    border-radius: 12px !important;
-  }
-  @media (max-width: 600px) {
-    .target-display { font-size: 17px !important; padding: 14px 16px !important; }
-  }
-
-  /* ================================================
-     Buttons — clean modern
-     ================================================ */
-  button {
-    height: 40px !important;
-    padding: 0 16px !important;
-    border-radius: 10px !important;
-    font-family: 'Inter', sans-serif !important;
-    font-size: 13.5px !important;
-    font-weight: 500 !important;
-    letter-spacing: -0.005em !important;
-    background: hsl(var(--card)) !important;
-    color: hsl(var(--foreground)) !important;
-    border: 1px solid hsl(var(--border)) !important;
-    transition: background 0.12s, color 0.12s, border-color 0.12s, box-shadow 0.12s !important;
-    box-shadow: none !important;
-  }
-  button:hover:not(:disabled) {
-    background: hsl(var(--secondary)) !important;
-    border-color: #d4d4d8 !important;
-    transform: none !important;
-    box-shadow: none !important;
-  }
-  button.primary {
-    background: hsl(var(--foreground)) !important;
-    color: hsl(var(--background)) !important;
-    border-color: hsl(var(--foreground)) !important;
-  }
-  button.primary:hover:not(:disabled) {
-    background: hsl(var(--foreground) / 0.88) !important;
-    border-color: hsl(var(--foreground) / 0.88) !important;
-    box-shadow: 0 2px 8px -2px rgba(0,0,0,0.12) !important;
-  }
-  button.danger {
-    background: hsl(var(--destructive)) !important;
-    color: white !important;
-    border-color: hsl(var(--destructive)) !important;
-  }
-  button.danger:hover:not(:disabled) {
-    background: hsl(var(--destructive) / 0.9) !important;
-    box-shadow: 0 2px 8px -2px rgba(220,38,38,0.20) !important;
-  }
-  button.secondary {
-    background: hsl(var(--card)) !important;
-    border: 1px solid hsl(var(--border)) !important;
-  }
-
-  /* Word error markers — minimal underline */
-  .word.error.kelime {
-    background: transparent !important;
-    color: hsl(var(--destructive)) !important;
-    box-shadow: inset 0 -2px 0 hsl(var(--destructive)) !important;
-  }
-  .word.error.kritik_unsuz {
-    background: transparent !important;
-    color: hsl(var(--orange)) !important;
-    box-shadow: inset 0 -2px 0 hsl(var(--orange)) !important;
-  }
-  .word.error.r_yutulmasi, .word.error.h_yutulmasi {
-    background: transparent !important;
-    color: hsl(var(--warning)) !important;
-    box-shadow: inset 0 -2px 0 hsl(var(--warning)) !important;
-  }
-  .word.error.vurgu_yeri {
-    background: transparent !important;
-    color: hsl(var(--indigo)) !important;
-    box-shadow: inset 0 -2px 0 hsl(var(--indigo)) !important;
-  }
-  .word-listen {
-    width: 18px !important; height: 18px !important;
-    background: hsl(var(--secondary)) !important;
-    border: 1px solid hsl(var(--border)) !important;
-    color: hsl(var(--muted-foreground)) !important;
-    box-shadow: none !important;
-  }
-  .word-listen:hover {
-    background: hsl(var(--foreground)) !important;
-    color: hsl(var(--background)) !important;
-    border-color: hsl(var(--foreground)) !important;
-    transform: none !important;
-  }
-  .word-listen.playing {
-    background: hsl(var(--success)) !important;
-    color: white !important;
-    border-color: hsl(var(--success)) !important;
-  }
-
-  /* ================================================
-     Progress / charts panel
-     ================================================ */
-  .progress-panel {
-    display: grid !important;
-    grid-template-columns: 1fr !important;
-    gap: 14px !important;
-  }
-  .progress-panel > .stat-grid {
-    grid-column: auto !important;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)) !important;
-    gap: 12px !important;
-  }
-  .progress-panel > .chart-card { grid-column: auto !important; }
-  .stat-card {
-    background: hsl(var(--card)) !important;
-    border: 1px solid hsl(var(--border)) !important;
-    border-radius: 14px !important;
-    padding: 18px !important;
-    box-shadow: 0 1px 2px rgba(0,0,0,0.03) !important;
-    overflow: hidden;
-    position: relative;
-  }
-  .stat-card::before { display: none !important; }
-  .stat-label {
-    font-size: 11px !important;
-    font-weight: 600 !important;
-    color: hsl(var(--muted-foreground)) !important;
-    text-transform: uppercase !important;
-    letter-spacing: 0.06em !important;
-  }
-  .stat-value {
-    font-family: 'Inter', sans-serif !important;
-    font-size: 28px !important;
-    font-weight: 700 !important;
-    letter-spacing: -0.025em !important;
-    color: hsl(var(--foreground)) !important;
-    margin-top: 6px !important;
-    font-variant-numeric: tabular-nums !important;
-  }
-  .chart-card {
-    background: hsl(var(--card)) !important;
-    border: 1px solid hsl(var(--border)) !important;
-    border-radius: 14px !important;
-    padding: 20px !important;
-    box-shadow: 0 1px 2px rgba(0,0,0,0.03) !important;
-  }
-  .chart-title {
-    font-family: 'Inter', sans-serif !important;
-    font-size: 13px !important;
-    font-weight: 600 !important;
-    color: hsl(var(--foreground)) !important;
-    text-transform: none !important;
-    letter-spacing: -0.005em !important;
-    margin-bottom: 14px !important;
-  }
-  .issue-bar-fill { background: hsl(var(--foreground)) !important; }
-  .word-chip {
-    background: hsl(var(--secondary)) !important;
-    color: hsl(var(--foreground)) !important;
-    border: 1px solid hsl(var(--border)) !important;
-    font-family: 'Inter', sans-serif !important;
-    font-weight: 500 !important;
-    font-size: 12px !important;
-  }
-
-  /* ================================================
-     Video sözlüğü
-     ================================================ */
-  .video-section {
-    background: hsl(var(--card)) !important;
-    border: 1px solid hsl(var(--border)) !important;
-    border-radius: 16px !important;
-    padding: 22px !important;
-    box-shadow: 0 1px 2px rgba(0,0,0,0.03) !important;
-    margin-bottom: 14px !important;
-  }
-  .video-header {
-    padding-bottom: 14px !important;
-    margin-bottom: 14px !important;
-    border-bottom: 1px solid hsl(var(--border)) !important;
-  }
-  .video-header h3 {
-    font-family: 'Inter', sans-serif !important;
-    font-size: 16px !important;
-    font-weight: 600 !important;
-    letter-spacing: -0.014em !important;
-  }
-  .video-link {
-    background: hsl(var(--card)) !important;
-    border: 1px solid hsl(var(--border)) !important;
-    border-radius: 999px !important;
-    padding: 5px 12px !important;
-    font-weight: 500 !important;
-    color: hsl(var(--muted-foreground)) !important;
-  }
-  .video-link:hover {
-    background: hsl(var(--secondary)) !important;
-    color: hsl(var(--foreground)) !important;
-  }
-
-  /* Word practice cards */
-  .word-practice-card {
-    background: hsl(var(--card)) !important;
-    border: 1px solid hsl(var(--border)) !important;
-    border-radius: 12px !important;
-    padding: 14px !important;
-    box-shadow: none !important;
-    transition: border-color 0.15s, box-shadow 0.15s !important;
-  }
-  .word-practice-card:hover {
-    border-color: #d4d4d8 !important;
-    transform: none !important;
-    box-shadow: 0 2px 8px -2px rgba(0,0,0,0.06) !important;
-  }
-  .word-practice-card.expanded {
-    border-color: hsl(var(--foreground)) !important;
-    box-shadow: 0 0 0 2px hsl(var(--foreground) / 0.08), 0 4px 12px -4px rgba(0,0,0,0.10) !important;
-  }
-  .wp-text {
-    font-family: 'Inter', sans-serif !important;
-    font-size: 15px !important;
-    font-weight: 600 !important;
-    letter-spacing: -0.011em !important;
-  }
-  .wp-btn {
-    height: 32px !important;
-    border-radius: 8px !important;
-    font-size: 12px !important;
-    font-weight: 500 !important;
-  }
-  .wp-btn.primary {
-    background: hsl(var(--foreground)) !important;
-    color: hsl(var(--background)) !important;
-    border-color: hsl(var(--foreground)) !important;
-  }
-  .wp-btn.recording {
-    background: hsl(var(--destructive)) !important;
-    color: white !important;
-    border-color: hsl(var(--destructive)) !important;
-  }
-  .wp-btn.playing {
-    background: hsl(var(--success)) !important;
-    color: white !important;
-    border-color: hsl(var(--success)) !important;
-  }
-  .wp-pill {
-    font-family: 'Inter', sans-serif !important;
-    font-weight: 600 !important;
-    font-size: 11px !important;
-    background: hsl(var(--foreground)) !important;
-    color: hsl(var(--background)) !important;
-    padding: 3px 10px !important;
-    border-radius: 999px !important;
-  }
-  .wp-pill.mukemmel { background: hsl(var(--success)) !important; color: white !important; }
-  .wp-pill.iyi { background: hsl(var(--info)) !important; color: white !important; }
-  .wp-pill.gelistirilebilir { background: hsl(var(--warning)) !important; color: white !important; }
-  .wp-pill.tekrar { background: hsl(var(--destructive)) !important; color: white !important; }
-
-  /* Verdict */
-  .verdict {
-    font-family: 'Inter', sans-serif !important;
-    font-size: 18px !important;
-    font-weight: 600 !important;
-    letter-spacing: -0.018em !important;
-  }
-  .score-pill {
-    font-family: 'Inter', sans-serif !important;
-    font-weight: 600 !important;
-    font-size: 12px !important;
-    background: hsl(var(--foreground)) !important;
-    color: hsl(var(--background)) !important;
-    padding: 3px 11px !important;
-    border-radius: 999px !important;
-    font-variant-numeric: tabular-nums !important;
-  }
-
-  /* Empty / placeholder */
-  .empty, .placeholder {
-    border: 1px dashed hsl(var(--border)) !important;
-    border-radius: 14px !important;
-    background: transparent !important;
-    color: hsl(var(--muted-foreground)) !important;
-  }
-  .placeholder-title {
-    font-family: 'Inter', sans-serif !important;
-    font-size: 14px !important;
-    font-weight: 600 !important;
-    color: hsl(var(--foreground)) !important;
-    letter-spacing: -0.011em !important;
-  }
-
-  /* Tooltip */
-  .tooltip {
-    background: hsl(var(--popover)) !important;
-    color: hsl(var(--popover-foreground)) !important;
-    border: 1px solid hsl(var(--border)) !important;
-    border-radius: 10px !important;
-    box-shadow: var(--shadow-lg) !important;
-    font-size: 13px !important;
-  }
-  .tooltip::before {
-    background: hsl(var(--popover)) !important;
-    border: 1px solid hsl(var(--border)) !important;
-  }
-  .tooltip b { color: inherit !important; }
-
-  .recording-dot { background: hsl(var(--destructive)) !important; }
-
-  /* wp-issue cards */
-  .wp-issue {
-    background: hsl(var(--secondary) / 0.6) !important;
-    border: 1px solid hsl(var(--border)) !important;
-    border-left: 3px solid hsl(var(--foreground)) !important;
-    border-radius: 8px !important;
-    color: hsl(var(--foreground)) !important;
-  }
-  .wp-issue:hover { background: hsl(var(--secondary)) !important; }
-  .wp-issue.kelime { border-left-color: hsl(var(--destructive)) !important; }
-  .wp-issue.kritik_unsuz { border-left-color: hsl(var(--orange)) !important; }
-  .wp-issue.r_yutulmasi, .wp-issue.h_yutulmasi { border-left-color: hsl(var(--warning)) !important; }
-  .wp-issue.vurgu_yeri { border-left-color: hsl(var(--indigo)) !important; }
-  .wp-issue.dogallik { border-left-color: hsl(var(--purple)) !important; }
+  html { -webkit-tap-highlight-color: transparent; }
+  body { font-family: 'Inter', system-ui, sans-serif; font-feature-settings: "cv11", "ss01"; }
+  *:focus-visible { outline: 2px solid #18181b; outline-offset: 2px; border-radius: 6px; }
+  /* Custom scrollbar (sidebar) */
+  .scroll-thin::-webkit-scrollbar { width: 6px; }
+  .scroll-thin::-webkit-scrollbar-track { background: transparent; }
+  .scroll-thin::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.08); border-radius: 999px; }
+  /* Pulse for recording */
+  @keyframes pulseRing {
+    0% { box-shadow: 0 0 0 0 rgba(244,63,94,0.5); }
+    70% { box-shadow: 0 0 0 8px rgba(244,63,94,0); }
+    100% { box-shadow: 0 0 0 0 rgba(244,63,94,0); }
+  }
+  .recording-ring { animation: pulseRing 1.4s ease-out infinite; }
+  /* Word error markers */
+  .word-err {
+    padding: 1px 4px; border-radius: 4px; cursor: pointer;
+    transition: background 0.15s, transform 0.05s;
+  }
+  .word-err:hover { transform: translateY(-1px); }
+  .word-err.kelime { color: #e11d48; box-shadow: inset 0 -2px 0 #e11d48; }
+  .word-err.kritik_unsuz { color: #c2410c; box-shadow: inset 0 -2px 0 #c2410c; }
+  .word-err.r_yutulmasi, .word-err.h_yutulmasi { color: #b45309; box-shadow: inset 0 -2px 0 #b45309; }
+  .word-err.vurgu_yeri { color: #4f46e5; box-shadow: inset 0 -2px 0 #4f46e5; }
+  /* Listen-on-word inline button */
+  .word-listen-btn {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 16px; height: 16px; margin-left: 2px;
+    border-radius: 999px; background: #f4f4f5; color: #71717a;
+    font-size: 8px; cursor: pointer; user-select: none;
+    border: 1px solid #e4e4e7; transition: all 0.15s; vertical-align: 2px;
+  }
+  .word-listen-btn:hover { background: #18181b; color: white; border-color: #18181b; }
+  .word-listen-btn.playing { background: #10b981; color: white; border-color: #10b981; }
+  /* Toast */
+  .toast-enter { animation: slideUp 0.2s ease-out; }
+  @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 </style>
 </head>
-<body>
 
-<header class="navbar">
-  <div class="navbar-inner">
-    <div class="brand">
-      <div class="brand-mark">İT</div>
+<body class="bg-stone-100 text-zinc-900 antialiased">
+
+<div class="lg:grid lg:grid-cols-[240px_1fr] min-h-screen">
+
+  <!-- SIDEBAR -->
+  <aside class="bg-zinc-950 text-zinc-100 lg:sticky lg:top-0 lg:h-screen flex flex-col z-50">
+    <header class="p-5 lg:p-6 flex items-center gap-3 border-b border-zinc-800">
+      <div class="w-9 h-9 rounded-lg bg-white text-zinc-950 flex items-center justify-center font-bold text-sm tracking-tight">İT</div>
+      <div class="leading-tight">
+        <div class="font-semibold text-[15px] tracking-tight">İstanbul Türkçesi</div>
+        <div class="text-[12px] text-zinc-500 font-normal">Diksiyon eğitmeni</div>
+      </div>
+    </header>
+    <nav id="tabs" class="p-3 flex flex-row lg:flex-col gap-1 flex-1 overflow-x-auto lg:overflow-x-hidden lg:overflow-y-auto scroll-thin"></nav>
+    <footer class="hidden lg:block p-4 border-t border-zinc-800 text-[11px] text-zinc-500">
+      v0.2 · POC · <a href="https://github.com/Tunacodin/IstanbulTurkcesiApp" target="_blank" rel="noopener" class="underline hover:text-zinc-300">GitHub</a>
+    </footer>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="px-5 py-6 lg:px-10 lg:py-8 max-w-7xl">
+
+    <!-- Page header -->
+    <div class="flex items-start justify-between gap-4 flex-wrap mb-1">
       <div>
-        İstanbul Türkçesi <span class="brand-sub">— Diksiyon</span>
+        <h1 id="page-title" class="text-2xl lg:text-[28px] font-semibold tracking-tight text-zinc-900">Yükleniyor…</h1>
+        <p id="page-sub" class="text-sm text-zinc-500 mt-1"></p>
+      </div>
+      <div id="page-actions" class="flex items-center gap-2"></div>
+    </div>
+
+    <!-- Search bar -->
+    <div id="search-wrap" class="mt-5 mb-6 max-w-md">
+      <div class="relative">
+        <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35M11 19a8 8 0 100-16 8 8 0 000 16z"/></svg>
+        <input id="search" type="text" placeholder="Alıştırma ara…" class="w-full pl-9 pr-3 py-2.5 bg-white border border-zinc-200 rounded-xl text-sm placeholder:text-zinc-400 focus:outline-none focus:ring-2 focus:ring-zinc-900/10 focus:border-zinc-300" />
       </div>
     </div>
-  </div>
-  <nav class="tabs" id="tabs" role="tablist"></nav>
-</header>
 
-<main>
-  <div class="panel-title" id="list-title">Alıştırma seç</div>
-  <div id="exercise-grid" class="exercise-grid"></div>
+    <!-- Card grid / progress / videos container -->
+    <div id="content" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3"></div>
 
-  <div id="exercise-empty" class="empty" style="display:none">
-    Bu kategoride alıştırma yok.
-  </div>
-
-  <div id="recorder" class="card" style="display:none">
-    <div id="target-display" class="target-display"></div>
-
-    <div class="row" style="margin-top: 12px;">
-      <button id="listen-btn" class="secondary">🔊 Doğru telaffuzu dinle</button>
-      <button id="record-btn" class="primary">🎤 Kaydı başlat</button>
-      <button id="stop-btn" class="danger" disabled>■ Durdur</button>
+    <div id="empty" class="hidden mt-4 p-10 text-center text-sm text-zinc-500 border border-dashed border-zinc-300 rounded-2xl">
+      Bu kategoride alıştırma yok.
     </div>
-    <p id="status" style="margin-top:10px"></p>
+  </main>
+</div>
 
-    <audio id="ref-audio" controls preload="none" style="display:none"></audio>
-    <audio id="playback" controls style="display:none; margin-top:6px"></audio>
-  </div>
+<!-- Tooltip -->
+<div id="tooltip" class="hidden fixed z-[1000] max-w-xs bg-zinc-900 text-zinc-50 text-[13px] leading-relaxed px-3.5 py-2.5 rounded-xl shadow-2xl border border-zinc-800 pointer-events-none"></div>
 
-  <div id="recorder-placeholder" class="placeholder">
-    <div class="placeholder-title">Bir alıştırma seç</div>
-    <div>Yukarıdaki sekmeden kelime, cümle, tekerleme veya paragraf seçerek başla.</div>
-  </div>
-
-  <div id="result-card" class="card" style="display:none">
-    <div id="verdict-box"></div>
-    <div id="rendered-target" class="target-display"></div>
-    <div id="meta" class="meta-row"></div>
-    <details>
-      <summary>Karakter detayı</summary>
-      <pre id="segments"></pre>
-    </details>
-  </div>
-</main>
-
-<div id="tooltip" class="tooltip" style="display:none"></div>
+<!-- Toast -->
+<div id="toast" class="hidden fixed bottom-6 left-1/2 -translate-x-1/2 z-[1100] bg-zinc-900 text-zinc-50 text-sm px-4 py-2.5 rounded-xl shadow-2xl"></div>
 
 <script>
+// ============================================================
+// CONSTANTS + STATE
+// ============================================================
 const API = location.origin;
 const $ = id => document.getElementById(id);
 
-const tabsEl = $('tabs');
-const listTitle = $('list-title');
-const gridEl = $('exercise-grid');
-const emptyEl = $('exercise-empty');
-const recorderEl = $('recorder');
-const placeholderEl = $('recorder-placeholder');
-const targetDisplay = $('target-display');
-const listenBtn = $('listen-btn');
-const refAudio = $('ref-audio');
-const recBtn = $('record-btn');
-const stopBtn = $('stop-btn');
-const statusEl = $('status');
-const resultCard = $('result-card');
-const verdictBox = $('verdict-box');
-const renderedTarget = $('rendered-target');
-const metaEl = $('meta');
-const segmentsEl = $('segments');
-const playback = $('playback');
-const tooltip = $('tooltip');
-
-const TYPE_LABELS = {
-  kelime:     { label: 'Kelime',     icon: '🔤' },
-  'cümle':    { label: 'Cümle',      icon: '💬' },
-  cumle:      { label: 'Cümle',      icon: '💬' },
-  tekerleme:  { label: 'Tekerleme',  icon: '🌀' },
-  paragraf:   { label: 'Paragraf',   icon: '📄' },
+const TYPES = {
+  all:        { label: 'Tüm Alıştırmalar', icon: '✦' },
+  kelime:     { label: 'Kelime',          icon: '🔤' },
+  'cümle':    { label: 'Cümle',           icon: '💬' },
+  cumle:      { label: 'Cümle',           icon: '💬' },
+  tekerleme:  { label: 'Tekerleme',       icon: '🌀' },
+  paragraf:   { label: 'Paragraf',        icon: '📄' },
+  _videos:    { label: 'Video Sözlüğü',   icon: '📚' },
+  _progress:  { label: 'İlerleme',        icon: '📊' },
 };
+
+const VERDICT = {
+  mukemmel: { label: 'Mükemmel', icon: '⭐', cls: 'bg-emerald-100 text-emerald-800 border-emerald-200' },
+  iyi: { label: 'İyi', icon: '👍', cls: 'bg-sky-100 text-sky-800 border-sky-200' },
+  gelistirilebilir: { label: 'Geliştirilebilir', icon: '⚠️', cls: 'bg-amber-100 text-amber-800 border-amber-200' },
+  tekrar: { label: 'Tekrar dene', icon: '🔁', cls: 'bg-rose-100 text-rose-800 border-rose-200' },
+};
+
+const KIND_LABELS = {
+  kelime: 'Kelime hatası',
+  kritik_unsuz: 'Ünsüz değişimi (k↔g, t↔d)',
+  r_yutulmasi: 'R yutulması',
+  h_yutulmasi: 'H yutulması',
+  vurgu_yeri: 'Vurgu yeri sapması',
+  'uzun-unlu': 'Uzun ünlü kısa',
+  dogallik: 'Konuşma tarzı',
+  vurgu: 'Vurgu/tonlama',
+  telaffuz: 'Telaffuz',
+};
+const WORD_ERROR_KINDS = new Set(['kelime','kritik_unsuz','r_yutulmasi','h_yutulmasi','vurgu_yeri']);
 
 const STORAGE_KEY = 'diksiyon_history_v1';
 const MAX_HISTORY = 200;
 
+const STATE = {
+  exercises: [],
+  activeType: 'all',
+  search: '',
+  availableClips: new Set(),
+  videoLibrary: [],
+  videoWordCount: 0,
+  cards: new Map(), // id → { recorder, chunks, blob, blobUrl, result, status }
+  audioPlaying: null,
+};
+
+// ============================================================
+// UTILS
+// ============================================================
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+function normalizeWord(w) {
+  return w.replace(/I/g,'ı').replace(/İ/g,'i').toLowerCase().replace(/[^\wçğışöü]/g,'');
+}
 function loadHistory() {
-  try {
-    return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
-  } catch { return []; }
+  try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); } catch { return []; }
 }
-
-function saveAttempt(record) {
-  const history = loadHistory();
-  history.push(record);
-  // En yenilerden MAX_HISTORY kadar tut
-  const pruned = history.slice(-MAX_HISTORY);
-  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(pruned)); } catch {}
+function saveAttempt(rec) {
+  const h = loadHistory();
+  h.push(rec);
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(h.slice(-MAX_HISTORY))); } catch {}
 }
-
 function clearHistory() {
   if (!confirm('Tüm kayıtları silmek istediğinden emin misin?')) return;
   localStorage.removeItem(STORAGE_KEY);
-  if (activeType === '_progress') renderProgress();
-  buildTabs();  // sayım güncellensin
+  buildTabs();
+  if (STATE.activeType === '_progress') renderProgress();
+  toast('Kayıtlar silindi');
+}
+function toast(msg, ms = 2000) {
+  const t = $('toast');
+  t.textContent = msg;
+  t.classList.remove('hidden');
+  t.classList.add('toast-enter');
+  clearTimeout(toast._t);
+  toast._t = setTimeout(() => { t.classList.add('hidden'); t.classList.remove('toast-enter'); }, ms);
 }
 
+// ============================================================
+// AUDIO — server first, browser TTS fallback
+// ============================================================
+function stopAllAudio() {
+  if (STATE.audioPlaying) { try { STATE.audioPlaying.pause(); } catch {} STATE.audioPlaying = null; }
+  if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+  document.querySelectorAll('.playing').forEach(el => el.classList.remove('playing'));
+}
+async function playUrl(url) {
+  return new Promise((resolve, reject) => {
+    const a = new Audio(url);
+    a.onended = () => resolve(true);
+    a.onerror = e => reject(e);
+    a.play().then(() => { STATE.audioPlaying = a; }).catch(reject);
+  });
+}
+function speakTr(text) {
+  if (!('speechSynthesis' in window)) { toast('Tarayıcı TTS desteklemiyor'); return; }
+  window.speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = 'tr-TR';
+  u.rate = 0.88;
+  u.pitch = 1.0;
+  window.speechSynthesis.speak(u);
+}
+async function playReference(exercise, btnEl) {
+  stopAllAudio();
+  if (btnEl) btnEl.classList.add('playing');
+  const cleanup = () => btnEl && btnEl.classList.remove('playing');
+  try {
+    await playUrl(API + '/reference/' + encodeURIComponent(exercise.id));
+    cleanup();
+  } catch {
+    // Sunucuda dosya yoksa tarayıcı TTS
+    cleanup();
+    speakTr(exercise.text);
+  }
+}
+async function playWordClip(word, btnEl) {
+  stopAllAudio();
+  if (btnEl) btnEl.classList.add('playing');
+  const cleanup = () => btnEl && btnEl.classList.remove('playing');
+  try {
+    await playUrl(API + '/word-clip/' + encodeURIComponent(normalizeWord(word)));
+    cleanup();
+  } catch {
+    cleanup();
+    speakTr(word);
+  }
+}
+
+// ============================================================
+// API loaders
+// ============================================================
+async function loadExercises() {
+  try {
+    const res = await fetch(API + '/exercises');
+    const data = await res.json();
+    STATE.exercises = data.exercises || [];
+  } catch (e) {
+    $('content').innerHTML = `<div class="col-span-full p-8 bg-rose-50 border border-rose-200 rounded-2xl text-rose-800 text-sm">Alıştırmalar yüklenemedi: ${escapeHtml(String(e))}<br><span class="text-rose-600 text-xs mt-2 block">Backend uyuyor olabilir, ~30sn bekleyip yenile.</span></div>`;
+  }
+}
+async function loadAvailableClips() {
+  try {
+    const res = await fetch(API + '/available-clips');
+    if (res.ok) {
+      const d = await res.json();
+      STATE.availableClips = new Set(d.words || []);
+    }
+  } catch {}
+}
+async function loadVideoLibrary() {
+  try {
+    const res = await fetch(API + '/videos-with-words');
+    if (res.ok) {
+      const d = await res.json();
+      STATE.videoLibrary = d.videos || [];
+      STATE.videoWordCount = STATE.videoLibrary.reduce((s, v) => s + (v.word_count || 0), 0);
+      const tab = document.querySelector('[data-type="_videos"] .count');
+      if (tab) tab.textContent = STATE.videoWordCount;
+    }
+  } catch {}
+}
+
+// ============================================================
+// TABS (sidebar nav)
+// ============================================================
+function buildTabs() {
+  const counts = {};
+  const order = [];
+  for (const ex of STATE.exercises) {
+    if (!(ex.type in counts)) { counts[ex.type] = 0; order.push(ex.type); }
+    counts[ex.type]++;
+  }
+  const tabs = $('tabs');
+  tabs.innerHTML = '';
+  tabs.appendChild(makeTab('all', counts.__all || STATE.exercises.length));
+  for (const t of order) tabs.appendChild(makeTab(t, counts[t]));
+  tabs.appendChild(makeTab('_videos', STATE.videoWordCount));
+  tabs.appendChild(makeTab('_progress', loadHistory().length));
+  setActiveType(STATE.activeType);
+}
+function makeTab(type, count) {
+  const meta = TYPES[type] || { label: type, icon: '•' };
+  const btn = document.createElement('button');
+  btn.dataset.type = type;
+  btn.className = 'tab group flex items-center gap-3 px-3 h-10 rounded-lg text-[13.5px] font-medium text-zinc-400 hover:text-zinc-100 hover:bg-zinc-900 transition-colors flex-shrink-0 lg:flex-shrink whitespace-nowrap';
+  btn.innerHTML = `
+    <span class="text-base leading-none">${meta.icon}</span>
+    <span class="flex-1 text-left">${escapeHtml(meta.label)}</span>
+    <span class="count text-[11px] font-semibold px-2 py-0.5 rounded-full bg-zinc-800 text-zinc-500 group-hover:bg-zinc-700 group-hover:text-zinc-300">${count}</span>
+  `;
+  btn.addEventListener('click', () => setActiveType(type));
+  return btn;
+}
+function setActiveType(type) {
+  STATE.activeType = type;
+  STATE.search = '';
+  $('search').value = '';
+  for (const t of document.querySelectorAll('#tabs .tab')) {
+    const active = t.dataset.type === type;
+    t.classList.toggle('text-zinc-100', active);
+    t.classList.toggle('bg-zinc-800', active);
+    t.classList.toggle('text-zinc-400', !active);
+    const c = t.querySelector('.count');
+    if (c) {
+      c.classList.toggle('bg-white', active);
+      c.classList.toggle('text-zinc-900', active);
+      c.classList.toggle('bg-zinc-800', !active);
+      c.classList.toggle('text-zinc-500', !active);
+    }
+  }
+  // Search-bar sadece alistirma listelerinde gozuksun
+  const showSearch = !['_videos','_progress'].includes(type);
+  $('search-wrap').classList.toggle('hidden', !showSearch);
+
+  if (type === '_progress') renderProgress();
+  else if (type === '_videos') renderVideos();
+  else renderGrid();
+}
+
+// ============================================================
+// EXERCISE GRID — one card per item, inline buttons
+// ============================================================
+function filterExercises() {
+  let items = STATE.activeType === 'all'
+    ? STATE.exercises
+    : STATE.exercises.filter(e => e.type === STATE.activeType);
+  if (STATE.search) {
+    const q = STATE.search.toLowerCase();
+    items = items.filter(e =>
+      (e.text || '').toLowerCase().includes(q) ||
+      (e.focus || '').toLowerCase().includes(q));
+  }
+  return items;
+}
+function renderGrid() {
+  const items = filterExercises();
+  const meta = TYPES[STATE.activeType] || { label: 'Alıştırmalar' };
+  $('page-title').textContent = STATE.activeType === 'all' ? 'Tüm Alıştırmalar' : meta.label;
+  $('page-sub').textContent = `${items.length} alıştırma · seç → kaydet → eğitmen tarzı geri bildirim al`;
+  $('page-actions').innerHTML = '';
+  $('content').className = 'grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3';
+
+  if (!items.length) {
+    $('content').innerHTML = '';
+    $('empty').classList.remove('hidden');
+    return;
+  }
+  $('empty').classList.add('hidden');
+  $('content').innerHTML = items.map(cardHtml).join('');
+  attachCardHandlers();
+}
+function diffDots(level) {
+  const d = Math.max(1, Math.min(5, level || 1));
+  return Array.from({length:5}, (_,i) =>
+    `<span class="w-1.5 h-1.5 rounded-full ${i < d ? 'bg-zinc-900' : 'bg-zinc-300'}"></span>`).join('');
+}
+function cardHtml(ex) {
+  const text = ex.text || '';
+  const preview = text.length > 100 ? text.slice(0,100).trim() + '…' : text;
+  const typeMeta = TYPES[ex.type] || { label: ex.type, icon: '•' };
+  const focus = ex.focus ? `<span class="text-[11px] text-zinc-600 bg-zinc-100 px-2 py-0.5 rounded-full font-medium">${escapeHtml(ex.focus)}</span>` : '';
+  return `
+    <article data-card="${ex.id}" data-type="${ex.type}" class="bg-white rounded-2xl border border-zinc-200 hover:border-zinc-300 hover:shadow-[0_8px_24px_-12px_rgba(0,0,0,0.10)] transition-all duration-200 flex flex-col overflow-hidden">
+      <div class="p-5 flex flex-col gap-3 flex-1">
+        <div class="flex items-center gap-2 flex-wrap">
+          <span class="text-[10px] font-semibold uppercase tracking-wider text-zinc-500">${typeMeta.icon} ${escapeHtml(typeMeta.label)}</span>
+          <div class="flex items-center gap-1 ml-auto" title="Zorluk ${ex.difficulty || 1}/5">${diffDots(ex.difficulty)}</div>
+        </div>
+        <p class="text-[15px] font-semibold leading-snug text-zinc-900 line-clamp-4 min-h-[3.2rem]">${escapeHtml(preview)}</p>
+        ${focus ? `<div class="flex items-center gap-2 flex-wrap">${focus}</div>` : ''}
+      </div>
+      <div class="px-5 pb-4 flex items-center gap-1.5">
+        <button data-act="listen" class="flex-1 h-9 rounded-lg bg-zinc-100 hover:bg-zinc-200 text-zinc-900 text-[13px] font-medium inline-flex items-center justify-center gap-1.5 transition-colors">
+          <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+          Dinle
+        </button>
+        <button data-act="record" class="flex-1 h-9 rounded-lg bg-zinc-900 hover:bg-zinc-800 text-white text-[13px] font-medium inline-flex items-center justify-center gap-1.5 transition-colors">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 11a7 7 0 01-14 0m7 7v4m-3 0h6M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/></svg>
+          Kaydet
+        </button>
+      </div>
+      <div data-result class="hidden border-t border-zinc-100 bg-stone-50/50 p-4"></div>
+    </article>
+  `;
+}
+function attachCardHandlers() {
+  document.querySelectorAll('[data-card]').forEach(card => {
+    card.querySelectorAll('button[data-act]').forEach(btn => {
+      btn.addEventListener('click', e => {
+        e.stopPropagation();
+        onCardAction(card, btn);
+      });
+    });
+  });
+}
+async function onCardAction(card, btn) {
+  const id = card.getAttribute('data-card');
+  const ex = STATE.exercises.find(e => e.id === id);
+  if (!ex) return;
+  const act = btn.getAttribute('data-act');
+  if (act === 'listen') {
+    await playReference(ex, btn);
+  } else if (act === 'record') {
+    await startCardRecording(card, ex, btn);
+  } else if (act === 'stop') {
+    stopCardRecording(card);
+  } else if (act === 'play-mine') {
+    playMineForCard(card, btn);
+  } else if (act === 'rerecord') {
+    resetCardResult(card);
+    await startCardRecording(card, ex, card.querySelector('[data-act="record"]'));
+  }
+}
+async function startCardRecording(card, ex, btn) {
+  const id = ex.id;
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    const recorder = new MediaRecorder(stream);
+    const chunks = [];
+    recorder.ondataavailable = e => { if (e.data.size > 0) chunks.push(e.data); };
+    recorder.onstop = () => {
+      stream.getTracks().forEach(t => t.stop());
+      const blob = new Blob(chunks, { type: 'audio/webm' });
+      const blobUrl = URL.createObjectURL(blob);
+      const st = STATE.cards.get(id) || {};
+      st.blob = blob; st.blobUrl = blobUrl; st.recorder = null;
+      STATE.cards.set(id, st);
+      assessCard(card, ex, blob, btn);
+    };
+    STATE.cards.set(id, { recorder });
+    recorder.start();
+    // Buton "Durdur"a donsun
+    btn.dataset.act = 'stop';
+    btn.className = 'flex-1 h-9 rounded-lg bg-rose-600 hover:bg-rose-700 text-white text-[13px] font-medium inline-flex items-center justify-center gap-1.5 transition-colors recording-ring';
+    btn.innerHTML = '<span class="w-2 h-2 bg-white rounded-sm"></span> Durdur';
+    // Result panelini "kaydediyor" goster
+    const r = card.querySelector('[data-result]');
+    r.classList.remove('hidden');
+    r.innerHTML = `<div class="flex items-center gap-2 text-sm text-zinc-600"><span class="w-2 h-2 rounded-full bg-rose-500 recording-ring inline-block"></span>Mikrofon dinliyor… metni oku, bitince Durdur.</div>`;
+  } catch (e) {
+    toast('Mikrofon erişimi reddedildi: ' + e.message);
+  }
+}
+function stopCardRecording(card) {
+  const id = card.getAttribute('data-card');
+  const st = STATE.cards.get(id);
+  if (st && st.recorder && st.recorder.state !== 'inactive') st.recorder.stop();
+}
+async function assessCard(card, ex, blob, btn) {
+  // Buton "Hesaplaniyor"
+  btn.dataset.act = '__busy';
+  btn.disabled = true;
+  btn.className = 'flex-1 h-9 rounded-lg bg-zinc-200 text-zinc-500 text-[13px] font-medium inline-flex items-center justify-center gap-1.5 cursor-not-allowed';
+  btn.innerHTML = `<svg class="w-3.5 h-3.5 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0A8.003 8.003 0 014.582 13m15.357-4H15"/></svg> Hesaplanıyor…`;
+  const r = card.querySelector('[data-result]');
+  r.innerHTML = `<div class="flex items-center gap-2 text-sm text-zinc-600"><span class="inline-block w-2 h-2 rounded-full bg-zinc-400 animate-pulse"></span>Sunucu skor hesaplıyor…</div>`;
+  const fd = new FormData();
+  fd.append('audio', blob, 'recording.webm');
+  fd.append('target_text', ex.text);
+  try {
+    const res = await fetch(API + '/assess', { method: 'POST', body: fd });
+    if (!res.ok) {
+      r.innerHTML = `<div class="text-sm text-rose-700 bg-rose-50 border border-rose-200 rounded-lg p-3">Sunucu hatası: ${res.status}</div>`;
+      restoreRecordButton(btn);
+      return;
+    }
+    const data = await res.json();
+    const st = STATE.cards.get(ex.id) || {};
+    st.result = data;
+    STATE.cards.set(ex.id, st);
+    saveAttempt({
+      ts: new Date().toISOString(),
+      exercise_id: ex.id,
+      target: data.target_text,
+      score: data.overall_score || 0,
+      verdict: data.verdict,
+      issues: (data.issues || []).map(i => ({ kind:i.kind, target_word:i.target_word||'', char:i.char||'' })),
+    });
+    const histTab = document.querySelector('[data-type="_progress"] .count');
+    if (histTab) histTab.textContent = loadHistory().length;
+    renderCardResult(card, ex, data);
+    restoreRecordButton(btn, true);
+  } catch (e) {
+    r.innerHTML = `<div class="text-sm text-rose-700 bg-rose-50 border border-rose-200 rounded-lg p-3">Ağ hatası: ${escapeHtml(String(e))}</div>`;
+    restoreRecordButton(btn);
+  }
+}
+function restoreRecordButton(btn, asReRecord = false) {
+  btn.disabled = false;
+  if (asReRecord) {
+    btn.dataset.act = 'rerecord';
+    btn.className = 'flex-1 h-9 rounded-lg bg-zinc-100 hover:bg-zinc-200 text-zinc-900 text-[13px] font-medium inline-flex items-center justify-center gap-1.5 transition-colors';
+    btn.innerHTML = '<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0A8.003 8.003 0 014.582 13m15.357-4H15"/></svg> Tekrar';
+  } else {
+    btn.dataset.act = 'record';
+    btn.className = 'flex-1 h-9 rounded-lg bg-zinc-900 hover:bg-zinc-800 text-white text-[13px] font-medium inline-flex items-center justify-center gap-1.5 transition-colors';
+    btn.innerHTML = '<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 11a7 7 0 01-14 0m7 7v4m-3 0h6M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/></svg> Kaydet';
+  }
+}
+function resetCardResult(card) {
+  const r = card.querySelector('[data-result]');
+  r.classList.add('hidden');
+  r.innerHTML = '';
+}
+function renderCardResult(card, ex, data) {
+  const r = card.querySelector('[data-result]');
+  r.classList.remove('hidden');
+  const v = VERDICT[data.verdict] || { label:'Sonuç', icon:'·', cls:'bg-zinc-100 text-zinc-700 border-zinc-200' };
+  const score = Math.round((data.overall_score || 0) * 100);
+  const issues = (data.issues || []).filter(i => i.kind !== 'telaffuz' || (i.score || 1) < 0.5);
+  const wordIssues = issues.filter(i => WORD_ERROR_KINDS.has(i.kind));
+  const otherIssues = issues.filter(i => !WORD_ERROR_KINDS.has(i.kind));
+
+  let html = `
+    <div class="flex items-center gap-2 mb-3 flex-wrap">
+      <span class="inline-flex items-center gap-1 text-[11px] font-semibold px-2.5 py-1 rounded-full border ${v.cls}">${v.icon} ${escapeHtml(v.label)}</span>
+      <span class="text-base font-bold text-zinc-900 tabular-nums">${score}<span class="text-zinc-400 font-normal text-sm">/100</span></span>
+      <button data-act="play-mine" class="ml-auto inline-flex items-center gap-1.5 text-[12px] text-zinc-600 hover:text-zinc-900 px-2 py-1 rounded hover:bg-zinc-100 transition-colors" title="Söylediğini dinle">
+        <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg> Söylediğin
+      </button>
+    </div>
+  `;
+  // Hedef metin (hatalar isaretli)
+  html += `<div class="text-[13.5px] leading-relaxed text-zinc-800 bg-white border border-zinc-200 rounded-lg p-3 mb-3" data-target>${renderTargetWithIssues(ex.text, data.issues || [])}</div>`;
+
+  // Word-level issues
+  if (wordIssues.length) {
+    html += `<div class="text-[11px] font-semibold uppercase tracking-wider text-zinc-500 mb-1.5">Sorunlu kelimeler</div>`;
+    html += `<div class="flex flex-col gap-1.5 mb-3">${wordIssues.map(it => issueChipHtml(it)).join('')}</div>`;
+  }
+  // Other issues (vurgu, dogallik vb)
+  if (otherIssues.length) {
+    html += `<div class="text-[11px] font-semibold uppercase tracking-wider text-zinc-500 mb-1.5">Konuşma tarzı</div>`;
+    html += `<div class="flex flex-col gap-1.5">${otherIssues.map(it => issueChipHtml(it)).join('')}</div>`;
+  }
+  if (!issues.length) {
+    html += `<div class="text-sm text-emerald-700 bg-emerald-50 border border-emerald-200 rounded-lg p-3">Bu alıştırma temiz — devam et!</div>`;
+  }
+
+  r.innerHTML = html;
+  // Re-attach listeners (play-mine + tooltips on word-err + word-listen-btn)
+  r.querySelectorAll('button[data-act]').forEach(b => {
+    b.addEventListener('click', e => { e.stopPropagation(); onCardAction(card, b); });
+  });
+  attachWordTooltips(r, data.issues || []);
+  attachWordListenButtons(r);
+}
+function issueChipHtml(it) {
+  const accent = {
+    kelime: 'border-rose-300 bg-rose-50',
+    kritik_unsuz: 'border-orange-300 bg-orange-50',
+    r_yutulmasi: 'border-amber-300 bg-amber-50',
+    h_yutulmasi: 'border-amber-300 bg-amber-50',
+    vurgu_yeri: 'border-indigo-300 bg-indigo-50',
+    dogallik: 'border-purple-300 bg-purple-50',
+  }[it.kind] || 'border-zinc-300 bg-zinc-50';
+  const label = (it.target_word || it.char || '').slice(0, 40);
+  const advice = (it.advice || '').slice(0, 240);
+  return `
+    <div class="border ${accent} rounded-lg px-3 py-2 text-[12.5px] leading-relaxed text-zinc-800">
+      <div class="flex items-center gap-1.5 flex-wrap">
+        <strong class="font-semibold">${escapeHtml(label)}</strong>
+        <span class="text-zinc-500">·</span>
+        <span class="text-zinc-600">${escapeHtml(KIND_LABELS[it.kind] || it.kind || '')}</span>
+      </div>
+      ${advice ? `<div class="text-zinc-600 mt-1">${escapeHtml(advice)}</div>` : ''}
+    </div>
+  `;
+}
+function renderTargetWithIssues(text, issues) {
+  const wordIssues = {};
+  for (const it of issues) {
+    if (WORD_ERROR_KINDS.has(it.kind) && it.word_index >= 0) wordIssues[it.word_index] = it;
+  }
+  const tokens = text.split(/(\s+)/);
+  let wi = 0;
+  return tokens.map(tok => {
+    if (/^\s+$/.test(tok)) return tok;
+    const issue = wordIssues[wi];
+    const norm = normalizeWord(tok);
+    const hasClip = STATE.availableClips.has(norm);
+    const idx = wi++;
+    let inner = escapeHtml(tok);
+    if (hasClip) inner += ` <span class="word-listen-btn" data-word="${escapeHtml(norm)}" title="Eğitmen telaffuzu">▶</span>`;
+    if (issue) {
+      return `<span class="word-err ${escapeHtml(issue.kind)}" data-issue-idx="${idx}">${inner}</span>`;
+    }
+    return `<span class="inline">${inner}</span>`;
+  }).join('');
+}
+function attachWordTooltips(scope, issues) {
+  const byIdx = {};
+  for (const it of issues) {
+    if (WORD_ERROR_KINDS.has(it.kind) && it.word_index >= 0) byIdx[it.word_index] = it;
+  }
+  scope.querySelectorAll('.word-err').forEach(span => {
+    span.addEventListener('click', e => {
+      e.stopPropagation();
+      const idx = parseInt(span.getAttribute('data-issue-idx'), 10);
+      const issue = byIdx[idx]; if (!issue) return;
+      showTooltip(span, issue);
+    });
+  });
+}
+function attachWordListenButtons(scope) {
+  scope.querySelectorAll('.word-listen-btn').forEach(btn => {
+    btn.addEventListener('click', e => {
+      e.stopPropagation();
+      playWordClip(btn.getAttribute('data-word'), btn);
+    });
+  });
+}
+function showTooltip(anchor, issue) {
+  const tt = $('tooltip');
+  let html = '';
+  if (issue.target_word && issue.spoken_word) {
+    html += `<div class="mb-1"><b>Hedef:</b> ${escapeHtml(issue.target_word)} <span class="text-zinc-400">·</span> <b>Söylediğin:</b> ${escapeHtml(issue.spoken_word)}</div>`;
+  } else if (issue.target_word) {
+    html += `<div class="mb-1"><b>Atlanmış:</b> ${escapeHtml(issue.target_word)}</div>`;
+  }
+  html += escapeHtml(issue.advice || '');
+  tt.innerHTML = html;
+  tt.classList.remove('hidden');
+  const rect = anchor.getBoundingClientRect();
+  tt.style.left = Math.min(window.innerWidth - tt.offsetWidth - 12, rect.left) + 'px';
+  tt.style.top = (rect.bottom + 8) + 'px';
+}
+function hideTooltip() { $('tooltip').classList.add('hidden'); }
+document.addEventListener('click', e => {
+  if (!e.target.closest('.word-err')) hideTooltip();
+});
+
+function playMineForCard(card, btn) {
+  const id = card.getAttribute('data-card');
+  const st = STATE.cards.get(id);
+  if (!st || !st.blobUrl) { toast('Henüz kayıt yok'); return; }
+  stopAllAudio();
+  btn.classList.add('playing');
+  const a = new Audio(st.blobUrl);
+  a.onended = () => btn.classList.remove('playing');
+  a.onerror = () => btn.classList.remove('playing');
+  a.play();
+  STATE.audioPlaying = a;
+}
+
+// ============================================================
+// VIDEO LIBRARY
+// ============================================================
+function renderVideos() {
+  $('page-title').textContent = 'Video Sözlüğü';
+  $('page-sub').textContent = `${STATE.videoLibrary.length} video · ${STATE.videoWordCount} kelime · gerçek diksiyon eğitmeni telaffuzu`;
+  $('page-actions').innerHTML = '';
+  $('content').className = 'flex flex-col gap-4';
+  $('empty').classList.add('hidden');
+
+  if (!STATE.videoLibrary.length) {
+    $('content').innerHTML = `<div class="p-8 text-center text-sm text-zinc-500 border border-dashed border-zinc-300 rounded-2xl">Henüz parse edilmiş video yok.</div>`;
+    return;
+  }
+  let html = '';
+  for (const v of STATE.videoLibrary) {
+    const dur = v.duration_s ? `${Math.round(v.duration_s/60)} dk` : '';
+    const link = v.url ? `<a href="${escapeHtml(v.url)}" target="_blank" rel="noopener" class="text-[12px] font-medium text-zinc-500 hover:text-zinc-900 inline-flex items-center gap-1 px-2.5 py-1 border border-zinc-200 rounded-full hover:border-zinc-300 transition-colors">YouTube ↗</a>` : '';
+    const words = (v.words || []).slice(0, 30);
+    const cards = words.map(w => videoWordCardHtml(v.video_id, w)).join('');
+    const more = v.words.length > 30 ? `<div class="text-center text-xs text-zinc-500 mt-3">+${v.words.length - 30} kelime daha</div>` : '';
+    html += `
+      <section class="bg-white border border-zinc-200 rounded-2xl p-5">
+        <header class="flex items-start gap-3 pb-4 mb-4 border-b border-zinc-100 flex-wrap">
+          <div class="flex-1 min-w-[200px]">
+            <h3 class="font-semibold text-[15px] tracking-tight">${escapeHtml(v.title || v.video_id)}</h3>
+            <div class="text-[12px] text-zinc-500 mt-0.5">${escapeHtml(v.channel || '')} ${dur ? '· ' + dur : ''} · ${v.word_count} kelime</div>
+          </div>
+          ${link}
+        </header>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5">${cards}</div>
+        ${more}
+      </section>
+    `;
+  }
+  $('content').innerHTML = html;
+  attachVideoCardHandlers();
+}
+function videoWordCardHtml(videoId, w) {
+  return `
+    <article data-video-card="${escapeHtml(w.word)}" data-video="${escapeHtml(videoId)}" class="bg-stone-50 border border-zinc-200 rounded-xl p-3 hover:border-zinc-300 transition-colors">
+      <div class="text-[14px] font-semibold text-zinc-900 mb-2 break-words">${escapeHtml(w.word)}</div>
+      <div class="flex items-center gap-1.5">
+        <button data-act="vlisten" class="flex-1 h-8 rounded-md bg-white hover:bg-zinc-50 border border-zinc-200 text-[12px] font-medium text-zinc-700 inline-flex items-center justify-center gap-1 transition-colors">▶ Dinle</button>
+        <button data-act="vrecord" class="flex-1 h-8 rounded-md bg-zinc-900 hover:bg-zinc-800 text-white text-[12px] font-medium inline-flex items-center justify-center gap-1 transition-colors">🎤 Sıra sende</button>
+      </div>
+      <div data-result class="hidden mt-3"></div>
+    </article>
+  `;
+}
+function attachVideoCardHandlers() {
+  document.querySelectorAll('[data-video-card]').forEach(card => {
+    card.querySelectorAll('button[data-act]').forEach(btn => {
+      btn.addEventListener('click', e => {
+        e.stopPropagation();
+        const word = card.getAttribute('data-video-card');
+        const act = btn.getAttribute('data-act');
+        if (act === 'vlisten') playWordClip(word, btn);
+        else if (act === 'vrecord') startVideoCardRecording(card, word, btn);
+        else if (act === 'vstop') stopVideoCardRecording(card);
+        else if (act === 'play-mine') playMineForCard(card, btn);
+      });
+    });
+  });
+}
+async function startVideoCardRecording(card, word, btn) {
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    const recorder = new MediaRecorder(stream);
+    const chunks = [];
+    recorder.ondataavailable = e => { if (e.data.size > 0) chunks.push(e.data); };
+    recorder.onstop = async () => {
+      stream.getTracks().forEach(t => t.stop());
+      const blob = new Blob(chunks, { type: 'audio/webm' });
+      const blobUrl = URL.createObjectURL(blob);
+      const st = STATE.cards.get('vw_'+word) || {};
+      st.blob = blob; st.blobUrl = blobUrl;
+      STATE.cards.set('vw_'+word, st);
+      btn.disabled = true;
+      btn.innerHTML = '⏳ Hesaplanıyor';
+      const fd = new FormData();
+      fd.append('audio', blob, 'recording.webm');
+      fd.append('target_text', word);
+      try {
+        const res = await fetch(API + '/assess', { method:'POST', body: fd });
+        if (!res.ok) {
+          card.querySelector('[data-result]').classList.remove('hidden');
+          card.querySelector('[data-result]').innerHTML = `<div class="text-xs text-rose-700 bg-rose-50 p-2 rounded-md">Sunucu hatası: ${res.status}</div>`;
+        } else {
+          const data = await res.json();
+          renderVideoCardResult(card, word, data);
+          saveAttempt({
+            ts: new Date().toISOString(),
+            exercise_id: 'video-word-' + word,
+            target: data.target_text, score: data.overall_score || 0,
+            verdict: data.verdict,
+            issues: (data.issues || []).map(i => ({ kind:i.kind, target_word:i.target_word||'', char:i.char||'' })),
+          });
+          const ht = document.querySelector('[data-type="_progress"] .count');
+          if (ht) ht.textContent = loadHistory().length;
+        }
+      } catch (e) {
+        card.querySelector('[data-result]').classList.remove('hidden');
+        card.querySelector('[data-result]').innerHTML = `<div class="text-xs text-rose-700 bg-rose-50 p-2 rounded-md">${escapeHtml(String(e))}</div>`;
+      } finally {
+        btn.disabled = false;
+        btn.dataset.act = 'vrecord';
+        btn.innerHTML = '🎤 Tekrar';
+      }
+    };
+    STATE.cards.set('vw_'+word, { recorder });
+    recorder.start();
+    btn.dataset.act = 'vstop';
+    btn.className = 'flex-1 h-8 rounded-md bg-rose-600 hover:bg-rose-700 text-white text-[12px] font-medium inline-flex items-center justify-center gap-1 transition-colors recording-ring';
+    btn.innerHTML = '■ Durdur';
+    const r = card.querySelector('[data-result]');
+    r.classList.remove('hidden');
+    r.innerHTML = `<div class="text-xs text-zinc-600">Mikrofon dinliyor…</div>`;
+  } catch (e) {
+    toast('Mikrofon: ' + e.message);
+  }
+}
+function stopVideoCardRecording(card) {
+  const word = card.getAttribute('data-video-card');
+  const st = STATE.cards.get('vw_'+word);
+  if (st && st.recorder && st.recorder.state !== 'inactive') st.recorder.stop();
+}
+function renderVideoCardResult(card, word, data) {
+  const r = card.querySelector('[data-result]');
+  r.classList.remove('hidden');
+  const v = VERDICT[data.verdict] || { label:'Sonuç', icon:'·', cls:'bg-zinc-100 text-zinc-700 border-zinc-200' };
+  const score = Math.round((data.overall_score || 0) * 100);
+  const issues = (data.issues || []).filter(i => i.kind !== 'telaffuz' || (i.score || 1) < 0.5);
+  let html = `
+    <div class="flex items-center gap-1.5 mb-2 flex-wrap">
+      <span class="inline-flex items-center gap-1 text-[10px] font-semibold px-2 py-0.5 rounded-full border ${v.cls}">${v.icon} ${escapeHtml(v.label)}</span>
+      <span class="text-[13px] font-bold text-zinc-900 tabular-nums">${score}<span class="text-zinc-400 font-normal">/100</span></span>
+      <button data-act="play-mine" class="ml-auto text-[11px] text-zinc-600 hover:text-zinc-900 px-1.5 py-0.5 rounded hover:bg-zinc-100">▶ Söylediğin</button>
+    </div>
+  `;
+  if (issues.length) {
+    html += `<div class="flex flex-col gap-1">${issues.slice(0,3).map(it => `<div class="text-[11.5px] text-zinc-700 bg-zinc-50 border border-zinc-200 rounded px-2 py-1.5"><b>${escapeHtml(it.target_word || it.char || '')}</b> · ${escapeHtml(KIND_LABELS[it.kind] || it.kind)}</div>`).join('')}</div>`;
+  } else {
+    html += `<div class="text-[11.5px] text-emerald-700">Temiz!</div>`;
+  }
+  r.innerHTML = html;
+  r.querySelectorAll('button[data-act]').forEach(b => {
+    b.addEventListener('click', e => { e.stopPropagation(); if (b.dataset.act === 'play-mine') playMineForCard(card, b); });
+  });
+}
+
+// ============================================================
+// PROGRESS PAGE
+// ============================================================
 function aggregateStats(history) {
   if (!history.length) return null;
   const scores = history.map(r => r.score);
@@ -1619,8 +839,7 @@ function aggregateStats(history) {
   for (const r of history) {
     for (const it of (r.issues || [])) {
       issuesByKind[it.kind] = (issuesByKind[it.kind] || 0) + 1;
-      if ((it.kind === 'kelime' || it.kind === 'kritik_unsuz' ||
-           it.kind === 'r_yutulmasi' || it.kind === 'h_yutulmasi') && it.target_word) {
+      if (WORD_ERROR_KINDS.has(it.kind) && it.target_word) {
         wordErrors[it.target_word] = (wordErrors[it.target_word] || 0) + 1;
       }
     }
@@ -1634,540 +853,101 @@ function aggregateStats(history) {
     bestScore: Math.max(...scores),
     lastTenAvg,
     issuesByKind,
-    wordErrors: Object.entries(wordErrors)
-      .sort((a,b) => b[1] - a[1]).slice(0, 12),
+    wordErrors: Object.entries(wordErrors).sort((a,b) => b[1]-a[1]).slice(0, 12),
     history,
   };
 }
-
-let mediaRecorder = null;
-let chunks = [];
-let currentExercise = null;
-let allExercises = [];
-let activeType = null;
-let availableClipsSet = new Set();
-let wordClipAudio = null;
-let videoLibrary = [];        // {video_id, title, words: [{word, score, ...}]}
-let videoWordCount = 0;
-let practiceState = {};       // word-card local state: {word: {recording, blob, result, ...}}
-
-async function loadExercises() {
-  try {
-    const res = await fetch(API + '/exercises');
-    const data = await res.json();
-    allExercises = data.exercises || [];
-    buildTabs();
-  } catch (e) {
-    listTitle.textContent = 'Alıştırma listesi alınamadı';
-    gridEl.innerHTML = `<div class="empty">${escapeHtml(String(e))}</div>`;
-  }
-}
-
-async function loadAvailableClips() {
-  try {
-    const res = await fetch(API + '/available-clips');
-    if (res.ok) {
-      const data = await res.json();
-      availableClipsSet = new Set(data.words);
-      console.log(`Kelime telaffuz kütüphanesi: ${data.count} kelime`);
-      // Mevcut seçili alıştırma varsa metni yeniden render et
-      if (currentExercise) renderTargetDisplay(currentExercise.text);
-    }
-  } catch (e) {
-    console.warn('Kelime klipsleri yüklenemedi:', e);
-  }
-}
-
-async function loadVideoLibrary() {
-  try {
-    const res = await fetch(API + '/videos-with-words');
-    if (res.ok) {
-      const data = await res.json();
-      videoLibrary = data.videos || [];
-      videoWordCount = videoLibrary.reduce((s, v) => s + (v.word_count || 0), 0);
-      // Tablar zaten yüklendiyse sayıyı güncelle
-      const tab = tabsEl?.querySelector('[data-type="_videos"] .count');
-      if (tab) tab.textContent = videoWordCount;
-    }
-  } catch (e) {
-    console.warn('Video sözlüğü yüklenemedi:', e);
-  }
-}
-
-function normalizeWordForLookup(w) {
-  return w.replace(/I/g, 'ı').replace(/İ/g, 'i').toLowerCase()
-          .replace(/[^\wçğışöü]/g, '');
-}
-
-function playWordClip(word, btn) {
-  if (wordClipAudio) {
-    wordClipAudio.pause();
-    document.querySelectorAll('.word-listen.playing').forEach(b => b.classList.remove('playing'));
-  }
-  wordClipAudio = new Audio(API + '/word-clip/' + encodeURIComponent(normalizeWordForLookup(word)));
-  btn.classList.add('playing');
-  wordClipAudio.onended = () => btn.classList.remove('playing');
-  wordClipAudio.onerror = () => btn.classList.remove('playing');
-  wordClipAudio.play().catch(err => console.warn('Klip çalınamadı:', err));
-}
-
-function renderTargetDisplay(text) {
-  const tokens = text.split(/(\s+)/);
-  let html = '';
-  for (const tok of tokens) {
-    if (/^\s+$/.test(tok)) { html += tok; continue; }
-    const norm = normalizeWordForLookup(tok);
-    const hasClip = availableClipsSet.has(norm);
-    if (hasClip) {
-      html += `<span class="word has-clip">${escapeHtml(tok)}<span class="word-listen" data-word="${escapeHtml(norm)}" title="Diksiyon eğitmeninden örnek dinle">▶</span></span>`;
-    } else {
-      html += `<span class="word">${escapeHtml(tok)}</span>`;
-    }
-  }
-  targetDisplay.innerHTML = html;
-  targetDisplay.querySelectorAll('.word-listen').forEach(btn => {
-    btn.addEventListener('click', e => {
-      e.stopPropagation();
-      playWordClip(btn.getAttribute('data-word'), btn);
-    });
-  });
-}
-
-function buildTabs() {
-  const counts = {};
-  const order = [];
-  for (const ex of allExercises) {
-    if (!(ex.type in counts)) { counts[ex.type] = 0; order.push(ex.type); }
-    counts[ex.type]++;
-  }
-  const wasActive = activeType;
-  tabsEl.innerHTML = '';
-  tabsEl.appendChild(makeTab('all', 'Tümü', '✦', allExercises.length));
-  for (const type of order) {
-    const meta = TYPE_LABELS[type] || { label: type, icon: '•' };
-    tabsEl.appendChild(makeTab(type, meta.label, meta.icon, counts[type]));
-  }
-  // Video sözlüğü tab'ı
-  tabsEl.appendChild(makeTab('_videos', 'Video Sözlüğü', '📚', videoWordCount));
-  // İlerleme tab'ı
-  const history = loadHistory();
-  tabsEl.appendChild(makeTab('_progress', 'İlerleme', '📊', history.length));
-  setActiveType(wasActive || 'all');
-}
-
-function makeTab(type, label, icon, count) {
-  const btn = document.createElement('button');
-  btn.className = 'tab';
-  btn.setAttribute('role', 'tab');
-  btn.dataset.type = type;
-  btn.innerHTML = `<span aria-hidden="true">${icon}</span><span>${escapeHtml(label)}</span><span class="count">${count}</span>`;
-  btn.addEventListener('click', () => setActiveType(type));
-  return btn;
-}
-
-function setActiveType(type) {
-  activeType = type;
-  for (const t of tabsEl.querySelectorAll('.tab')) {
-    t.classList.toggle('active', t.dataset.type === type);
-  }
-  if (type === '_progress') {
-    renderProgress();
-  } else if (type === '_videos') {
-    renderVideoLibrary();
-  } else {
-    renderGrid();
-  }
-}
-
-// ============ Video Sözlüğü ============
-
-function renderVideoLibrary() {
-  listTitle.textContent = `Eğitmen videoları (${videoLibrary.length})`;
-  emptyEl.style.display = 'none';
-  recorderEl.style.display = 'none';
-  placeholderEl.style.display = 'none';
-  resultCard.style.display = 'none';
-
-  if (!videoLibrary.length) {
-    gridEl.innerHTML = `<div class="empty" style="grid-column: 1 / -1;">Henüz parse edilmiş video yok.</div>`;
-    return;
-  }
-
-  let html = '';
-  for (const video of videoLibrary) {
-    const dur = video.duration_s ? `${Math.round(video.duration_s/60)} dk` : '?';
-    const link = video.url ? `<a class="video-link" href="${video.url}" target="_blank" rel="noopener">YouTube'da aç ↗</a>` : '';
-    // İlk 30 kelimeyi göster (skor sırasına göre)
-    const words = (video.words || []).slice(0, 30);
-    const cards = words.map(w => practiceCardHtml(video.video_id, w)).join('');
-    html += `
-      <div class="video-section" data-video="${video.video_id}">
-        <div class="video-header">
-          <div style="flex:1; min-width:200px;">
-            <h3>${escapeHtml(video.title || video.video_id)}</h3>
-            <div class="video-meta">${escapeHtml(video.channel || '')} • ${dur} • ${video.word_count} kelime</div>
-          </div>
-          ${link}
-        </div>
-        <div class="word-card-grid">${cards}</div>
-        ${video.words.length > 30 ? `<div style="margin-top:10px; text-align:center; color:var(--muted); font-size:13px">+${video.words.length - 30} kelime daha (skor sırasıyla ilk 30 gösteriliyor)</div>` : ''}
-      </div>`;
-  }
-  // gridEl'i panel modu için kullan
-  gridEl.style.display = 'block';
-  gridEl.innerHTML = html;
-
-  attachPracticeHandlers();
-}
-
-function practiceCardHtml(videoId, w) {
-  const wordKey = w.word;
-  return `
-    <div class="word-practice-card" data-word="${escapeHtml(wordKey)}" data-video="${videoId}">
-      <div class="wp-text">${escapeHtml(wordKey)}</div>
-      <div class="wp-buttons">
-        <button class="wp-btn wp-listen" data-action="listen">▶ Dinle</button>
-        <button class="wp-btn wp-record primary" data-action="record">🎤 Sıra sende</button>
-      </div>
-      <div class="wp-result" style="display:none"></div>
-    </div>`;
-}
-
-function attachPracticeHandlers() {
-  for (const card of gridEl.querySelectorAll('.word-practice-card')) {
-    card.querySelectorAll('.wp-btn').forEach(btn => {
-      btn.addEventListener('click', e => onPracticeAction(card, btn, e));
-    });
-  }
-}
-
-async function onPracticeAction(card, btn, ev) {
-  ev.stopPropagation();
-  const word = card.getAttribute('data-word');
-  const action = btn.getAttribute('data-action');
-
-  if (action === 'listen') {
-    playReferenceForCard(word, btn);
-  } else if (action === 'record') {
-    await startRecordingForCard(card, btn, word);
-  } else if (action === 'stop') {
-    stopRecordingForCard(card, btn);
-  } else if (action === 'play-mine') {
-    playMineForCard(card, btn);
-  }
-}
-
-function playReferenceForCard(word, btn) {
-  if (wordClipAudio) {
-    wordClipAudio.pause();
-    document.querySelectorAll('.wp-btn.playing').forEach(b => b.classList.remove('playing'));
-  }
-  wordClipAudio = new Audio(API + '/word-clip/' + encodeURIComponent(word));
-  btn.classList.add('playing');
-  wordClipAudio.onended = () => btn.classList.remove('playing');
-  wordClipAudio.onerror = () => btn.classList.remove('playing');
-  wordClipAudio.play().catch(err => console.warn('Klip çalınamadı:', err));
-}
-
-async function startRecordingForCard(card, btn, word) {
-  try {
-    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-    const recorder = new MediaRecorder(stream);
-    const chunks = [];
-    recorder.ondataavailable = e => { if (e.data.size > 0) chunks.push(e.data); };
-    recorder.onstop = async () => {
-      stream.getTracks().forEach(t => t.stop());
-      const blob = new Blob(chunks, { type: 'audio/webm' });
-      const blobUrl = URL.createObjectURL(blob);
-      practiceState[word] = practiceState[word] || {};
-      practiceState[word].blob = blob;
-      practiceState[word].blobUrl = blobUrl;
-      btn.classList.remove('recording');
-      btn.disabled = true;
-      btn.innerHTML = '⏳ Hesaplanıyor';
-      // Sunucuya gönder
-      const fd = new FormData();
-      fd.append('audio', blob, 'recording.webm');
-      fd.append('target_text', word);
-      try {
-        const res = await fetch(API + '/assess', { method: 'POST', body: fd });
-        if (!res.ok) {
-          renderPracticeError(card, `Sunucu hatası: ${res.status}`);
-        } else {
-          const data = await res.json();
-          practiceState[word].result = data;
-          renderPracticeResult(card, word, data);
-          // Histori'ye de yaz (ilerleme paneline yansısın)
-          saveAttempt({
-            ts: new Date().toISOString(),
-            exercise_id: 'video-word-' + word,
-            target: data.target_text,
-            score: data.overall_score || 0,
-            verdict: data.verdict,
-            issues: (data.issues || []).map(i => ({
-              kind: i.kind, target_word: i.target_word || '', char: i.char || ''
-            })),
-          });
-          const histTab = tabsEl.querySelector('[data-type="_progress"] .count');
-          if (histTab) histTab.textContent = loadHistory().length;
-        }
-      } catch (e) {
-        renderPracticeError(card, 'Ağ hatası: ' + e);
-      } finally {
-        btn.disabled = false;
-        btn.innerHTML = '🎤 Tekrar';
-        btn.setAttribute('data-action', 'record');
-      }
-    };
-    recorder.start();
-    practiceState[word] = { recorder };
-    btn.classList.add('recording');
-    btn.innerHTML = '■ Durdur';
-    btn.setAttribute('data-action', 'stop');
-    card.classList.add('expanded');
-    const r = card.querySelector('.wp-result');
-    r.style.display = 'block';
-    r.innerHTML = '<span style="color:var(--muted)">Kaydediliyor… kelimeyi söyle, bitince Durdur.</span>';
-  } catch (e) {
-    alert('Mikrofon erişimi başarısız: ' + e);
-  }
-}
-
-function stopRecordingForCard(card, btn) {
-  const word = card.getAttribute('data-word');
-  const st = practiceState[word];
-  if (st && st.recorder && st.recorder.state !== 'inactive') {
-    st.recorder.stop();
-  }
-}
-
-function playMineForCard(card, btn) {
-  const word = card.getAttribute('data-word');
-  const st = practiceState[word];
-  if (!st || !st.blobUrl) return;
-  document.querySelectorAll('.wp-btn.playing').forEach(b => b.classList.remove('playing'));
-  const audio = new Audio(st.blobUrl);
-  btn.classList.add('playing');
-  audio.onended = () => btn.classList.remove('playing');
-  audio.onerror = () => btn.classList.remove('playing');
-  audio.play();
-}
-
-function renderPracticeError(card, msg) {
-  const r = card.querySelector('.wp-result');
-  r.style.display = 'block';
-  r.innerHTML = `<div style="color:var(--error)">${escapeHtml(msg)}</div>`;
-}
-
-function renderPracticeResult(card, word, data) {
-  const r = card.querySelector('.wp-result');
-  r.style.display = 'block';
-  const v = data.verdict || '';
-  const score = (data.overall_score || 0) * 100;
-  const issues = (data.issues || []).filter(i => i.kind !== 'telaffuz' || i.score < 0.5);
-
-  let html = `
-    <div class="wp-result-header">
-      <span class="wp-pill ${v}">${headerFor(v)}</span>
-      <span style="font-weight:700">${score.toFixed(0)}/100</span>
-      <button class="wp-btn" data-action="play-mine" style="margin-left:auto; flex:0; padding:5px 10px">🔁 Söylediğini dinle</button>
-    </div>`;
-
-  if (data.transcription !== undefined && data.transcription !== null && data.transcription !== word) {
-    html += `<div style="font-size:12px; color:var(--muted); margin-bottom:6px">
-      <b>Sen:</b> "${escapeHtml(data.transcription)}" • <b>Hedef:</b> "${escapeHtml(word)}"
-    </div>`;
-  }
-
-  if (!issues.length) {
-    html += '<div style="color:var(--ok); font-size:13px">Bu kelime temiz — devam et!</div>';
-  } else {
-    html += '<div style="font-size:12px; color:var(--muted); margin-bottom:4px">Sorunlu noktalar (tıkla):</div>';
-    for (let i = 0; i < issues.length; i++) {
-      const it = issues[i];
-      html += `
-        <div class="wp-issue ${it.kind || ''}" data-issue-idx="${i}">
-          <div><b>${escapeHtml(it.target_word || it.char || '')}</b> — ${escapeHtml(shortLabel(it.kind))}</div>
-          <div class="wp-issue-detail" style="display:none">
-            ${escapeHtml(it.advice || '')}
-          </div>
-        </div>`;
-    }
-  }
-
-  // Bağlam (kelimenin video'daki cümlesi)
-  const ctx = (videoLibrary.flatMap(v => v.words || []).find(w => w.word === word) || {}).context;
-  if (ctx) {
-    html += `<div class="wp-context">"${escapeHtml(ctx.length > 120 ? ctx.slice(0, 120) + '…' : ctx)}"</div>`;
-  }
-
-  r.innerHTML = html;
-
-  // Event handlers
-  r.querySelectorAll('.wp-issue').forEach(el => {
-    el.addEventListener('click', e => {
-      e.stopPropagation();
-      // Detay aç/kapat
-      const det = el.querySelector('.wp-issue-detail');
-      if (det) det.style.display = det.style.display === 'none' ? 'block' : 'none';
-      // Kullanıcı kaydını çal
-      const st = practiceState[word];
-      if (st && st.blobUrl) {
-        const a = new Audio(st.blobUrl);
-        a.play().catch(() => {});
-      }
-    });
-  });
-  const playMineBtn = r.querySelector('[data-action="play-mine"]');
-  if (playMineBtn) {
-    playMineBtn.addEventListener('click', e => {
-      e.stopPropagation();
-      playMineForCard(card, playMineBtn);
-    });
-  }
-}
-
-function shortLabel(kind) {
-  return ({
-    kelime: 'Kelime hatası',
-    kritik_unsuz: 'Anadolu ağzı / ünsüz değişimi',
-    r_yutulmasi: 'R yutulması',
-    h_yutulmasi: 'H yutulması',
-    vurgu_yeri: 'Vurgu yeri sapması',
-    'uzun-unlu': 'Uzun ünlü kısa',
-    dogallik: 'Konuşma tarzı',
-  })[kind] || (kind || 'Sorun');
-}
-
 function renderProgress() {
   const history = loadHistory();
-  listTitle.textContent = `İlerleme — ${history.length} kayıt`;
-  emptyEl.style.display = 'none';
-  recorderEl.style.display = 'none';
-  placeholderEl.style.display = 'none';
-  resultCard.style.display = 'none';
-
-  if (!history.length) {
-    gridEl.innerHTML = `
-      <div class="empty" style="grid-column: 1 / -1;">
-        Henüz kayıt yok. Bir alıştırma yapıp kayıt başlat butonuna bastığında
-        skorların burada görünecek.
-      </div>`;
-    return;
+  $('page-title').textContent = 'İlerleme';
+  $('page-sub').textContent = history.length ? `${history.length} kayıt · son ${Math.min(50, history.length)} alıştırma grafikte` : 'Henüz kayıt yok';
+  $('page-actions').innerHTML = history.length
+    ? `<button id="clear-btn" class="text-[12px] text-zinc-500 hover:text-rose-600 px-3 py-1.5 rounded-lg hover:bg-rose-50 transition-colors">🗑 Tüm kayıtları sil</button>`
+    : '';
+  $('content').className = 'grid gap-4';
+  $('empty').classList.add('hidden');
+  if (history.length) {
+    document.getElementById('clear-btn')?.addEventListener('click', clearHistory);
   }
 
+  if (!history.length) {
+    $('content').innerHTML = `<div class="p-10 text-center text-sm text-zinc-500 border border-dashed border-zinc-300 rounded-2xl bg-white">Henüz kayıt yok. Bir alıştırma kartında Kaydet'e basıp başla.</div>`;
+    return;
+  }
   const s = aggregateStats(history);
-
-  // Hata türü etiketleri
-  const KIND_LABELS = {
-    kelime: 'Kelime hatası',
-    kritik_unsuz: 'Ünsüz değişimi',
-    r_yutulmasi: 'R yutulması',
-    h_yutulmasi: 'H yutulması',
-    vurgu_yeri: 'Vurgu yeri',
-    'uzun-unlu': 'Uzun ünlü',
-    dogallik: 'Konuşma tarzı',
-    vurgu: 'Vurgu/tonlama',
-    telaffuz: 'Telaffuz',
-  };
-  const issueRows = Object.entries(s.issuesByKind)
-    .sort((a,b) => b[1] - a[1])
-    .map(([kind, count]) => {
-      const max = Math.max(...Object.values(s.issuesByKind));
-      const pct = (count / max) * 100;
-      return `
-        <div class="issue-bar-row">
-          <div class="issue-bar-label">${KIND_LABELS[kind] || kind}</div>
-          <div class="issue-bar-track"><div class="issue-bar-fill" style="width:${pct}%"></div></div>
-          <div class="issue-bar-count">${count}</div>
-        </div>`;
-    }).join('');
-
+  const issueRows = Object.entries(s.issuesByKind).sort((a,b) => b[1]-a[1]).map(([k,c]) => {
+    const max = Math.max(...Object.values(s.issuesByKind));
+    const pct = (c / max) * 100;
+    return `
+      <div class="flex items-center gap-3 text-[13px]">
+        <div class="flex-[0_0_140px] text-zinc-700">${escapeHtml(KIND_LABELS[k] || k)}</div>
+        <div class="flex-1 h-2 bg-zinc-100 rounded-full overflow-hidden"><div class="h-full bg-zinc-900 rounded-full transition-all" style="width:${pct}%"></div></div>
+        <div class="flex-[0_0_32px] text-right text-[12px] text-zinc-500 tabular-nums">${c}</div>
+      </div>`;
+  }).join('');
   const wordChips = s.wordErrors.length
-    ? s.wordErrors.map(([w, c]) => `<span class="word-chip">${escapeHtml(w)} <span style="opacity:0.7">×${c}</span></span>`).join('')
-    : '<div class="empty" style="border:0; padding:8px">Henüz kelime hatası yok 🎉</div>';
+    ? s.wordErrors.map(([w,c]) => `<span class="inline-flex items-center gap-1 px-2.5 py-1 bg-rose-50 border border-rose-200 text-rose-700 text-[12px] font-medium rounded-full">${escapeHtml(w)} <span class="text-rose-500/70">×${c}</span></span>`).join('')
+    : '<div class="text-sm text-emerald-700">Henüz kelime hatası yok 🎉</div>';
 
-  // Override: gridEl'i tek panel ile doldur
-  gridEl.innerHTML = `
-    <div class="progress-panel" style="grid-column: 1 / -1;">
-      <div class="stat-grid">
-        <div class="stat-card">
-          <div class="stat-label">Toplam alıştırma</div>
-          <div class="stat-value">${s.total}</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-label">Ortalama skor</div>
-          <div class="stat-value">${(s.avgScore*100).toFixed(0)}<span style="font-size:18px;color:var(--muted)">/100</span></div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-label">Son 10 ortalaması</div>
-          <div class="stat-value">${(s.lastTenAvg*100).toFixed(0)}<span style="font-size:18px;color:var(--muted)">/100</span></div>
-          <div class="stat-sub">${s.lastTenAvg >= s.avgScore ? '↑ ortalamanın üstünde' : '↓ ortalamanın altında'}</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-label">En yüksek</div>
-          <div class="stat-value">${(s.bestScore*100).toFixed(0)}<span style="font-size:18px;color:var(--muted)">/100</span></div>
-        </div>
+  $('content').innerHTML = `
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-3">
+      <div class="bg-white border border-zinc-200 rounded-2xl p-5">
+        <div class="text-[11px] font-semibold uppercase tracking-wider text-zinc-500">Toplam</div>
+        <div class="text-3xl font-bold tracking-tight tabular-nums mt-1">${s.total}</div>
       </div>
-
-      <div class="chart-card">
-        <div class="chart-title">Skor Zaman Çizelgesi (son ${Math.min(50, s.history.length)} alıştırma)</div>
-        <canvas id="score-chart"></canvas>
+      <div class="bg-white border border-zinc-200 rounded-2xl p-5">
+        <div class="text-[11px] font-semibold uppercase tracking-wider text-zinc-500">Ortalama</div>
+        <div class="text-3xl font-bold tracking-tight tabular-nums mt-1">${(s.avgScore*100).toFixed(0)}<span class="text-base text-zinc-400 font-normal">/100</span></div>
       </div>
-
-      <div class="chart-card">
-        <div class="chart-title">En sık görülen hata türleri</div>
-        ${issueRows || '<div class="empty" style="border:0; padding:8px">Henüz hata yok 🎉</div>'}
+      <div class="bg-white border border-zinc-200 rounded-2xl p-5">
+        <div class="text-[11px] font-semibold uppercase tracking-wider text-zinc-500">Son 10</div>
+        <div class="text-3xl font-bold tracking-tight tabular-nums mt-1">${(s.lastTenAvg*100).toFixed(0)}<span class="text-base text-zinc-400 font-normal">/100</span></div>
+        <div class="text-[11px] mt-1 ${s.lastTenAvg >= s.avgScore ? 'text-emerald-600' : 'text-amber-600'}">${s.lastTenAvg >= s.avgScore ? '↑ ortalamanın üstünde' : '↓ ortalamanın altında'}</div>
       </div>
-
-      <div class="chart-card">
-        <div class="chart-title">En çok zorlandığın kelimeler</div>
-        <div class="word-list">${wordChips}</div>
+      <div class="bg-white border border-zinc-200 rounded-2xl p-5">
+        <div class="text-[11px] font-semibold uppercase tracking-wider text-zinc-500">En yüksek</div>
+        <div class="text-3xl font-bold tracking-tight tabular-nums mt-1">${(s.bestScore*100).toFixed(0)}<span class="text-base text-zinc-400 font-normal">/100</span></div>
       </div>
-
-      <div style="text-align:right">
-        <button class="clear-btn" onclick="clearHistory()">🗑 Tüm kayıtları temizle</button>
+    </div>
+    <div class="bg-white border border-zinc-200 rounded-2xl p-5">
+      <div class="text-[13px] font-semibold mb-3">Skor zaman çizelgesi (son ${Math.min(50, s.history.length)})</div>
+      <canvas id="score-chart" class="w-full h-44 block"></canvas>
+    </div>
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+      <div class="bg-white border border-zinc-200 rounded-2xl p-5">
+        <div class="text-[13px] font-semibold mb-3">En sık hata türleri</div>
+        <div class="flex flex-col gap-2.5">${issueRows || '<div class="text-sm text-emerald-700">Henüz hata yok 🎉</div>'}</div>
       </div>
-    </div>`;
-
-  // Skor grafiği — basit canvas
+      <div class="bg-white border border-zinc-200 rounded-2xl p-5">
+        <div class="text-[13px] font-semibold mb-3">En çok zorlandığın kelimeler</div>
+        <div class="flex flex-wrap gap-1.5">${wordChips}</div>
+      </div>
+    </div>
+  `;
   drawScoreChart(s.history.slice(-50));
+  document.getElementById('clear-btn')?.addEventListener('click', clearHistory);
 }
-
 function drawScoreChart(history) {
   const canvas = document.getElementById('score-chart');
   if (!canvas || !history.length) return;
   const dpr = window.devicePixelRatio || 1;
   const rect = canvas.getBoundingClientRect();
-  canvas.width = rect.width * dpr;
-  canvas.height = rect.height * dpr;
-  const ctx = canvas.getContext('2d');
-  ctx.scale(dpr, dpr);
-
+  canvas.width = rect.width * dpr; canvas.height = rect.height * dpr;
+  const ctx = canvas.getContext('2d'); ctx.scale(dpr, dpr);
   const w = rect.width, h = rect.height;
   const pad = { top: 10, right: 10, bottom: 22, left: 28 };
   const plotW = w - pad.left - pad.right;
   const plotH = h - pad.top - pad.bottom;
-
-  // Y eksen çizgileri (0/50/100)
-  ctx.strokeStyle = '#e5e7eb';
-  ctx.fillStyle = '#94a3b8';
-  ctx.font = '11px system-ui';
-  ctx.lineWidth = 1;
+  ctx.strokeStyle = '#e4e4e7'; ctx.fillStyle = '#a1a1aa';
+  ctx.font = '11px Inter, system-ui'; ctx.lineWidth = 1;
   for (const v of [0, 50, 100]) {
     const y = pad.top + plotH - (v / 100) * plotH;
-    ctx.beginPath();
-    ctx.moveTo(pad.left, y);
-    ctx.lineTo(pad.left + plotW, y);
-    ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(pad.left, y); ctx.lineTo(pad.left + plotW, y); ctx.stroke();
     ctx.fillText(v.toString(), 4, y + 3);
   }
-
-  // Skor noktaları + çizgi
   const n = history.length;
   const stepX = n > 1 ? plotW / (n - 1) : 0;
-  ctx.strokeStyle = '#0f172a';
-  ctx.lineWidth = 2;
+  ctx.strokeStyle = '#18181b'; ctx.lineWidth = 2;
   ctx.beginPath();
   for (let i = 0; i < n; i++) {
     const x = pad.left + i * stepX;
@@ -2175,334 +955,48 @@ function drawScoreChart(history) {
     if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
   }
   ctx.stroke();
-
-  // Noktalar (renk = verdict)
-  const verdictColors = {
-    mukemmel: '#156c2c', iyi: '#2c7a7a', gelistirilebilir: '#b07300', tekrar: '#c0392b'
-  };
+  const colors = { mukemmel:'#059669', iyi:'#0284c7', gelistirilebilir:'#d97706', tekrar:'#e11d48' };
   for (let i = 0; i < n; i++) {
     const x = pad.left + i * stepX;
     const y = pad.top + plotH - history[i].score * plotH;
-    ctx.fillStyle = verdictColors[history[i].verdict] || '#0f172a';
-    ctx.beginPath();
-    ctx.arc(x, y, 3.5, 0, Math.PI * 2);
-    ctx.fill();
+    ctx.fillStyle = colors[history[i].verdict] || '#18181b';
+    ctx.beginPath(); ctx.arc(x, y, 3.5, 0, Math.PI * 2); ctx.fill();
   }
 }
 
-function renderGrid() {
-  // Standart kart görünümü için grid layout'u geri yükle
-  gridEl.style.display = '';
-  const items = activeType === 'all'
-    ? allExercises
-    : allExercises.filter(ex => ex.type === activeType);
-
-  if (activeType === 'all') {
-    listTitle.textContent = `Tüm alıştırmalar (${items.length})`;
-  } else {
-    const meta = TYPE_LABELS[activeType] || { label: activeType };
-    listTitle.textContent = `${meta.label} (${items.length})`;
-  }
-
-  gridEl.innerHTML = '';
-  if (!items.length) {
-    emptyEl.style.display = 'block';
-    return;
-  }
-  emptyEl.style.display = 'none';
-
-  for (const ex of items) {
-    const card = document.createElement('button');
-    card.className = 'ex-card';
-    card.dataset.id = ex.id;
-    if (currentExercise && currentExercise.id === ex.id) card.classList.add('active');
-
-    const text = ex.text || '';
-    const preview = text.length > 90 ? text.slice(0, 90).trim() + '…' : text;
-    const diff = Math.max(1, Math.min(5, ex.difficulty || 1));
-    const dots = Array.from({length: 5}, (_, i) =>
-      `<span class="${i < diff ? 'on' : ''}"></span>`).join('');
-    const focus = ex.focus ? `<span class="focus-tag">${escapeHtml(ex.focus)}</span>` : '';
-
-    card.innerHTML = `
-      <div class="ex-card-text">${escapeHtml(preview)}</div>
-      <div class="ex-card-meta">
-        ${focus}
-        <span class="difficulty" title="Zorluk ${diff}/5" aria-label="Zorluk ${diff}/5">${dots}</span>
-      </div>
-    `;
-    card.addEventListener('click', () => selectExercise(ex));
-    gridEl.appendChild(card);
-  }
-}
-
-function selectExercise(ex) {
-  currentExercise = ex;
-  for (const c of gridEl.querySelectorAll('.ex-card')) {
-    c.classList.toggle('active', c.dataset.id === ex.id);
-  }
-  renderTargetDisplay(ex.text);
-  recorderEl.style.display = 'block';
-  placeholderEl.style.display = 'none';
-  refAudio.style.display = 'none';
-  refAudio.pause();
-  resultCard.style.display = 'none';
-  hideTooltip();
-  statusEl.textContent = '';
-  // scrollIntoView kaldırıldı — kullanıcı seçince sayfa kaymıyor
-}
-
-listenBtn.addEventListener('click', () => {
-  if (!currentExercise) return;
-  refAudio.src = API + '/reference/' + encodeURIComponent(currentExercise.id);
-  refAudio.style.display = 'block';
-  refAudio.play();
+// ============================================================
+// SEARCH (debounced)
+// ============================================================
+let searchTimer = null;
+$('search').addEventListener('input', e => {
+  clearTimeout(searchTimer);
+  searchTimer = setTimeout(() => {
+    STATE.search = e.target.value.trim();
+    if (STATE.activeType !== '_progress' && STATE.activeType !== '_videos') renderGrid();
+  }, 150);
 });
 
-recBtn.addEventListener('click', async () => {
-  if (!currentExercise) { alert('Önce bir alıştırma seç.'); return; }
-  resultCard.style.display = 'none';
-  hideTooltip();
-  try {
-    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-    mediaRecorder = new MediaRecorder(stream);
-    chunks = [];
-    mediaRecorder.ondataavailable = e => { if (e.data.size > 0) chunks.push(e.data); };
-    mediaRecorder.onstop = onStopRecording;
-    mediaRecorder.start();
-    statusEl.innerHTML = '<span class="recording-dot"></span>Kaydediliyor… metni oku, bitince Durdur.';
-    recBtn.disabled = true;
-    stopBtn.disabled = false;
-  } catch (e) {
-    statusEl.textContent = 'Mikrofon hatası: ' + e;
-  }
-});
-
-stopBtn.addEventListener('click', () => {
-  if (mediaRecorder && mediaRecorder.state !== 'inactive') {
-    mediaRecorder.stop();
-    mediaRecorder.stream.getTracks().forEach(t => t.stop());
-  }
-  recBtn.disabled = false;
-  stopBtn.disabled = true;
-});
-
-async function onStopRecording() {
-  const blob = new Blob(chunks, { type: 'audio/webm' });
-  playback.src = URL.createObjectURL(blob);
-  playback.style.display = 'block';
-  statusEl.textContent = 'Sunucuya gönderiliyor, skor hesaplanıyor…';
-  const fd = new FormData();
-  fd.append('audio', blob, 'recording.webm');
-  fd.append('target_text', currentExercise.text);
-  try {
-    const res = await fetch(API + '/assess', { method: 'POST', body: fd });
-    if (!res.ok) {
-      statusEl.textContent = 'Sunucu hatası: ' + res.status;
-      const txt = await res.text();
-      resultCard.style.display = 'block';
-      verdictBox.innerHTML = '<pre>' + escapeHtml(txt) + '</pre>';
-      return;
-    }
-    const data = await res.json();
-    statusEl.textContent = 'Sonuç hazır.';
-    // localStorage'a kayıt
-    saveAttempt({
-      ts: new Date().toISOString(),
-      exercise_id: currentExercise ? currentExercise.id : null,
-      target: data.target_text,
-      score: data.overall_score || 0,
-      verdict: data.verdict,
-      issues: (data.issues || []).map(i => ({
-        kind: i.kind, target_word: i.target_word || '', char: i.char || ''
-      })),
-    });
-    // İlerleme tab'ındaki sayıyı güncelle
-    const histTab = tabsEl.querySelector('[data-type="_progress"] .count');
-    if (histTab) histTab.textContent = loadHistory().length;
-    renderResult(data);
-  } catch (e) {
-    statusEl.textContent = 'Ağ hatası: ' + e;
-  }
-}
-
-function renderResult(data) {
-  resultCard.style.display = 'block';
-  const v = data.verdict || '';
-  verdictBox.innerHTML = `
-    <div class="verdict ${v}">
-      <span>${headerFor(v)}</span>
-      <span class="score-pill">${(data.overall_score*100).toFixed(0)}/100</span>
-    </div>
-  `;
-  renderedTarget.innerHTML = renderTargetWithIssues(data.target_text, data.issues || []);
-  renderedTarget.insertAdjacentHTML('beforeend', renderLegend(data.issues || []));
-  attachWordTooltips(data.issues || []);
-
-  let meta = '';
-  if (data.transcription !== undefined && data.transcription !== null) {
-    meta += `<b>Hedef:</b> <span>${escapeHtml(data.target_text)}</span>`;
-    meta += `<b>Söylediğin:</b> <span>${escapeHtml(data.transcription)}</span>`;
-    meta += `<b>Eşleşme:</b> <span>${Math.round((data.transcription_match || 0) * 100)}%</span>`;
-  }
-  const nonWordIssues = (data.issues || []).filter(i => !WORD_ERROR_KINDS.has(i.kind));
-  const naturalnessIssues = nonWordIssues.filter(i => i.kind === 'dogallik');
-  const otherIssues = nonWordIssues.filter(i => i.kind !== 'dogallik');
-  if (naturalnessIssues.length) {
-    meta += `<b style="color:#7a3aa8">Konuşma tarzı:</b><div>`;
-    for (const it of naturalnessIssues) {
-      meta += `<div style="margin-top:4px; padding-left:8px; border-left:3px solid #c8a8e3">${escapeHtml(it.char)} ${escapeHtml(it.advice)}</div>`;
-    }
-    meta += `</div>`;
-  }
-  if (otherIssues.length) {
-    meta += `<b>Diğer notlar:</b><div>`;
-    for (const it of otherIssues) {
-      meta += `<div style="margin-top:4px">• <b>'${escapeHtml(it.char)}'</b> [${it.kind}]: ${escapeHtml(it.advice)}</div>`;
-    }
-    meta += `</div>`;
-  }
-  metaEl.innerHTML = meta;
-
-  if (data.segments) {
-    segmentsEl.textContent = data.segments
-      .map(s => `${s.char.padEnd(3)} ${s.start_s.toFixed(2)}s-${s.end_s.toFixed(2)}s  score=${s.score.toFixed(2)}`)
-      .join('\n');
-  }
-}
-
-const WORD_ERROR_KINDS = new Set(['kelime', 'kritik_unsuz', 'r_yutulmasi', 'h_yutulmasi', 'vurgu_yeri']);
-
-function renderTargetWithIssues(text, issues) {
-  const wordIssues = {};
-  for (const it of issues) {
-    if (WORD_ERROR_KINDS.has(it.kind) && it.word_index >= 0) {
-      wordIssues[it.word_index] = it;
-    }
-  }
-  const tokens = text.split(/(\s+)/);
-  let wordIdx = 0;
-  return tokens.map(tok => {
-    if (/^\s+$/.test(tok)) return tok;
-    const issue = wordIssues[wordIdx];
-    const idx = wordIdx;
-    wordIdx++;
-    if (issue) {
-      const klass = `word error ${issue.kind}`;
-      return `<span class="${klass}" data-issue-index="${idx}">${escapeHtml(tok)}</span>`;
-    }
-    return `<span class="word">${escapeHtml(tok)}</span>`;
-  }).join('');
-}
-
-function renderLegend(issues) {
-  const present = new Set(issues.filter(it => WORD_ERROR_KINDS.has(it.kind)).map(it => it.kind));
-  if (!present.size) return '';
-  const labels = {
-    kelime: 'Genel kelime hatası',
-    kritik_unsuz: 'Ünsüz değişimi (k↔g, t↔d…)',
-    r_yutulmasi: 'R yutulması',
-    h_yutulmasi: 'H yutulması',
-    vurgu_yeri: 'Vurgu yeri sapması',
-  };
-  let parts = [];
-  for (const kind of present) {
-    parts.push(`<span class="legend-item"><span class="legend-swatch ${kind}" style="background: var(--${kind === 'kelime' ? 'error' : 'warn'})"></span>${labels[kind]||kind}</span>`);
-  }
-  return `<div class="legend">${parts.join('')}</div>`;
-}
-
-function attachWordTooltips(issues) {
-  const wordIssuesByIdx = {};
-  for (const it of issues) {
-    if (WORD_ERROR_KINDS.has(it.kind) && it.word_index >= 0) {
-      wordIssuesByIdx[it.word_index] = it;
-    }
-  }
-  const errorSpans = renderedTarget.querySelectorAll('.word.error');
-  errorSpans.forEach(span => {
-    span.addEventListener('click', e => {
-      e.stopPropagation();
-      const idx = parseInt(span.getAttribute('data-issue-index'), 10);
-      const issue = wordIssuesByIdx[idx];
-      if (!issue) return;
-      errorSpans.forEach(s => s.classList.remove('active'));
-      span.classList.add('active');
-      showTooltip(span, issue);
-    });
-  });
-}
-
-function showTooltip(span, issue) {
-  const rect = span.getBoundingClientRect();
-  let html = '';
-  if (issue.target_word && issue.spoken_word) {
-    html += `<b>Hedef:</b> ${escapeHtml(issue.target_word)} &nbsp; <b>Söylediğin:</b> ${escapeHtml(issue.spoken_word)}<br>`;
-  } else if (issue.target_word) {
-    html += `<b>Atlanmış:</b> ${escapeHtml(issue.target_word)}<br>`;
-  }
-  html += escapeHtml(issue.advice || '');
-  tooltip.innerHTML = html;
-  tooltip.style.display = 'block';
-  tooltip.style.left = (rect.left + window.scrollX) + 'px';
-  tooltip.style.top = (rect.bottom + window.scrollY + 8) + 'px';
-}
-
-function hideTooltip() {
-  tooltip.style.display = 'none';
-  document.querySelectorAll('.word.error.active').forEach(s => s.classList.remove('active'));
-}
-
-document.addEventListener('click', e => {
-  if (e.target.closest('.word.error')) return;
-  hideTooltip();
-});
-
-function headerFor(v) {
-  return ({
-    mukemmel: '🌟 Mükemmel',
-    iyi: '👍 İyi',
-    gelistirilebilir: '⚠️ Geliştirilebilir',
-    tekrar: '🔁 Tekrar dene',
-  })[v] || 'Sonuç';
-}
-
-function escapeHtml(s) {
-  return String(s).replace(/[&<>"']/g, c => ({
-    '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'": '&#39;'
-  }[c]));
-}
-
-// Tek seferlik SW + cache temizleme (eski Bento/Studio versiyonlarını boşaltmak için).
-// localStorage flag ile sonsuz loop'u engelle.
-if ('serviceWorker' in navigator) {
-  const FLAG = 'sw-clean-v5-bento-flush';
-  if (!localStorage.getItem(FLAG)) {
-    (async () => {
+// ============================================================
+// INIT
+// ============================================================
+async function init() {
+  // SW temizligi (eski versiyonlarin cache'ini bosalt)
+  if ('serviceWorker' in navigator) {
+    const FLAG = 'sw-clean-v6-tailwind';
+    if (!localStorage.getItem(FLAG)) {
       try {
         const regs = await navigator.serviceWorker.getRegistrations();
         for (const r of regs) await r.unregister();
         const keys = await caches.keys();
         for (const k of keys) await caches.delete(k);
         localStorage.setItem(FLAG, '1');
-        location.reload();
-      } catch (e) {
-        console.warn('SW temizlik başarısız:', e);
-        localStorage.setItem(FLAG, '1');
-      }
-    })();
-  } else {
-    window.addEventListener('load', () => {
-      navigator.serviceWorker.register('/static/sw.js', { scope: '/static/' })
-        .then(reg => console.log('SW kayıtlı, scope:', reg.scope))
-        .catch(err => console.warn('SW kayıt başarısız:', err));
-    });
+      } catch (e) { localStorage.setItem(FLAG, '1'); }
+    }
   }
+  await Promise.all([loadExercises(), loadAvailableClips(), loadVideoLibrary()]);
+  buildTabs();
 }
-
-loadExercises();
-loadAvailableClips();
-loadVideoLibrary();
+init();
 </script>
 
 </body>
